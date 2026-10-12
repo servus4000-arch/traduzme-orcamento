@@ -463,6 +463,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
           <div class="wa-row"><div class="ddi" id="ddi"><button type="button" class="ddi-btn" id="ddi-btn" onclick="toggleDDI(event)"><span id="ddi-cur"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="ddi-list" id="ddi-list"></div></div><input class="inp" id="whats" inputmode="tel" data-i18n-ph="ph_wa" placeholder="Número de WhatsApp" maxlength="16" /></div></div>
       </div>
       <div class="mini-total"><span data-i18n="total">Total</span><b id="minitotal">R$ 0</b></div>
+      <div class="disc" style="text-align:left;margin-top:8px" data-i18n="lgpd_note"></div>
       <label class="agree"><input type="checkbox" id="agree"><span data-i18n-html="agree_lbl">Li e aceito os <a onclick="openTerms(event)">Termos de Serviço</a>.</span></label>
       <button class="cta" onclick="criar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span data-i18n="btn_criar">Criar pedido</span></button>
       <div class="err" id="err2"></div>
@@ -484,6 +485,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       </div>
       <div class="pay-status" id="pay-status"><span class="dot"></span><span id="pay-status-txt" data-i18n="pay_wait">Aguardando pagamento…</span></div>
       <div class="pay-hint" id="pay-hint" data-i18n-html="pay_hint">Abra o app do seu banco, escaneie o QR ou cole o código. <b>A confirmação é automática</b> — assim que pagar, sua tradução começa.</div>
+      <button class="cta" id="regen" style="display:none;margin-top:14px" onclick="abrirPagamento()" data-i18n="btn_regen">Gerar novo Pix</button>
       <button class="cta" id="simbtn" style="margin-top:14px" onclick="simularPagamento()" data-i18n="btn_sim">Simular pagamento (demo)</button>
       <div class="estrpay">
         <div class="estrpay-tg" id="estrpay-tg" onclick="toggleEstrPay()"><span class="estr-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5L20 7"/></svg></span><span data-i18n="estrpay_lbl">Sou estrangeiro — não tenho Pix</span></div>
@@ -564,7 +566,8 @@ var file=document.getElementById('file'),drop=document.getElementById('drop'),fi
     calc=document.getElementById('calc'),err=document.getElementById('err'),loading=document.getElementById('loading'),
     reslist=document.getElementById('reslist'),totalbar=document.getElementById('totalbar');
 
-function go(name){if(name!=='pay'&&typeof pollTimer!=='undefined'&&pollTimer){clearInterval(pollTimer);pollTimer=null;}document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});document.getElementById('p-'+name).classList.add('show');}
+function go(name){if(name!=='pay'){ if(typeof pollTimer!=='undefined'&&pollTimer){clearInterval(pollTimer);pollTimer=null;} if(typeof cobCtl!=='undefined'&&cobCtl){try{cobCtl.abort();}catch(e){} cobCtl=null;} }document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});document.getElementById('p-'+name).classList.add('show');
+  try{ if(window.innerWidth<=900 && document.getElementById('card').getBoundingClientRect().top<-20||window.innerWidth<=900&&document.getElementById('card').getBoundingClientRect().top>innerHeight*0.6){ document.getElementById('card').scrollIntoView({behavior:'smooth',block:'start'}); } }catch(e){}}
 function hoje(){return new Date().toISOString().slice(0,10);}
 function usosHoje(){try{var d=JSON.parse(localStorage.getItem('tz_orc')||'{}');return d.dia===hoje()?(d.n||0):0;}catch(e){return 0;}}
 function limiteAtingido(){return usosHoje()>=LIMITE_DIA;}
@@ -586,7 +589,7 @@ function syncLangs(changed){
 selFrom.addEventListener('change',function(){syncLangs('from');});
 selTo.addEventListener('change',function(){syncLangs('to');});
 
-var MAX_MB=15;
+var MAX_MB=15, MAX_FILES=30; /* 30 = limite do servidor (pix-cob) */
 function tipoOk(f){ return /^image\//.test(f.type) || f.type==='application/pdf' || /\.(pdf|jpe?g|png|webp|heic|heif)$/i.test(f.name); }
 function addFiles(list){
   err.textContent='';
@@ -594,26 +597,33 @@ function addFiles(list){
   for(var i=0;i<list.length;i++){ var f=list[i];
     if(!tipoOk(f)){ rej.push(f.name); continue; }
     if(f.size>MAX_MB*1024*1024){ big.push(f.name); continue; }
+    var dup=chosen.some(function(c){return c.name===f.name&&c.size===f.size&&c.lastModified===f.lastModified;})||add.some(function(c){return c.name===f.name&&c.size===f.size&&c.lastModified===f.lastModified;});
+    if(dup) continue;
     add.push(f);
   }
-  for(var j=0;j<add.length;j++)chosen.push(add[j]);
+  var tooMany=false;
+  for(var j=0;j<add.length;j++){ if(chosen.length>=MAX_FILES){tooMany=true;break;} chosen.push(add[j]); }
   renderFiles();
+  try{ file.value=''; }catch(e){} /* permite escolher de novo o mesmo arquivo depois de remover */
   if(big.length) err.textContent=t('v_filesize').replace('{mb}',MAX_MB);
   else if(rej.length) err.textContent=t('v_filetype');
+  else if(tooMany) err.textContent=t('v_maxfiles').replace('{n}',MAX_FILES);
 }
 function renderFiles(){
   filesBox.innerHTML='';
   chosen.forEach(function(f,idx){
     var kb=(f.size/1024).toFixed(0),el=document.createElement('div');el.className='file-item';
     el.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></span>'+
-      '<div class="bd"><div class="nm">'+f.name+'</div><div class="mt">'+kb+' KB</div></div>'+
+      '<div class="bd"><div class="nm">'+esc(f.name)+'</div><div class="mt">'+kb+' KB</div></div>'+
       '<button class="del" data-i="'+idx+'" aria-label="Remover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>';
     filesBox.appendChild(el);
   });
   document.querySelectorAll('.del').forEach(function(b){b.addEventListener('click',function(){chosen.splice(+b.dataset.i,1);renderFiles();});});
 }
 function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
-function fmt(v){return "R$ "+Number(v).toLocaleString("pt-BR");}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function sep(s){return ' '+norm(s).replace(/\.[a-z0-9]{2,5}$/,'').replace(/[^a-z0-9]+/g,' ').trim()+' ';}
+function fmt(v){v=Number(v);return "R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:(v%1?2:0),maximumFractionDigits:2});}
 function cap(s){return s.replace(/\b\w/g,function(c){return c.toUpperCase();});}
 
 calc.addEventListener('click',function(){
@@ -635,10 +645,18 @@ function analisar(de,para){
   updateTotal();
   go('orc');
 }
+function stdKeyFor(nome){
+  /* igual à função calcular() do servidor (pix-cob): chave completa; senão palavra única da chave, com limite de palavra */
+  var n=sep(nome),keys=Object.keys(STANDARD),gen={certidao:1,carteira:1,de:1,da:1,do:1};
+  for(var i=0;i<keys.length;i++){ if(n.indexOf(sep(keys[i]))>-1) return keys[i]; }
+  var cnt={}; keys.forEach(function(k){k.split(' ').forEach(function(w){cnt[w]=(cnt[w]||0)+1;});});
+  for(var j=0;j<keys.length;j++){ var ws=keys[j].split(' ');
+    for(var m=0;m<ws.length;m++){ if(!gen[ws[m]]&&cnt[ws[m]]===1&&n.indexOf(' '+ws[m]+' ')>-1) return keys[j]; } }
+  return null;
+}
 function detectarUm(nome,de,para){
-  var n=norm(nome),tipo=null,preco=null,modo='lauda';
-  for(var k in STANDARD){var chave=k.split(" ")[0];if(n.indexOf(norm(k))>-1||n.indexOf(norm(chave))>-1){tipo=k;preco=STANDARD[k];modo='standard';break;}}
-  if(modo==='standard'){return {modo:'standard',tipoKey:tipo,total:preco};}
+  var n=norm(nome),tipo=stdKeyFor(nome);
+  if(tipo){return {modo:'standard',tipoKey:tipo,total:STANDARD[tipo]};}
   var especial=/contrato|sentenca|procuracao|tecnic|juridic/.test(n),laudas=2,porLauda=especial?LAUDA.especial:LAUDA.comum,total=laudas*porLauda;
   return {modo:'lauda',tipoKey:especial?'especial':'comum',laudas:laudas,total:total};
 }
@@ -649,8 +667,8 @@ function rotuloTipo(r){
 function cardHTML(r,file){
   var ico,bg,badge;
   if(r.modo==='standard'){bg='var(--brand-bg)';ico='<svg viewBox="0 0 24 24" fill="none" stroke="#d12a08" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 14l2 2 4-4"/></svg>';badge='<span class="rc-badge std">'+t('badge_fixo')+'</span>';}
-  else{bg='#eef0f2';ico='<svg viewBox="0 0 24 24" fill="none" stroke="#4d4d4d" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h10"/></svg>';badge='<span class="rc-badge std">'+t('badge_fixo')+'</span>';}
-  return '<div class="rc"><div class="rc-left"><div class="rc-ic" style="background:'+bg+'">'+ico+'</div><div style="min-width:0"><div class="rc-nm">'+rotuloTipo(r)+'</div><div class="rc-sub">'+file+'</div></div></div>'+
+  else{bg='#eef0f2';ico='<svg viewBox="0 0 24 24" fill="none" stroke="#4d4d4d" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h10"/></svg>';badge='<span class="rc-badge lauda">'+t('badge_estim')+'</span>';}
+  return '<div class="rc"><div class="rc-left"><div class="rc-ic" style="background:'+bg+'">'+ico+'</div><div style="min-width:0"><div class="rc-nm">'+rotuloTipo(r)+'</div><div class="rc-sub">'+esc(file)+'</div></div></div>'+
     '<div class="rc-right"><div class="rc-p">'+fmt(r.total)+'</div>'+badge+'</div></div>';
 }
 var lastRes=null;
@@ -750,7 +768,7 @@ function verDocs(){
       var isImg=/^image\//.test(f.type), thumb;
       if(isImg){ thumb='<div class="doc-th" data-img="'+i+'"><div class="doc-ld"></div></div>'; }
       else{ thumb='<div class="doc-th pdf" data-pdf="'+i+'">'+PDF_ICON+'</div>'; }
-      return '<div class="doc-it">'+thumb+'<div class="doc-nm">'+f.name+'</div></div>';
+      return '<div class="doc-it">'+thumb+'<div class="doc-nm">'+esc(f.name)+'</div></div>';
     }).join('')+'</div>';
     var pts=box.querySelectorAll('.doc-th.pdf[data-pdf]');
     for(var k=0;k<pts.length;k++){ (function(el){ renderPdfThumb(chosen[+el.getAttribute('data-pdf')], el); })(pts[k]); }
@@ -796,14 +814,14 @@ function criar(){
       cpf=document.getElementById('cpf').value.replace(/\D/g,''),
       email=document.getElementById('email').value.trim(),
       e2=document.getElementById('err2');
-  if(!nome){e2.textContent=t('v_nome');return;}
+  if(!nome||nome.length>120||/[<>]/.test(nome)){e2.textContent=t('v_nome');return;}
   if(ehEstrangeiro){
     var campos=['e_pais','e_cidade','e_estado','e_cep','e_logr','e_num','e_bairro'];
     for(var i=0;i<campos.length;i++){ var elc=document.getElementById(campos[i]); if(!elc.value.trim()){ e2.textContent=t('v_preencha')+' '+elc.placeholder+'.'; return; } }
   } else {
     if(!cpfValido(cpf)){e2.textContent=t('v_cpf');return;}
   }
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){e2.textContent=t('v_email');return;}
+  if(!/^[^@\s<>"']+@[^@\s<>"']+\.[^@\s<>"']{2,}$/.test(email)||email.length>120){e2.textContent=t('v_email');return;}
   var whats=document.getElementById('whats').value.replace(/\D/g,'');
   if(whats && whats.length<10){e2.textContent=t('v_wa');return;}
   if(!document.getElementById('agree').checked){e2.textContent=t('agree_err');document.querySelector('.agree').style.color='#c0401f';return;}
@@ -828,28 +846,51 @@ function renderQR(text){
   try{ new QRCode(el,{text:text,width:150,height:150,correctLevel:QRCode.CorrectLevel.M}); }
   catch(e){ el.innerHTML=fakeQR(); }
 }
-function startPolling(txid){
+var cobCtl=null, lastCob=null, pollFails=0, PIX_TTL_MS=3600*1000; /* expiração = 3600 s no servidor */
+var PAID=/^(PAGO|CONCLUIDA|PAID)$/i;
+function startPolling(txid,t0){
   if(pollTimer) clearInterval(pollTimer);
+  pollFails=0;
   pollTimer=setInterval(function(){
+    if(Date.now()-t0>PIX_TTL_MS){ clearInterval(pollTimer); pollTimer=null; pixExpirado(); return; }
     fetch(PIX_STATUS+'?txid='+encodeURIComponent(txid),{headers:{'apikey':SUPA_ANON,'Authorization':'Bearer '+SUPA_ANON}})
-      .then(function(r){return r.json();})
-      .then(function(d){ if(d.status==='PAGO'){ clearInterval(pollTimer); marcarPago(); } })
-      .catch(function(){});
+      .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+      .then(function(d){ pollFails=0;
+        if(d&&PAID.test(String(d.status))){ clearInterval(pollTimer); pollTimer=null; marcarPago(); }
+        else if(d&&/^(REMOVIDA|EXPIRADA)/i.test(String(d.status))){ clearInterval(pollTimer); pollTimer=null; pixExpirado(); } })
+      .catch(function(){ if(++pollFails>=5){ document.getElementById('pay-status-txt').textContent=t('pay_conn'); } });
   },4000);
 }
+function pixExpirado(){
+  lastCob=null;
+  document.getElementById('pay-status-txt').textContent=t('pay_exp');
+  document.getElementById('qr').innerHTML=''; document.getElementById('copia').value='';
+  var b=document.getElementById('regen'); if(b) b.style.display='';
+}
 function marcarPago(){
-  var st=document.getElementById('pay-status'); st.className='pay-status ok';
+  var st=document.getElementById('pay-status'); st.className='pay-status ok'; var rg=document.getElementById('regen'); if(rg) rg.style.display='none';
   st.querySelector('.dot').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" style="width:10px;height:10px"><path d="M5 12l5 5L20 7"/></svg>';
   document.getElementById('pay-status-txt').textContent=t('pay_ok');
   document.getElementById('simbtn').style.display='none';
-  document.getElementById('pay-hint').innerHTML=t('pay_sent1')+' <b>'+lastEmail+'</b>. '+t('pay_sent2');
+  document.getElementById('pay-hint').innerHTML=t('pay_sent1')+' <b>'+esc(lastEmail)+'</b>. '+t('pay_sent2');
 }
 
+function mostrarCob(d,t0){
+  /* o servidor decide o preço: mostra o valor que ele cobrou, não o calculado no navegador */
+  var srv=Number(d.valor);
+  if(isFinite(srv)&&srv>0){ document.getElementById('pay-val').textContent=fmt(srv); document.getElementById('minitotal').textContent=fmt(srv); }
+  document.getElementById('copia').value=d.copiaECola;
+  renderQR(d.copiaECola);
+  document.getElementById('pay-status-txt').textContent=t('pay_wait');
+  document.getElementById('pay-hint').innerHTML=t('pay_hint');
+  startPolling(d.txid,t0);
+}
 function abrirPagamento(){
   var total=totalGeral();
   document.getElementById('pay-val').textContent=fmt(total);
   var st=document.getElementById('pay-status'); st.className='pay-status';
   document.getElementById('pay-status-txt').textContent=t('pay_gen');
+  document.getElementById('pay-hint').innerHTML='';
   document.getElementById('simbtn').style.display='none';
   document.getElementById('qr').innerHTML='';
   document.getElementById('copia').value='';
@@ -870,17 +911,25 @@ function abrirPagamento(){
     } : null,
     email:lastEmail, whatsapp:selDDI+' '+document.getElementById('whats').value.replace(/\D/g,''),
     docs: chosen.map(function(f){return f.name;}), opcoes: opts };
-  fetch(PIX_COB,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPA_ANON,'apikey':SUPA_ANON},body:JSON.stringify(payload)})
+  var key=JSON.stringify(payload);
+  var rg=document.getElementById('regen'); if(rg) rg.style.display='none';
+  if(lastCob&&lastCob.key===key&&Date.now()-lastCob.t0<PIX_TTL_MS-60000){ /* mesmo pedido: reutiliza o Pix em vez de criar outra cobrança */
+    mostrarCob(lastCob.d,lastCob.t0); return;
+  }
+  if(cobCtl){ try{cobCtl.abort();}catch(e){} }
+  var ctl=cobCtl=(window.AbortController?new AbortController():null);
+  var to=setTimeout(function(){ if(ctl) ctl.abort(); },25000);
+  fetch(PIX_COB,{method:'POST',signal:ctl?ctl.signal:undefined,headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPA_ANON,'apikey':SUPA_ANON},body:JSON.stringify(payload)})
     .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
     .then(function(res){
-      if(!res.ok || !res.d.copiaECola) throw new Error((res.d&&res.d.message)||'falha');
-      document.getElementById('copia').value=res.d.copiaECola;
-      renderQR(res.d.copiaECola);
-      document.getElementById('pay-status-txt').textContent=t('pay_wait');
-      document.getElementById('pay-hint').innerHTML=t('pay_hint');
-      startPolling(res.d.txid);
+      clearTimeout(to);
+      if(!res.ok || !res.d.copiaECola || !res.d.txid) throw new Error((res.d&&res.d.message)||'falha');
+      var t0=Date.now(); lastCob={key:key,d:res.d,t0:t0};
+      mostrarCob(res.d,t0);
     })
-    .catch(function(){
+    .catch(function(e){
+      clearTimeout(to);
+      if(e&&e.name==='AbortError'&&cobCtl!==ctl) return; /* usuário saiu da tela: resposta obsoleta, ignora */
       if(DEMO){
         // modo demonstração (apenas com ?demo=1): QR fake + botão simular
         document.getElementById('copia').value='DEMO-'+total.toFixed(2);
@@ -900,9 +949,13 @@ function abrirPagamento(){
     });
 }
 function copiar(){
-  var i=document.getElementById('copia');
-  try{navigator.clipboard.writeText(i.value);}catch(e){i.select();}
-  var b=document.getElementById('copiabtn');b.textContent=t('copied');setTimeout(function(){b.textContent=t('btn_copy');},1500);
+  var i=document.getElementById('copia'),b=document.getElementById('copiabtn');
+  function ok(){b.textContent=t('copied');setTimeout(function(){b.textContent=t('btn_copy');},1500);}
+  function fallback(){ /* o input fica display:none no celular: usa textarea temporária */
+    try{ var ta=document.createElement('textarea'); ta.value=i.value; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); var r=document.execCommand('copy'); document.body.removeChild(ta); if(r) ok(); }catch(e){}
+  }
+  if(!i.value) return;
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(i.value).then(ok,fallback); } else fallback();
 }
 function simularPagamento(){ marcarPago(); }
 
@@ -949,7 +1002,7 @@ function enviarSolicitacao(){
     document.getElementById('estrpay-done').innerHTML='<p>'+t('estrpay_errwa')+'</p>'+waBtn();
     btn.style.display='none';
   }
-  if(!W3F_KEY||W3F_KEY.indexOf('COLE_')===0){ sucesso(); btn.disabled=false; btn.querySelector('span').textContent=old; return; }
+  if(!W3F_KEY||W3F_KEY.indexOf('COLE_')===0){ falha(); btn.disabled=false; btn.querySelector('span').textContent=old; return; } /* sem chave: nada foi enviado -> não afirmar "solicitação recebida"; leva ao WhatsApp */
   fetch('https://api.web3forms.com/submit',{method:'POST',body:fd})
     .then(function(r){return r.json();})
     .then(function(j){ if(j&&j.success) sucesso(); else falha(); })
@@ -1027,7 +1080,7 @@ document.addEventListener('click',function(e){ var d=document.getElementById('dd
 /* ================= i18n (PT / EN / ES) ================= */
 var LANG='pt';
 var T={
- pt:{kicker:"Preço fixo na hora · sem espera",h1:"Tradução juramentada online",
+ pt:{v_maxfiles:"Máximo de {n} documentos por pedido.",badge_estim:"Estimativa",pay_conn:"Sem conexão com o servidor. Continuamos tentando…",pay_exp:"Este Pix expirou. Gere um novo para pagar.",btn_regen:"Gerar novo Pix",lgpd_note:"Usamos seu nome, CPF, e-mail e WhatsApp apenas para executar o pedido, emitir a Nota Fiscal e falar com você (LGPD, art. 7º, V). Detalhes e seus direitos nos Termos.",kicker:"Preço fixo na hora · sem espera",h1:"Tradução juramentada online",
    sub:"<b>100% digital e 100% correto.</b> Preço fixo na hora — somos os únicos no Brasil com orçamento instantâneo, sem espera e sem surpresas.",
    u_visto:"Vistos",u_cidadania:"Cidadania",u_casamento:"Casamento",u_intercambio:"Intercâmbio",u_trabalho:"Trabalho",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negócios",u_imovel:"Imóveis",u_cnh:"CNH",u_adocao:"Adoção",u_aposentadoria:"Aposentadoria",
    step1:"<b>Envie e receba o preço na hora.</b>",step2:"<b>Pague por Pix</b>, PayPal ou Wise.",step3:"<b>Receba por e-mail</b> com validade jurídica.",
@@ -1046,7 +1099,7 @@ var T={
    dig24:"Digital em 24h",dig4:"Digital em até 4 dias úteis",fisica_sedex:"via física por SEDEX (1–5 dias úteis após a produção)",review_docs:"Conferir documentos enviados",docs_title:"Documentos enviados",docs_empty:"Nenhum documento enviado.",
    estrpay_lbl:"Sou estrangeiro — não tenho Pix",estrpay_hint:"Escolha como quer pagar e envie sua solicitação:",estrpay_send:"Enviar solicitação",estrpay_pick:"Selecione uma forma de pagamento.",estrpay_sending:"Enviando…",estrpay_done_t:"Solicitação recebida!",estrpay_done_p:"Já recebemos seus dados. Fale com a gente no WhatsApp para enviar seus documentos e combinar o pagamento por {m}.",estrpay_wa:"Falar no WhatsApp",estrpay_errwa:"Para finalizar, fale com a gente no WhatsApp:",
    agree_lbl:"Li e aceito os <a onclick=\"openTerms(event)\">Termos de Serviço</a>.",agree_err:"Para continuar, você precisa aceitar os Termos de Serviço.",find_cartorio:"Encontrar cartório mais próximo",cart_loading:"Procurando cartórios próximos…"},
- en:{kicker:"Fixed price on the spot · no waiting",h1:"Sworn translation online",
+ en:{v_maxfiles:"Maximum {n} documents per order.",badge_estim:"Estimate",pay_conn:"No connection to the server. Still trying…",pay_exp:"This Pix has expired. Generate a new one to pay.",btn_regen:"Generate new Pix",lgpd_note:"We use your name, CPF, email and WhatsApp only to carry out the order, issue the invoice and contact you (LGPD, art. 7, V). Details and your rights are in the Terms.",kicker:"Fixed price on the spot · no waiting",h1:"Sworn translation online",
    sub:"<b>100% digital and 100% correct.</b> Fixed price on the spot — we're the only ones in Brazil with an instant quote, no waiting and no surprises.",
    u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
    step1:"<b>Upload and get the price instantly.</b>",step2:"<b>Pay by Pix</b>, PayPal or Wise.",step3:"<b>Receive by email</b> with legal validity.",
@@ -1065,7 +1118,7 @@ var T={
    dig24:"Digital in 24h",dig4:"Digital in up to 4 business days",fisica_sedex:"printed copy by SEDEX (1–5 business days after production)",review_docs:"Review uploaded documents",docs_title:"Uploaded documents",docs_empty:"No documents uploaded.",
    estrpay_lbl:"I'm a foreigner — I don't have Pix",estrpay_hint:"Choose how you'd like to pay and send your request:",estrpay_send:"Send request",estrpay_pick:"Select a payment method.",estrpay_sending:"Sending…",estrpay_done_t:"Request received!",estrpay_done_p:"We've received your details. Message us on WhatsApp to send your documents and arrange payment by {m}.",estrpay_wa:"Chat on WhatsApp",estrpay_errwa:"To finish, message us on WhatsApp:",
    agree_lbl:"I have read and accept the <a onclick=\"openTerms(event)\">Terms of Service</a>.",agree_err:"To continue, you must accept the Terms of Service.",find_cartorio:"Find the nearest registry office",cart_loading:"Finding nearby registry offices…"},
- es:{kicker:"Precio fijo al instante · sin esperas",h1:"Traducción jurada online",
+ es:{v_maxfiles:"Máximo {n} documentos por pedido.",badge_estim:"Estimación",pay_conn:"Sin conexión con el servidor. Seguimos intentando…",pay_exp:"Este Pix caducó. Genera uno nuevo para pagar.",btn_regen:"Generar nuevo Pix",lgpd_note:"Usamos tu nombre, CPF, correo y WhatsApp solo para ejecutar el pedido, emitir la factura y contactarte (LGPD, art. 7, V). Detalles y tus derechos en los Términos.",kicker:"Precio fijo al instante · sin esperas",h1:"Traducción jurada online",
    sub:"<b>100% digital y 100% correcto.</b> Precio fijo al instante — somos los únicos en Brasil con presupuesto instantáneo, sin esperas y sin sorpresas.",
    u_visto:"Visados",u_cidadania:"Ciudadanía",u_casamento:"Matrimonio",u_intercambio:"Intercambio",u_trabalho:"Trabajo",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negocios",u_imovel:"Inmuebles",u_cnh:"Licencia de conducir",u_adocao:"Adopción",u_aposentadoria:"Jubilación",
    step1:"<b>Sube y recibe el precio al instante.</b>",step2:"<b>Paga por Pix</b>, PayPal o Wise.",step3:"<b>Recibe por correo</b> con validez jurídica.",
@@ -1084,7 +1137,7 @@ var T={
    dig24:"Digital en 24h",dig4:"Digital en hasta 4 días hábiles",fisica_sedex:"copia física por SEDEX (1–5 días hábiles tras la producción)",review_docs:"Revisar documentos enviados",docs_title:"Documentos enviados",docs_empty:"No se enviaron documentos.",
    estrpay_lbl:"Soy extranjero — no tengo Pix",estrpay_hint:"Elige cómo quieres pagar y envía tu solicitud:",estrpay_send:"Enviar solicitud",estrpay_pick:"Selecciona una forma de pago.",estrpay_sending:"Enviando…",estrpay_done_t:"¡Solicitud recibida!",estrpay_done_p:"Hemos recibido tus datos. Escríbenos por WhatsApp para enviar tus documentos y coordinar el pago por {m}.",estrpay_wa:"Hablar por WhatsApp",estrpay_errwa:"Para terminar, escríbenos por WhatsApp:",
    agree_lbl:"He leído y acepto los <a onclick=\"openTerms(event)\">Términos de Servicio</a>.",agree_err:"Para continuar, debes aceptar los Términos de Servicio.",find_cartorio:"Encontrar la notaría más cercana",cart_loading:"Buscando notarías cercanas…"},
- de:{kicker:"Festpreis sofort · ohne Warten",h1:"Beglaubigte Übersetzung online",
+ de:{v_maxfiles:"Höchstens {n} Dokumente pro Auftrag.",badge_estim:"Schätzung",pay_conn:"Keine Verbindung zum Server. Wir versuchen es weiter…",pay_exp:"Dieser Pix ist abgelaufen. Erzeugen Sie einen neuen.",btn_regen:"Neuen Pix erzeugen",kicker:"Festpreis sofort · ohne Warten",h1:"Beglaubigte Übersetzung online",
    sub:"<b>100% digital und 100% korrekt.</b> Festpreis sofort — wir sind die Einzigen in Brasilien mit sofortigem Angebot, ohne Warten und ohne Überraschungen.",
    u_visto:"Visa",u_cidadania:"Staatsbürgerschaft",u_casamento:"Heirat",u_intercambio:"Auslandsstudium",u_trabalho:"Arbeit",u_diploma:"Diplom",u_judicial:"Justiz",u_negocios:"Geschäft",u_imovel:"Immobilien",u_cnh:"Führerschein",u_adocao:"Adoption",u_aposentadoria:"Rente",
    step1:"<b>Hochladen und den Preis sofort erhalten.</b>",step2:"<b>Per Pix</b>, PayPal oder Wise zahlen.",step3:"<b>Per E-Mail erhalten</b> — rechtsgültig.",
@@ -1103,7 +1156,7 @@ var T={
    dig24:"Digital in 24h",dig4:"Digital in bis zu 4 Werktagen",fisica_sedex:"Papierausfertigung per SEDEX (1–5 Werktage nach Fertigstellung)",review_docs:"Hochgeladene Dokumente prüfen",docs_title:"Hochgeladene Dokumente",docs_empty:"Keine Dokumente hochgeladen.",
    estrpay_lbl:"Ich bin Ausländer — habe kein Pix",estrpay_hint:"Wählen Sie, wie Sie zahlen möchten, und senden Sie Ihre Anfrage:",estrpay_send:"Anfrage senden",estrpay_pick:"Wählen Sie eine Zahlungsart.",estrpay_sending:"Wird gesendet…",estrpay_done_t:"Anfrage erhalten!",estrpay_done_p:"Wir haben Ihre Daten erhalten. Schreiben Sie uns auf WhatsApp, um Ihre Dokumente zu senden und die Zahlung per {m} abzustimmen.",estrpay_wa:"Auf WhatsApp schreiben",estrpay_errwa:"Zum Abschluss schreiben Sie uns auf WhatsApp:",
    agree_lbl:"Ich habe die <a onclick=\"openTerms(event)\">Nutzungsbedingungen</a> gelesen und akzeptiere sie.",agree_err:"Um fortzufahren, müssen Sie die Nutzungsbedingungen akzeptieren.",find_cartorio:"Nächstgelegenes Cartório finden",cart_loading:"Suche nach Cartórios in der Nähe…"},
- fr:{kicker:"Prix fixe immédiat · sans attente",h1:"Traduction assermentée en ligne",
+ fr:{v_maxfiles:"Maximum {n} documents par commande.",badge_estim:"Estimation",pay_conn:"Pas de connexion au serveur. Nouvelle tentative…",pay_exp:"Ce Pix a expiré. Générez-en un nouveau.",btn_regen:"Générer un nouveau Pix",kicker:"Prix fixe immédiat · sans attente",h1:"Traduction assermentée en ligne",
    sub:"<b>100% numérique et 100% correct.</b> Prix fixe immédiat — nous sommes les seuls au Brésil avec un devis instantané, sans attente et sans surprises.",
    u_visto:"Visas",u_cidadania:"Citoyenneté",u_casamento:"Mariage",u_intercambio:"Études à l'étranger",u_trabalho:"Travail",u_diploma:"Diplôme",u_judicial:"Judiciaire",u_negocios:"Affaires",u_imovel:"Immobilier",u_cnh:"Permis de conduire",u_adocao:"Adoption",u_aposentadoria:"Retraite",
    step1:"<b>Envoyez et recevez le prix immédiatement.</b>",step2:"<b>Payez par Pix</b>, PayPal ou Wise.",step3:"<b>Recevez par e-mail</b> avec validité juridique.",
@@ -1122,7 +1175,7 @@ var T={
    dig24:"Numérique en 24h",dig4:"Numérique en 4 jours ouvrés max",fisica_sedex:"copie papier par SEDEX (1 à 5 jours ouvrés après production)",review_docs:"Vérifier les documents envoyés",docs_title:"Documents envoyés",docs_empty:"Aucun document envoyé.",
    estrpay_lbl:"Je suis étranger — je n'ai pas de Pix",estrpay_hint:"Choisissez votre mode de paiement et envoyez votre demande :",estrpay_send:"Envoyer la demande",estrpay_pick:"Sélectionnez un mode de paiement.",estrpay_sending:"Envoi…",estrpay_done_t:"Demande reçue !",estrpay_done_p:"Nous avons reçu vos informations. Écrivez-nous sur WhatsApp pour envoyer vos documents et convenir du paiement par {m}.",estrpay_wa:"Écrire sur WhatsApp",estrpay_errwa:"Pour finaliser, écrivez-nous sur WhatsApp :",
    agree_lbl:"J'ai lu et j'accepte les <a onclick=\"openTerms(event)\">Conditions de service</a>.",agree_err:"Pour continuer, vous devez accepter les Conditions de service.",find_cartorio:"Trouver le cartório le plus proche",cart_loading:"Recherche de cartórios à proximité…"},
- it:{kicker:"Prezzo fisso subito · senza attese",h1:"Traduzione giurata online",
+ it:{v_maxfiles:"Massimo {n} documenti per ordine.",badge_estim:"Stima",pay_conn:"Nessuna connessione al server. Continuiamo a provare…",pay_exp:"Questo Pix è scaduto. Generane uno nuovo.",btn_regen:"Genera nuovo Pix",kicker:"Prezzo fisso subito · senza attese",h1:"Traduzione giurata online",
    sub:"<b>100% digitale e 100% corretto.</b> Prezzo fisso subito — siamo gli unici in Brasile con preventivo istantaneo, senza attese e senza sorprese.",
    u_visto:"Visti",u_cidadania:"Cittadinanza",u_casamento:"Matrimonio",u_intercambio:"Studio all'estero",u_trabalho:"Lavoro",u_diploma:"Diploma",u_judicial:"Giudiziario",u_negocios:"Affari",u_imovel:"Immobili",u_cnh:"Patente di guida",u_adocao:"Adozione",u_aposentadoria:"Pensione",
    step1:"<b>Invia e ricevi subito il prezzo.</b>",step2:"<b>Paga con Pix</b>, PayPal o Wise.",step3:"<b>Ricevi via e-mail</b> con validità legale.",
@@ -1141,7 +1194,7 @@ var T={
    dig24:"Digitale in 24h",dig4:"Digitale in massimo 4 giorni lavorativi",fisica_sedex:"copia cartacea con SEDEX (1–5 giorni lavorativi dopo la produzione)",review_docs:"Rivedi i documenti inviati",docs_title:"Documenti inviati",docs_empty:"Nessun documento inviato.",
    estrpay_lbl:"Sono straniero — non ho il Pix",estrpay_hint:"Scegli come vuoi pagare e invia la tua richiesta:",estrpay_send:"Invia richiesta",estrpay_pick:"Seleziona un metodo di pagamento.",estrpay_sending:"Invio…",estrpay_done_t:"Richiesta ricevuta!",estrpay_done_p:"Abbiamo ricevuto i tuoi dati. Scrivici su WhatsApp per inviare i tuoi documenti e concordare il pagamento con {m}.",estrpay_wa:"Scrivici su WhatsApp",estrpay_errwa:"Per concludere, scrivici su WhatsApp:",
    agree_lbl:"Ho letto e accetto i <a onclick=\"openTerms(event)\">Termini di Servizio</a>.",agree_err:"Per continuare devi accettare i Termini di Servizio.",find_cartorio:"Trova il cartório più vicino",cart_loading:"Ricerca di cartórios nelle vicinanze…"},
- zh:{kicker:"即时固定价格 · 无需等待",h1:"在线宣誓翻译",
+ zh:{v_maxfiles:"每个订单最多 {n} 份文件。",badge_estim:"预估",pay_conn:"无法连接服务器，正在重试…",pay_exp:"此 Pix 已过期，请重新生成。",btn_regen:"重新生成 Pix",kicker:"即时固定价格 · 无需等待",h1:"在线宣誓翻译",
    sub:"<b>100% 数字化，100% 准确。</b> 即时固定价格——我们是巴西唯一提供即时报价的服务，无需等待，没有意外。",
    u_visto:"签证",u_cidadania:"入籍",u_casamento:"结婚",u_intercambio:"留学",u_trabalho:"工作",u_diploma:"学历",u_judicial:"司法",u_negocios:"商务",u_imovel:"房产",u_cnh:"驾照",u_adocao:"收养",u_aposentadoria:"退休",
    step1:"<b>上传并立即获得价格。</b>",step2:"<b>通过 Pix</b>、PayPal 或 Wise 付款。",step3:"<b>通过电子邮件接收</b>，具有法律效力。",
@@ -1160,7 +1213,7 @@ var T={
    dig24:"24小时内数字版",dig4:"最多4个工作日内数字版",fisica_sedex:"纸质件通过 SEDEX 寄送（制作完成后1–5个工作日）",review_docs:"查看已上传的文件",docs_title:"已上传的文件",docs_empty:"未上传任何文件。",
    estrpay_lbl:"我是外国人——没有 Pix",estrpay_hint:"请选择付款方式并发送您的请求：",estrpay_send:"发送请求",estrpay_pick:"请选择一种付款方式。",estrpay_sending:"发送中…",estrpay_done_t:"请求已收到！",estrpay_done_p:"我们已收到您的信息。请通过 WhatsApp 联系我们，发送您的文件并商定通过 {m} 付款。",estrpay_wa:"通过 WhatsApp 联系",estrpay_errwa:"如需完成，请通过 WhatsApp 联系我们：",
    agree_lbl:"我已阅读并接受<a onclick=\"openTerms(event)\">服务条款</a>。",agree_err:"要继续，您必须接受服务条款。",find_cartorio:"查找最近的公证处（cartório）",cart_loading:"正在查找附近的公证处…"},
- ar:{kicker:"سعر ثابت فوري · دون انتظار",h1:"ترجمة محلّفة عبر الإنترنت",
+ ar:{v_maxfiles:"الحد الأقصى {n} مستندًا لكل طلب.",badge_estim:"تقدير",pay_conn:"لا يوجد اتصال بالخادم. نواصل المحاولة…",pay_exp:"انتهت صلاحية هذا Pix. أنشئ رمزًا جديدًا.",btn_regen:"إنشاء Pix جديد",kicker:"سعر ثابت فوري · دون انتظار",h1:"ترجمة محلّفة عبر الإنترنت",
    sub:"<b>رقمية 100% وصحيحة 100%.</b> سعر ثابت فوري — نحن الوحيدون في البرازيل الذين نقدّم عرض سعر فوري، دون انتظار ودون مفاجآت.",
    u_visto:"التأشيرات",u_cidadania:"الجنسية",u_casamento:"الزواج",u_intercambio:"الدراسة بالخارج",u_trabalho:"العمل",u_diploma:"الشهادة",u_judicial:"القضاء",u_negocios:"الأعمال",u_imovel:"العقارات",u_cnh:"رخصة القيادة",u_adocao:"التبنّي",u_aposentadoria:"التقاعد",
    step1:"<b>أرسل واحصل على السعر فورًا.</b>",step2:"<b>ادفع عبر Pix</b> أو PayPal أو Wise.",step3:"<b>استلم عبر البريد الإلكتروني</b> بصلاحية قانونية.",
