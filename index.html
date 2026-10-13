@@ -662,6 +662,104 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   [dir=rtl] .uso .q{margin-left:0; margin-right:auto;}
   [dir=rtl] input.inp{text-align:right;}
   [dir=rtl] #email,[dir=rtl] #whats,[dir=rtl] #cpf,[dir=rtl] #e_cep,[dir=rtl] #copia{direction:ltr; text-align:right;}
+
+  /* ===== Mobil-Feinschliff (13.10.2026): nur <=900px bzw. <=1100px, Desktop-One-Pager unveraendert ===== */
+  .usos-h{display:none;}
+  @media(max-width:1100px), (max-height:540px){
+    .usos{display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px;}
+    .usos-h{display:block; grid-column:1/-1; font-size:13px; font-weight:700; color:var(--ink); margin:0 0 2px;}
+    .uso{padding:8px 10px 8px 11px; border-radius:11px; font-size:13px; gap:7px; min-height:40px;}
+    .uso>svg{width:14px; height:14px;}
+    .uso .q{margin-left:auto;}
+    [dir=rtl] .uso .q{margin-left:0; margin-right:auto;}
+  }
+  @media(max-width:900px), (max-height:540px){
+    /* Ergebnisliste: Name darf 2 Zeilen haben, Preis + Badge uebereinander */
+    .rc{align-items:center; padding:10px 12px;}
+    .rc-left{align-items:center;}
+    .rc-nm{white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:1.3; font-size:14px;}
+    .rc-sub{font-size:11.5px; margin-top:1px;}
+    .rc-right{flex-direction:column; align-items:flex-end; gap:3px;}
+    .rc-p{font-size:17px; line-height:1.1;}
+    .rc-badge{font-size:10px;}
+    /* Optionen: "?" direkt hinter dem Text statt in eigener Zeile */
+    .opt{padding:12px 14px; min-height:52px;}
+    .opt-l{display:block; line-height:1.35; font-size:14.5px;}
+    .opt-l .q{display:inline-flex; vertical-align:middle; position:relative; top:-1px; margin-inline-start:6px; width:18px; height:18px; font-size:11px;}
+    .opt-pr{font-size:13.5px; white-space:nowrap;}
+    .check{width:22px; height:22px;}
+    /* Summenbox: alles untereinander, Pruef-Button volle Breite */
+    .total{display:grid; grid-template-columns:minmax(0,1fr); padding:16px 18px; border-radius:14px;}
+    .total-top,.prazo-line,.total-note,.total-review{grid-column:1; grid-row:auto;}
+    .total-l{font-size:13.5px;}
+    .total-v{font-size:30px; line-height:1.15;}
+    .prazo-line{margin-top:8px; font-size:15px;}
+    .total-note{font-size:12px; line-height:1.4; margin-top:3px;}
+    .total-review{justify-content:center; width:100%; margin-top:12px; padding:10px 12px; font-size:13px; min-height:42px;}
+    #p-orc .disc,#p-form .disc{text-align:left; font-size:12px; line-height:1.5;}
+    #p-orc .disc{margin-top:10px;}
+    .dropzone{min-height:150px;}
+    #p-form>.dropzone{min-height:150px;}
+    /* Daten: Lieferadresse nach E-Mail/WhatsApp, groessere Haekchen */
+    #p-dados .fields>#fis-wrap{order:1;}
+    #fis-wrap{margin-top:4px; padding-top:12px; border-top:1px solid var(--borda);}
+    .fis-h{margin-bottom:8px;}
+    .agree{font-size:13px; gap:10px; margin-top:12px;}
+    .agree input{width:20px; height:20px; margin-top:0;}
+    .estr-toggle,.estrpay-tg{font-size:14px; gap:10px; min-height:32px;}
+    .estr-box{width:20px; height:20px; border-radius:6px;}
+    .lgpd-det{font-size:13px;}
+    .lgpd-det summary{padding:8px 0;}
+    #err2:not(:empty){margin-top:10px;}
+    /* Pix: Status direkt unter "Copiar", Frist-Box danach; nach Zahlung Bestaetigung ganz oben */
+    #p-pay>.head-bar{order:-3;}
+    #p-pay>.pay-grid{order:-2;}
+    #p-pay>.pay-status{order:-1; margin-top:16px;}
+    #p-pay>.pay-hint{order:0; font-size:12.5px;}
+    #p-pay>#regen,#p-pay>#newbtn{order:1;}
+    #p-pay>.pay-prazo{order:2; margin-top:16px;}
+    #p-pay>.disc{order:3;}
+    #p-pay>.estrpay{order:4; margin-top:18px;}
+    #p-pay:has(.pay-status.ok)>.pay-status{order:-3; margin:0 0 6px;}
+    #p-pay:has(.pay-status.ok)>.head-bar{order:-4;}
+    #p-pay:has(.pay-status.ok)>#newbtn{order:5;}
+    .pay-status{font-size:14.5px; padding:14px 16px;}
+    .pay-prazo small{font-size:12px;}
+    /* Kopf: Sprachschalter mit groesseren Tippflaechen */
+    .langsw button{padding:7px 8px; font-size:12px;}
+    .topbar{gap:8px;}
+    /* Ablauf als eine Karte statt vier einzelner Kaesten */
+    .flow ol{display:block; background:var(--branco); border:1px solid var(--borda); border-radius:14px; padding:4px 14px;}
+    .flow li{background:none; border:none; border-radius:0; padding:12px 0; align-items:center;}
+    .flow li+li{border-top:1px solid var(--borda);}
+    .flow h3,.pricebox h3{font-size:14px; margin-bottom:9px;}
+    .trust-grid{grid-template-columns:1fr 1fr !important; gap:8px;}
+    .tt{flex-direction:column; gap:6px; padding:12px 13px;}
+    .tt b{font-size:13.5px;}
+    .tt span:not(.tt-i){font-size:12px;}
+    /* Popups: Schliessen-X bleibt beim Scrollen langer Texte (AGB) sichtbar */
+    .pop{padding:16px;}
+    .pop-box{max-height:calc(100vh - 32px); padding:18px 18px 20px;}
+    .pop-x{position:sticky; top:0; float:right; margin:-6px -6px 0 8px; width:36px; height:36px; background:#fff; border-radius:50%; box-shadow:0 0 0 1px var(--borda); z-index:2;}
+    [dir=rtl] .pop-x{float:left; margin:-6px 8px 0 -6px;}
+    .pop-box h4{padding-right:0;}
+    [dir=rtl] .pop-box h4{padding-left:0;}
+  }
+  @media(max-width:560px){
+    .usos{grid-template-columns:repeat(2,minmax(0,1fr));}
+    #p-dados.compact .fields{grid-template-columns:minmax(0,1fr);}
+    #p-dados.compact .fields>*{grid-column:1 !important;}
+    #e_bairro{grid-column:auto !important;}
+    .fis-grid{gap:8px 10px;}
+    .card{border-radius:18px;}
+  }
+  @media(max-width:420px){ .langsw{gap:0;} .langsw button{padding:7px 6px;} }
+  @media(max-width:380px){
+    .langsw button{padding:7px 4.5px; font-size:11.5px;}
+    .rc{gap:8px; padding:10px;}
+    .rc-ic{display:none;}
+    .total-v{font-size:28px;}
+  }
 </style>
 </head>
 <body>
@@ -696,6 +794,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <ul><li data-i18n-html="pc1"></li><li data-i18n-html="pc2"></li><li data-i18n-html="pc3"></li></ul>
     </section>
     <div class="usos">
+      <h3 class="usos-h" data-i18n="usos_h">Para que você precisa?</h3>
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_visto">Vistos</span><span class="q" onclick="info(event,'visto')">?</span></div>
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_cidadania">Cidadania</span><span class="q" onclick="info(event,'cidadania')">?</span></div>
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_casamento">Casamento</span><span class="q" onclick="info(event,'casamento')">?</span></div>
@@ -1952,7 +2051,7 @@ var LANG='pt';
 var T={
  pt:{pg_fail:"Não foi possível contar as páginas de um PDF (arquivo protegido ou sem conexão). Tente de novo ou fale com a gente no WhatsApp.",est_hint:"O preço é estimado por IA. Se, após a revisão, ele diferir muito do valor cobrado, entramos em contato e você recebe o reembolso via Pix em até 24 horas ou uma proposta corrigida.",prazo_note:"Prazos e urgência valem apenas em dias úteis (segunda a sexta, exceto feriados) e são contados a partir da confirmação do pagamento, não do envio do pedido. Pagamento confirmado a partir das {h}:00 (horário de Brasília), em fim de semana ou feriado: vale o próximo dia útil.",lim_note:"Urgência: 24h até {a} páginas, 48h até {b} páginas no total do pedido. Pedidos com mais de {m} páginas: orçamento sob medida.",entrega_ate:"Entrega até {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacidade de hoje esgotada, entrega a partir do próximo dia útil.",total_est:"Total estimado",pag:"pág.",pg_count:"contando páginas…",cfg_loading:"Carregando…",off_h:"Orçamento online indisponível no momento",off_p_none:"Estamos ajustando os idiomas disponíveis. Fale com a gente no WhatsApp e passamos o orçamento rapidamente.",off_p_err:"Não conseguimos carregar o orçamento agora. Tente novamente ou fale com a gente no WhatsApp.",btn_retry:"Tentar novamente",quote_h:"Pedir orçamento",quote_p:"Seu pedido tem cerca de {p} páginas — acima do limite de cálculo automático ({m} páginas). Fale com a gente no WhatsApp e passamos um orçamento sob medida. Nenhum pagamento é feito aqui.",quote_p_cap:"No momento não temos capacidade para este pedido com preço automático. Fale com a gente no WhatsApp para um orçamento e um prazo. Nenhum pagamento é feito aqui.",err_idioma:"Este par de idiomas não está disponível no momento. Escolha outro.",err_express:"A urgência escolhida não está mais disponível para este pedido. Volte e escolha outra opção.",v_maxfiles:"Máximo de {n} documentos por pedido.",badge_estim:"Estimativa",pay_conn:"Sem conexão com o servidor. Continuamos tentando…",pay_exp:"Este Pix expirou. Gere um novo para pagar.",btn_regen:"Gerar novo Pix",lgpd_note:"Usamos seu nome, CPF, e-mail e WhatsApp apenas para executar o pedido, emitir a Nota Fiscal e falar com você (LGPD, art. 7º, V). Detalhes e seus direitos nos Termos.",kicker:"Orçamento automático na hora · sem espera",h1:"Tradução juramentada online",
    sub:"<b>100% digital.</b> Envie seus documentos e veja na hora o preço estimado e a data de entrega — sem espera.",
-   u_visto:"Vistos",u_cidadania:"Cidadania",u_casamento:"Casamento",u_intercambio:"Intercâmbio",u_trabalho:"Trabalho",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negócios",u_imovel:"Imóveis",u_cnh:"CNH",u_adocao:"Adoção",u_aposentadoria:"Aposentadoria",
+   usos_h:"Para que você precisa?",u_visto:"Vistos",u_cidadania:"Cidadania",u_casamento:"Casamento",u_intercambio:"Intercâmbio",u_trabalho:"Trabalho",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negócios",u_imovel:"Imóveis",u_cnh:"CNH",u_adocao:"Adoção",u_aposentadoria:"Aposentadoria",
    
    seg:"Seus documentos são tratados com total segurança e discrição — e apagados dos nossos servidores após a conclusão do pedido.",
    whatis:"O que é tradução juramentada? O que recebo?",trust:"Tradutores públicos juramentados (TPIC), registrados na Junta Comercial — com fé pública.",
@@ -1971,7 +2070,7 @@ var T={
    agree_lbl:"Li e aceito os <a onclick=\"openTerms(event)\">Termos de Serviço</a>.",agree_err:"Para continuar, você precisa aceitar os Termos de Serviço.",find_cartorio:"Encontrar cartório mais próximo",cart_loading:"Procurando cartórios próximos…"},
  en:{pg_fail:"We could not count the pages of a PDF (protected file or no connection). Try again or message us on WhatsApp.",est_hint:"The price is estimated by AI. If, after review, it differs strongly from the amount charged, we will contact you and you will receive a refund via Pix within 24 hours or a corrected quote.",prazo_note:"Deadlines and express delivery apply only on business days (Monday to Friday, excluding holidays) and are counted from payment confirmation, not from when you submit the order. If payment is confirmed from {h}:00 (Brasília time) onwards, on a weekend or on a holiday, the next business day counts.",lim_note:"Express: 24h up to {a} pages, 48h up to {b} pages in total. Orders above {m} pages: custom quote.",entrega_ate:"Delivery by {d}",express_24h:"Express 24h",express_48h:"Express 48h",cap_cheia:"Today's capacity is used up; delivery starts from the next business day.",total_est:"Estimated total",pag:"pg.",pg_count:"counting pages…",cfg_loading:"Loading…",off_h:"Online quote currently unavailable",off_p_none:"We're adjusting the available languages. Message us on WhatsApp and we'll send you a quote quickly.",off_p_err:"We couldn't load the quote tool right now. Try again or message us on WhatsApp.",btn_retry:"Try again",quote_h:"Request a quote",quote_p:"Your order has about {p} pages — above the automatic limit ({m} pages). Message us on WhatsApp for a tailored quote. No payment is made here.",quote_p_cap:"We currently don't have capacity for this order at an automatic price. Message us on WhatsApp for a quote and a delivery date. No payment is made here.",err_idioma:"This language pair is not available right now. Please choose another.",err_express:"The express option you chose is no longer available for this order. Go back and choose another option.",v_maxfiles:"Maximum {n} documents per order.",badge_estim:"Estimate",pay_conn:"No connection to the server. Still trying…",pay_exp:"This Pix has expired. Generate a new one to pay.",btn_regen:"Generate new Pix",lgpd_note:"We use your name, CPF, email and WhatsApp only to carry out the order, issue the invoice and contact you (LGPD, art. 7, V). Details and your rights are in the Terms.",kicker:"Instant automatic quote · no waiting",h1:"Sworn translation online",
    sub:"<b>100% digital.</b> Upload your documents and see the estimated price and delivery date instantly — no waiting.",
-   u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
+   usos_h:"What do you need it for?",u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
    
    seg:"Your documents are handled with full security and discretion — and deleted from our servers after your order is completed.",
    whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
@@ -1990,7 +2089,7 @@ var T={
    agree_lbl:"I have read and accept the <a onclick=\"openTerms(event)\">Terms of Service</a>.",agree_err:"To continue, you must accept the Terms of Service.",find_cartorio:"Find the nearest registry office",cart_loading:"Finding nearby registry offices…"},
  es:{pg_fail:"No pudimos contar las páginas de un PDF (archivo protegido o sin conexión). Inténtalo de nuevo o escríbenos por WhatsApp.",est_hint:"El precio se estima con IA. Si, tras la revisión, difiere mucho del importe cobrado, nos pondremos en contacto y recibirás el reembolso por Pix en hasta 24 horas o una propuesta corregida.",prazo_note:"Los plazos y la urgencia valen solo en días hábiles (lunes a viernes, sin feriados) y se cuentan desde la confirmación del pago, no desde el envío del pedido. Si el pago se confirma a partir de las {h}:00 (hora de Brasilia), en fin de semana o en feriado, cuenta el siguiente día hábil.",lim_note:"Urgencia: 24h hasta {a} páginas, 48h hasta {b} páginas en total. Pedidos de más de {m} páginas: presupuesto a medida.",entrega_ate:"Entrega hasta el {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacidad de hoy agotada; la entrega empieza el próximo día hábil.",total_est:"Total estimado",pag:"pág.",pg_count:"contando páginas…",cfg_loading:"Cargando…",off_h:"Presupuesto en línea no disponible por ahora",off_p_none:"Estamos ajustando los idiomas disponibles. Escríbenos por WhatsApp y te enviamos un presupuesto enseguida.",off_p_err:"No pudimos cargar el presupuesto ahora. Inténtalo de nuevo o escríbenos por WhatsApp.",btn_retry:"Reintentar",quote_h:"Pedir presupuesto",quote_p:"Tu pedido tiene unas {p} páginas — por encima del límite de cálculo automático ({m} páginas). Escríbenos por WhatsApp y te pasamos un presupuesto a medida. Aquí no se realiza ningún pago.",quote_p_cap:"Por ahora no tenemos capacidad para este pedido con precio automático. Escríbenos por WhatsApp para un presupuesto y un plazo. Aquí no se realiza ningún pago.",err_idioma:"Este par de idiomas no está disponible por ahora. Elige otro.",err_express:"La urgencia elegida ya no está disponible para este pedido. Vuelve y elige otra opción.",v_maxfiles:"Máximo {n} documentos por pedido.",badge_estim:"Estimación",pay_conn:"Sin conexión con el servidor. Seguimos intentando…",pay_exp:"Este Pix caducó. Genera uno nuevo para pagar.",btn_regen:"Generar nuevo Pix",lgpd_note:"Usamos tu nombre, CPF, correo y WhatsApp solo para ejecutar el pedido, emitir la factura y contactarte (LGPD, art. 7, V). Detalles y tus derechos en los Términos.",kicker:"Presupuesto automático al instante · sin esperas",h1:"Traducción jurada online",
    sub:"<b>100% digital.</b> Sube tus documentos y ve al instante el precio estimado y la fecha de entrega — sin esperas.",
-   u_visto:"Visados",u_cidadania:"Ciudadanía",u_casamento:"Matrimonio",u_intercambio:"Intercambio",u_trabalho:"Trabajo",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negocios",u_imovel:"Inmuebles",u_cnh:"Licencia de conducir",u_adocao:"Adopción",u_aposentadoria:"Jubilación",
+   usos_h:"¿Para qué lo necesitas?",u_visto:"Visados",u_cidadania:"Ciudadanía",u_casamento:"Matrimonio",u_intercambio:"Intercambio",u_trabalho:"Trabajo",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negocios",u_imovel:"Inmuebles",u_cnh:"Licencia de conducir",u_adocao:"Adopción",u_aposentadoria:"Jubilación",
    
    seg:"Tus documentos se tratan con total seguridad y discreción — y se eliminan de nuestros servidores tras completar el pedido.",
    whatis:"¿Qué es una traducción jurada? ¿Qué recibo?",trust:"Traductores públicos jurados (TPIC), registrados en la Junta Comercial — con fe pública.",
@@ -2009,7 +2108,7 @@ var T={
    agree_lbl:"He leído y acepto los <a onclick=\"openTerms(event)\">Términos de Servicio</a>.",agree_err:"Para continuar, debes aceptar los Términos de Servicio.",find_cartorio:"Encontrar la notaría más cercana",cart_loading:"Buscando notarías cercanas…"},
  de:{lgpd_note:"Wir verwenden Ihren Namen, Ihre CPF, E-Mail und WhatsApp-Nummer nur zur Ausführung des Auftrags, zur Rechnungsstellung und zur Kontaktaufnahme (LGPD, Art. 7, V). Details und Ihre Rechte finden Sie in den Nutzungsbedingungen.",pg_fail:"Die Seitenzahl eines PDFs konnte nicht ermittelt werden (geschützte Datei oder keine Verbindung). Bitte erneut versuchen oder uns per WhatsApp schreiben.",est_hint:"Der Preis wird per KI geschätzt. Weicht er nach Prüfung stark ab, melden wir uns, und Sie erhalten innerhalb von 24 Stunden Ihr Geld per Pix zurück oder ein korrigiertes Angebot.",prazo_note:"Fristen und Eilservice gelten nur an Werktagen (Montag bis Freitag, ohne Feiertage) und zählen ab Zahlungseingang, nicht ab dem Absenden des Auftrags. Geht die Zahlung ab {h}:00 Uhr (Brasília-Zeit), am Wochenende oder an einem Feiertag ein, zählt der nächste Werktag.",lim_note:"Eilservice: 24 h bis {a} Seiten, 48 h bis {b} Seiten insgesamt. Aufträge über {m} Seiten: individuelles Angebot.",entrega_ate:"Lieferung bis {d}",express_24h:"Eilservice 24 h",express_48h:"Eilservice 48 h",cap_cheia:"Die Kapazität für heute ist ausgeschöpft; die Lieferung beginnt ab dem nächsten Werktag.",total_est:"Geschätzte Summe",pag:"S.",pg_count:"Seiten werden gezählt…",cfg_loading:"Wird geladen…",off_h:"Online-Angebot derzeit nicht verfügbar",off_p_none:"Wir passen gerade die verfügbaren Sprachen an. Schreiben Sie uns per WhatsApp, wir senden Ihnen schnell ein Angebot.",off_p_err:"Das Angebot konnte gerade nicht geladen werden. Versuchen Sie es erneut oder schreiben Sie uns per WhatsApp.",btn_retry:"Erneut versuchen",quote_h:"Angebot anfordern",quote_p:"Ihr Auftrag umfasst etwa {p} Seiten — über dem Limit der automatischen Berechnung ({m} Seiten). Schreiben Sie uns per WhatsApp für ein individuelles Angebot. Hier erfolgt keine Zahlung.",quote_p_cap:"Für diesen Auftrag haben wir derzeit keine Kapazität zum automatischen Preis. Schreiben Sie uns per WhatsApp für ein Angebot und einen Liefertermin. Hier erfolgt keine Zahlung.",err_idioma:"Dieses Sprachpaar ist derzeit nicht verfügbar. Bitte wählen Sie ein anderes.",err_express:"Die gewählte Eil-Option ist für diesen Auftrag nicht mehr verfügbar. Gehen Sie zurück und wählen Sie eine andere Option.",v_maxfiles:"Höchstens {n} Dokumente pro Auftrag.",badge_estim:"Schätzung",pay_conn:"Keine Verbindung zum Server. Wir versuchen es weiter…",pay_exp:"Dieser Pix ist abgelaufen. Erzeugen Sie einen neuen.",btn_regen:"Neuen Pix erzeugen",kicker:"Automatisches Angebot sofort · ohne Wartezeit",h1:"Beglaubigte Übersetzung online",
    sub:"<b>100% digital.</b> Dokumente hochladen und sofort den geschätzten Preis und das Lieferdatum sehen — ohne Wartezeit.",
-   u_visto:"Visa",u_cidadania:"Staatsbürgerschaft",u_casamento:"Heirat",u_intercambio:"Auslandsstudium",u_trabalho:"Arbeit",u_diploma:"Diplom",u_judicial:"Justiz",u_negocios:"Geschäft",u_imovel:"Immobilien",u_cnh:"Führerschein",u_adocao:"Adoption",u_aposentadoria:"Rente",
+   usos_h:"Wofür brauchen Sie es?",u_visto:"Visa",u_cidadania:"Staatsbürgerschaft",u_casamento:"Heirat",u_intercambio:"Auslandsstudium",u_trabalho:"Arbeit",u_diploma:"Diplom",u_judicial:"Justiz",u_negocios:"Geschäft",u_imovel:"Immobilien",u_cnh:"Führerschein",u_adocao:"Adoption",u_aposentadoria:"Rente",
    
    seg:"Ihre Dokumente werden mit höchster Sicherheit und Diskretion behandelt — und nach Abschluss des Auftrags von unseren Servern gelöscht.",
    whatis:"Was ist eine beglaubigte Übersetzung? Was bekomme ich?",trust:"Öffentlich bestellte und beeidigte Übersetzer (TPIC), bei der Handelskammer registriert — amtlich anerkannt.",
@@ -2028,7 +2127,7 @@ var T={
    agree_lbl:"Ich habe die <a onclick=\"openTerms(event)\">Nutzungsbedingungen</a> gelesen und akzeptiere sie.",agree_err:"Um fortzufahren, müssen Sie die Nutzungsbedingungen akzeptieren.",find_cartorio:"Nächstgelegenes Cartório finden",cart_loading:"Suche nach Cartórios in der Nähe…"},
  fr:{lgpd_note:"Nous utilisons votre nom, votre CPF, votre e-mail et votre WhatsApp uniquement pour exécuter la commande, émettre la facture et vous contacter (LGPD, art. 7, V). Détails et vos droits dans les Conditions.",pg_fail:"Impossible de compter les pages d'un PDF (fichier protégé ou pas de connexion). Réessayez ou écrivez-nous sur WhatsApp.",est_hint:"Le prix est estimé par IA. Si, après vérification, il s'écarte fortement du montant facturé, nous vous contactons et vous recevez un remboursement par Pix sous 24 heures ou un devis corrigé.",prazo_note:"Les délais et l'urgence ne valent que les jours ouvrés (lundi au vendredi, hors jours fériés) et courent à partir de la confirmation du paiement, et non de l'envoi de la commande. Si le paiement est confirmé à partir de {h}:00 (heure de Brasília), un week-end ou un jour férié, c'est le jour ouvré suivant qui compte.",lim_note:"Urgence : 24 h jusqu'à {a} pages, 48 h jusqu'à {b} pages au total. Commandes de plus de {m} pages : devis sur mesure.",entrega_ate:"Livraison d'ici le {d}",express_24h:"Urgent 24h",express_48h:"Urgent 48h",cap_cheia:"Capacité du jour épuisée ; livraison à partir du prochain jour ouvré.",total_est:"Total estimé",pag:"p.",pg_count:"comptage des pages…",cfg_loading:"Chargement…",off_h:"Devis en ligne momentanément indisponible",off_p_none:"Nous ajustons les langues disponibles. Écrivez-nous sur WhatsApp et nous vous envoyons rapidement un devis.",off_p_err:"Impossible de charger le devis pour le moment. Réessayez ou écrivez-nous sur WhatsApp.",btn_retry:"Réessayer",quote_h:"Demander un devis",quote_p:"Votre commande compte environ {p} pages — au-delà de la limite du calcul automatique ({m} pages). Écrivez-nous sur WhatsApp pour un devis sur mesure. Aucun paiement n'est effectué ici.",quote_p_cap:"Nous n'avons pas la capacité de traiter cette commande au prix automatique pour le moment. Écrivez-nous sur WhatsApp pour un devis et un délai. Aucun paiement n'est effectué ici.",err_idioma:"Cette combinaison de langues n'est pas disponible pour le moment. Choisissez-en une autre.",err_express:"L'option d'urgence choisie n'est plus disponible pour cette commande. Revenez en arrière et choisissez une autre option.",v_maxfiles:"Maximum {n} documents par commande.",badge_estim:"Estimation",pay_conn:"Pas de connexion au serveur. Nouvelle tentative…",pay_exp:"Ce Pix a expiré. Générez-en un nouveau.",btn_regen:"Générer un nouveau Pix",kicker:"Devis automatique immédiat · sans attente",h1:"Traduction assermentée en ligne",
    sub:"<b>100% numérique.</b> Envoyez vos documents et voyez immédiatement le prix estimé et la date de livraison — sans attente.",
-   u_visto:"Visas",u_cidadania:"Citoyenneté",u_casamento:"Mariage",u_intercambio:"Études à l'étranger",u_trabalho:"Travail",u_diploma:"Diplôme",u_judicial:"Judiciaire",u_negocios:"Affaires",u_imovel:"Immobilier",u_cnh:"Permis de conduire",u_adocao:"Adoption",u_aposentadoria:"Retraite",
+   usos_h:"Pour quel usage ?",u_visto:"Visas",u_cidadania:"Citoyenneté",u_casamento:"Mariage",u_intercambio:"Études à l'étranger",u_trabalho:"Travail",u_diploma:"Diplôme",u_judicial:"Judiciaire",u_negocios:"Affaires",u_imovel:"Immobilier",u_cnh:"Permis de conduire",u_adocao:"Adoption",u_aposentadoria:"Retraite",
    
    seg:"Vos documents sont traités en toute sécurité et discrétion — et supprimés de nos serveurs une fois la commande terminée.",
    whatis:"Qu'est-ce qu'une traduction assermentée ? Que vais-je recevoir ?",trust:"Traducteurs publics assermentés (TPIC), inscrits au registre du commerce — officiellement reconnus.",
@@ -2047,7 +2146,7 @@ var T={
    agree_lbl:"J'ai lu et j'accepte les <a onclick=\"openTerms(event)\">Conditions de service</a>.",agree_err:"Pour continuer, vous devez accepter les Conditions de service.",find_cartorio:"Trouver le cartório le plus proche",cart_loading:"Recherche de cartórios à proximité…"},
  it:{lgpd_note:"Usiamo il tuo nome, CPF, e-mail e WhatsApp solo per eseguire l'ordine, emettere la fattura e contattarti (LGPD, art. 7, V). Dettagli e tuoi diritti nei Termini.",pg_fail:"Non è stato possibile contare le pagine di un PDF (file protetto o nessuna connessione). Riprova o scrivici su WhatsApp.",est_hint:"Il prezzo è stimato tramite IA. Se, dopo la verifica, si discosta molto dall'importo addebitato, ti contattiamo e ricevi il rimborso tramite Pix entro 24 ore oppure un preventivo corretto.",prazo_note:"Termini e urgenza valgono solo nei giorni lavorativi (da lunedì a venerdì, esclusi i festivi) e decorrono dalla conferma del pagamento, non dall'invio dell'ordine. Se il pagamento è confermato a partire dalle {h}:00 (ora di Brasília), nel fine settimana o in un giorno festivo, conta il giorno lavorativo successivo.",lim_note:"Urgenza: 24h fino a {a} pagine, 48h fino a {b} pagine in totale. Ordini oltre {m} pagine: preventivo su misura.",entrega_ate:"Consegna entro il {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacità di oggi esaurita; consegna a partire dal prossimo giorno lavorativo.",total_est:"Totale stimato",pag:"pag.",pg_count:"conteggio pagine…",cfg_loading:"Caricamento…",off_h:"Preventivo online al momento non disponibile",off_p_none:"Stiamo aggiornando le lingue disponibili. Scrivici su WhatsApp e ti inviamo subito un preventivo.",off_p_err:"Impossibile caricare il preventivo in questo momento. Riprova o scrivici su WhatsApp.",btn_retry:"Riprova",quote_h:"Richiedi un preventivo",quote_p:"Il tuo ordine ha circa {p} pagine — oltre il limite del calcolo automatico ({m} pagine). Scrivici su WhatsApp per un preventivo su misura. Qui non viene effettuato alcun pagamento.",quote_p_cap:"Al momento non abbiamo capacità per questo ordine a prezzo automatico. Scrivici su WhatsApp per un preventivo e una data di consegna. Qui non viene effettuato alcun pagamento.",err_idioma:"Questa combinazione di lingue al momento non è disponibile. Scegline un'altra.",err_express:"L'opzione urgenza scelta non è più disponibile per questo ordine. Torna indietro e scegli un'altra opzione.",v_maxfiles:"Massimo {n} documenti per ordine.",badge_estim:"Stima",pay_conn:"Nessuna connessione al server. Continuiamo a provare…",pay_exp:"Questo Pix è scaduto. Generane uno nuovo.",btn_regen:"Genera nuovo Pix",kicker:"Preventivo automatico subito · senza attese",h1:"Traduzione giurata online",
    sub:"<b>100% digitale.</b> Carica i tuoi documenti e vedi subito il prezzo stimato e la data di consegna — senza attese.",
-   u_visto:"Visti",u_cidadania:"Cittadinanza",u_casamento:"Matrimonio",u_intercambio:"Studio all'estero",u_trabalho:"Lavoro",u_diploma:"Diploma",u_judicial:"Giudiziario",u_negocios:"Affari",u_imovel:"Immobili",u_cnh:"Patente di guida",u_adocao:"Adozione",u_aposentadoria:"Pensione",
+   usos_h:"A cosa ti serve?",u_visto:"Visti",u_cidadania:"Cittadinanza",u_casamento:"Matrimonio",u_intercambio:"Studio all'estero",u_trabalho:"Lavoro",u_diploma:"Diploma",u_judicial:"Giudiziario",u_negocios:"Affari",u_imovel:"Immobili",u_cnh:"Patente di guida",u_adocao:"Adozione",u_aposentadoria:"Pensione",
    
    seg:"I tuoi documenti sono trattati con la massima sicurezza e riservatezza — ed eliminati dai nostri server al termine dell'ordine.",
    whatis:"Cos'è una traduzione giurata? Cosa ricevo?",trust:"Traduttori pubblici giurati (TPIC), iscritti alla Camera di Commercio — ufficialmente riconosciuti.",
@@ -2066,7 +2165,7 @@ var T={
    agree_lbl:"Ho letto e accetto i <a onclick=\"openTerms(event)\">Termini di Servizio</a>.",agree_err:"Per continuare devi accettare i Termini di Servizio.",find_cartorio:"Trova il cartório più vicino",cart_loading:"Ricerca di cartórios nelle vicinanze…"},
  zh:{lgpd_note:"我们仅将您的姓名、CPF、电子邮箱和 WhatsApp 用于履行订单、开具发票和与您联系（LGPD 第 7 条 V 项）。详情及您的权利见服务条款。",pg_fail:"无法统计某个 PDF 的页数（文件受保护或网络未连接）。请重试，或通过 WhatsApp 联系我们。",est_hint:"价格由 AI 估算。如审核后与实际收费差异较大，我们会联系您，并在 24 小时内通过 Pix 退款或提供更正后的报价。",prazo_note:"交付期限和加急仅按工作日计算（周一至周五，不含法定节假日），自付款确认起算，而非自提交订单起算。若在巴西利亚时间 {h}:00 及之后、周末或节假日确认付款，则从下一个工作日开始计算。",lim_note:"加急：总计最多 {a} 页可选 24 小时，最多 {b} 页可选 48 小时；超过 {m} 页的订单需人工报价。",entrega_ate:"交付日期：{d} 前",express_24h:"加急 24 小时",express_48h:"加急 48 小时",cap_cheia:"今日产能已满，将从下一个工作日起计算交付。",total_est:"预估总价",pag:"页",pg_count:"正在统计页数…",cfg_loading:"加载中…",off_h:"在线报价暂不可用",off_p_none:"我们正在调整可用语言。请通过 WhatsApp 联系我们，我们会尽快给您报价。",off_p_err:"暂时无法加载报价。请重试，或通过 WhatsApp 联系我们。",btn_retry:"重试",quote_h:"申请报价",quote_p:"您的订单约有 {p} 页，超出自动计价上限（{m} 页）。请通过 WhatsApp 联系我们获取定制报价。此处不会产生任何付款。",quote_p_cap:"目前我们无法以自动价格承接此订单。请通过 WhatsApp 联系我们获取报价和交付日期。此处不会产生任何付款。",err_idioma:"该语言组合暂不可用，请选择其他语言。",err_express:"您选择的加急选项已不适用于此订单，请返回选择其他选项。",v_maxfiles:"每个订单最多 {n} 份文件。",badge_estim:"预估",pay_conn:"无法连接服务器，正在重试…",pay_exp:"此 Pix 已过期，请重新生成。",btn_regen:"重新生成 Pix",kicker:"即时自动报价 · 无需等待",h1:"在线宣誓翻译",
    sub:"<b>100% 数字化。</b> 上传文件，立即查看预估价格和交付日期——无需等待。",
-   u_visto:"签证",u_cidadania:"入籍",u_casamento:"结婚",u_intercambio:"留学",u_trabalho:"工作",u_diploma:"学历",u_judicial:"司法",u_negocios:"商务",u_imovel:"房产",u_cnh:"驾照",u_adocao:"收养",u_aposentadoria:"退休",
+   usos_h:"用途",u_visto:"签证",u_cidadania:"入籍",u_casamento:"结婚",u_intercambio:"留学",u_trabalho:"工作",u_diploma:"学历",u_judicial:"司法",u_negocios:"商务",u_imovel:"房产",u_cnh:"驾照",u_adocao:"收养",u_aposentadoria:"退休",
    
    seg:"您的文件会以最高的安全性和保密性处理——并在订单完成后从我们的服务器中删除。",
    whatis:"什么是宣誓翻译？我会收到什么？",trust:"公共宣誓翻译员（TPIC），在商业登记处注册——具有公信力。",
@@ -2085,7 +2184,7 @@ var T={
    agree_lbl:"我已阅读并接受<a onclick=\"openTerms(event)\">服务条款</a>。",agree_err:"要继续，您必须接受服务条款。",find_cartorio:"查找最近的公证处（cartório）",cart_loading:"正在查找附近的公证处…"},
  ar:{lgpd_note:"نستخدم اسمك ورقم CPF وبريدك الإلكتروني وواتساب فقط لتنفيذ الطلب وإصدار الفاتورة والتواصل معك (LGPD، المادة 7، البند V). التفاصيل وحقوقك في الشروط.",pg_fail:"تعذّر عدّ صفحات ملف PDF (ملف محمي أو لا يوجد اتصال). حاول مرة أخرى أو راسلنا عبر واتساب.",est_hint:"يُقدَّر السعر بواسطة الذكاء الاصطناعي. إذا اختلف كثيرًا بعد المراجعة عن المبلغ المحصَّل، سنتواصل معك وتستردّ مبلغك عبر Pix خلال 24 ساعة أو تحصل على عرض سعر مصحَّح.",prazo_note:"المواعيد والاستعجال تُحتسب بأيام العمل فقط (من الاثنين إلى الجمعة دون العطلات الرسمية) اعتبارًا من تأكيد الدفع وليس من إرسال الطلب. إذا تأكد الدفع ابتداءً من الساعة {h}:00 (بتوقيت برازيليا) أو في عطلة نهاية الأسبوع أو في عطلة رسمية، فيُحتسب يوم العمل التالي.",lim_note:"الاستعجال: 24 ساعة حتى {a} صفحات، و48 ساعة حتى {b} صفحة في المجموع. الطلبات التي تزيد عن {m} صفحة: عرض سعر خاص.",entrega_ate:"التسليم حتى {d}",express_24h:"استعجال 24 ساعة",express_48h:"استعجال 48 ساعة",cap_cheia:"الطاقة الاستيعابية لليوم استُنفدت؛ يبدأ التسليم من يوم العمل التالي.",total_est:"الإجمالي التقديري",pag:"ص",pg_count:"جارٍ عدّ الصفحات…",cfg_loading:"جارٍ التحميل…",off_h:"عرض السعر عبر الإنترنت غير متاح حاليًا",off_p_none:"نعمل على تعديل اللغات المتاحة. راسلنا عبر واتساب وسنرسل لك عرض السعر بسرعة.",off_p_err:"تعذّر تحميل عرض السعر الآن. أعد المحاولة أو راسلنا عبر واتساب.",btn_retry:"إعادة المحاولة",quote_h:"اطلب عرض سعر",quote_p:"يضم طلبك نحو {p} صفحة، وهو أكثر من حدّ الحساب التلقائي ({m} صفحة). راسلنا عبر واتساب للحصول على عرض سعر مخصّص. لا يتم أي دفع هنا.",quote_p_cap:"لا تتوفر لدينا حاليًا طاقة لهذا الطلب بسعر تلقائي. راسلنا عبر واتساب للحصول على عرض سعر وموعد تسليم. لا يتم أي دفع هنا.",err_idioma:"هذا الزوج اللغوي غير متاح حاليًا. اختر زوجًا آخر.",err_express:"خيار الاستعجال الذي اخترته لم يعد متاحًا لهذا الطلب. ارجع واختر خيارًا آخر.",v_maxfiles:"الحد الأقصى {n} مستندًا لكل طلب.",badge_estim:"تقدير",pay_conn:"لا يوجد اتصال بالخادم. نواصل المحاولة…",pay_exp:"انتهت صلاحية هذا Pix. أنشئ رمزًا جديدًا.",btn_regen:"إنشاء Pix جديد",kicker:"عرض سعر تلقائي فوري · بلا انتظار",h1:"ترجمة محلّفة عبر الإنترنت",
    sub:"<b>رقمية 100%.</b> ارفع مستنداتك وشاهد فورًا السعر التقديري وموعد التسليم — بلا انتظار.",
-   u_visto:"التأشيرات",u_cidadania:"الجنسية",u_casamento:"الزواج",u_intercambio:"الدراسة بالخارج",u_trabalho:"العمل",u_diploma:"الشهادة",u_judicial:"القضاء",u_negocios:"الأعمال",u_imovel:"العقارات",u_cnh:"رخصة القيادة",u_adocao:"التبنّي",u_aposentadoria:"التقاعد",
+   usos_h:"لأي غرض تحتاجها؟",u_visto:"التأشيرات",u_cidadania:"الجنسية",u_casamento:"الزواج",u_intercambio:"الدراسة بالخارج",u_trabalho:"العمل",u_diploma:"الشهادة",u_judicial:"القضاء",u_negocios:"الأعمال",u_imovel:"العقارات",u_cnh:"رخصة القيادة",u_adocao:"التبنّي",u_aposentadoria:"التقاعد",
    
    seg:"تُعامَل مستنداتك بأقصى درجات الأمان والسرّية — وتُحذف من خوادمنا بعد اكتمال الطلب.",
    whatis:"ما هي الترجمة المحلّفة؟ وماذا سأستلم؟",trust:"مترجمون عموميون محلّفون (TPIC)، مسجّلون لدى الغرفة التجارية — ذوو حجّية رسمية.",
@@ -2510,6 +2609,8 @@ function renderDyn(){
   carregarConfig(restaurarPix());   /* Pix aberto antes do recarregar: volta à tela do Pix (polling continua) */
 })();
 
+/* Mobil-Feinschliff: alte Fehlermeldung unter "Criar pedido" verschwindet, sobald der Kunde ein Feld korrigiert */
+(function(){ var pd=document.getElementById('p-dados'), e2=document.getElementById('err2'); if(!pd||!e2) return; function clr(){ if(e2.textContent) e2.textContent=''; } pd.addEventListener('input',clr); pd.addEventListener('change',clr); })();
 </script>
 </body>
 </html>
