@@ -879,6 +879,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <div class="head-bar"><h2 data-i18n="orc_h">Seu orçamento</h2>
         <button class="back" onclick="go('form')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg><span data-i18n="btn_edit">Editar</span></button></div>
       <div class="dup-note" id="dup-note2" role="status" style="display:none"></div>
+      <div class="dup-note" id="dir-note" role="status" style="display:none"></div>
       <div class="res-list" id="reslist"></div>
       <div class="dup-note" id="anexo-note" role="status" style="display:none"></div>
       <div class="opts">
@@ -898,6 +899,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <div class="cap-warn" id="cap-warn" style="display:none" data-i18n="cap_cheia"></div>
       <div class="cap-warn" id="ia-warn" style="display:none" data-i18n="ia_degraded"></div>
       <div class="total" id="totalbar"></div>
+      <div class="err" id="err-orc" role="alert"></div>
       <button class="cta" onclick="irDados()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg><span data-i18n="btn_cont">Continuar</span></button>
       <div class="disc" data-i18n="est_hint"></div>
       <div class="disc" id="prazo-note"></div>
@@ -1477,8 +1479,18 @@ function analisarServidor(){
 function anDe(f){ if(!ANA) return undefined; return (f._hash&&ANA.por[f._hash])||{typ:'outro',konfidenz:0,lesbar:true,paginas_ok:false,fonte:'fallback',revisar:true}; }
 function pagDe(f,an){ return (an&&an.paginas_ok&&an.paginas>0)?Math.min(300,Math.round(an.paginas)):(f._pg||1); }
 
-function analisar(de,para,par){
-  loading.className='loading';
+/* Ben 13.10.: Dokument in der "falschen" Richtung (precisaRevisao 'idioma') -> eindeutige Korrektur statt Pruefformular.
+   Alle Hauptdokumente gleiche idioma_origem o: o='pt' bei Quelle Fremdsprache -> Português -> L; o = aktive Fremdsprache bei Quelle Português -> o -> Português. Sonst null (Formular wie bisher). */
+function direcaoCorrigida(ans,par){
+  var o=null, i, a, x;
+  for(i=0;i<ans.length;i++){ a=ans[i]; if(!a||a.typ==='anexo') continue; x=String(a.idioma_origem||'').toLowerCase().slice(0,2); if(!x||(o!==null&&x!==o)) return null; o=x; }
+  if(o==='pt'&&par.direcao==='to_pt'&&IDIOMA_NOME[par.idioma]) return {de:'Português',para:IDIOMA_NOME[par.idioma],l:'Português',par:{idioma:par.idioma,direcao:'from_pt'}};
+  if(o&&o!=='pt'&&par.direcao==='from_pt'&&IDIOMA_NOME[o]&&idiomasAtivos().indexOf(o)>-1) return {de:IDIOMA_NOME[o],para:'Português',l:IDIOMA_NOME[o],par:{idioma:o,direcao:'to_pt'}};
+  return null;
+}
+function dirNote(m){ var e=document.getElementById('dir-note'); if(e){ e.textContent=m||''; e.style.display=m?'':'none'; } }
+function analisar(de,para,par,aviso){
+  loading.className='loading'; dirNote(aviso);
   FROM_NAME=de; TO_NAME=para; PAR=par; TB=tabela(par);
   base=0; var P=0;
   var ilegivel=false, naoVerif=false;
@@ -1489,13 +1501,15 @@ function analisar(de,para,par){
   PAGS=P;
   if(ilegivel){ mostrarOrcamento(P,'ilegivel'); return; }
   if(ANA&&ANA.limite==='upload'){ mostrarOrcamento(P,'limite'); return; }
-  { var rv=precisaRevisao(chosen.map(anDe),par.idioma,par.direcao); if(rv&&!naoVerif){ opts={apostila:false,fisica:false}; expressSel=false; REV_MOTIVO=rv; mostrarOrcamento(P,'revisao'); return; } }   /* v23: KI unsicher -> kein Festpreis, Pruefanfrage an Ben */
+  { var rv=precisaRevisao(chosen.map(anDe),par.idioma,par.direcao), nd=(rv==='idioma'&&!naoVerif&&!aviso)?direcaoCorrigida(chosen.map(anDe),par):null;
+    if(nd){ selFrom.value=nd.de; selTo.value=nd.para; avisoIdioma(); var lt=LANG==='pt'?nd.l.toLowerCase():nd.l; analisar(nd.de,nd.para,nd.par,t('dir_auto').replace('{l}',lt).replace('{d}',nd.de+' → '+nd.para)); return; }
+    if(rv&&!naoVerif){ opts={apostila:false,fisica:false}; expressSel=false; REV_MOTIVO=rv; mostrarOrcamento(P,'revisao'); return; } }   /* v23: KI unsicher -> kein Festpreis, Pruefanfrage an Ben */
   PLAN=planejar(P,CFG.idiomas[par.idioma],Date.now()+SKEW,usoNum(par.idioma),FER);
   if(PLAN.modo!=='auto'){ mostrarOrcamento(P,PLAN.modo); return; }
   if(naoVerif){ mostrarOrcamento(P,'verif'); return; }   /* páginas só valem se o SERVIDOR as contou (pdf-lib); sem isso nenhum preço automático */
   QUOTE_P=null;
-  opts={apostila:false,fisica:false}; expressSel=false; DESC=0;
-  if(!ANA||ANA.degradado||!ANA.lote){ renderResList(); updateTotal(); go('orc'); return; }
+  opts={apostila:false,fisica:false}; expressSel=false; DESC=0; MIN=0; errOrc(''); var aviso=ERR_PEND; ERR_PEND='';
+  if(!ANA||ANA.degradado||!ANA.lote){ renderResList(); updateTotal(); go('orc'); errOrc(aviso); return; }
   /* v23: Gesamtpreis — der Server (pix-cob, cotar) laesst die KI den ganzen Auftrag bewerten; Rabatt nur in Leitplanken, beim Pix derselbe Wert. Fehler/Zeitueberschreitung = Tabellenpreis */
   loading.className='loading show'; try{ var lp=loading.querySelector('p'); if(lp) lp.textContent=t('loading_preco'); }catch(e){}
   var tab=base, seq=++COT_SEQ;
@@ -1504,10 +1518,27 @@ function analisar(de,para,par){
     loading.className='loading';
     if(r&&r.error==='revisao'){ REV_MOTIVO=r.motivo||'preco'; mostrarOrcamento(P,'revisao'); return; }
     if(r&&r.ok&&r.cotacao&&r.tabela_cents===tab&&r.desconto_cents>0&&r.desconto_cents<tab) DESC=r.desconto_cents;
-    renderResList(); updateTotal(); go('orc');
+    if(r&&r.ok&&r.cotacao&&r.tabela_cents===tab&&r.minimo_cents>0&&r.minimo_cents<100000) MIN=r.minimo_cents;
+    renderResList(); updateTotal(); go('orc'); errOrc(aviso);
   });
 }
-var DESC=0, COT_SEQ=0;   /* Rabatt der KI auf die Uebersetzungen (cents), vom Server */
+var DESC=0, MIN=0, COT_SEQ=0, ERR_PEND='';   /* Rabatt der KI auf die Uebersetzungen / Aufschlag "Pedido minimo" (R$ 100 netto, r2) — cents, vom Server */
+function errOrc(m){ var e=document.getElementById('err-orc'); if(e) e.textContent=m||''; }
+/* r2: Pix meldet 'preco_mudou' (der gezeigte Mindestauftrag passt nicht, z. B. Orcamento war offline) -> neu cotar, Liste/Total neu, zurueck zum Orcamento mit Hinweis */
+function recotar(msg,minSrv){
+  loading.className='loading show'; try{ var lp=loading.querySelector('p'); if(lp) lp.textContent=t('loading_preco'); }catch(e){}
+  var tab=base, seq=++COT_SEQ;
+  cotarServidor().then(function(r){
+    if(seq!==COT_SEQ) return;
+    loading.className='loading';
+    if(r&&r.error==='revisao'){ REV_MOTIVO=r.motivo||'preco'; mostrarOrcamento(PAGS,'revisao'); return; }
+    if(r&&r.ok&&r.cotacao&&r.tabela_cents!==tab){ ERR_PEND=msg; carregarConfig(true).then(function(){ if(CFG_STATE==='ok') analisar(FROM_NAME,TO_NAME,PAR); }); return; }   /* tabela do navegador desatualizada: recarrega e recalcula tudo */
+    DESC=0; MIN=0;
+    if(r&&r.ok&&r.cotacao&&r.tabela_cents===tab){ if(r.desconto_cents>0&&r.desconto_cents<tab) DESC=r.desconto_cents; if(r.minimo_cents>0&&r.minimo_cents<100000) MIN=r.minimo_cents; }
+    else if(minSrv>0&&minSrv<100000) MIN=minSrv;   /* Orcamento wieder nicht erreichbar: Aufschlag aus der 409-Antwort */
+    renderResList(); updateTotal(); go('orc'); errOrc(msg);
+  });
+}
 function cotarServidor(){
   var ctl=window.AbortController?new AbortController():null, to=setTimeout(function(){ if(ctl) ctl.abort(); },45000);
   var body={cotar:true,docs:chosen.map(function(f){return f.name;}),paginas:chosen.map(function(f){return f._pg||1;}),arquivos:chosen.map(function(f){ return {hash:f._hash||''}; }),lote:ANA.lote,from:FROM_NAME,to:TO_NAME,lang:LANG};
@@ -1528,7 +1559,7 @@ function cardHTML(r,file){
     (r.modo==='anexo'?'<div class="rc-right"><div class="rc-p rc-incl">'+t('incl_word')+'</div></div></div>':'<div class="rc-right"><div class="rc-p">'+fmt(r.cents/100)+'</div><span class="rc-badge '+(r.modo==='standard'?'std':'lauda')+'">'+t('badge_estim')+'</span></div></div>');
 }
 var lastRes=null, ANEXO_ORFAO=false;
-function renderResList(){ if(!lastRes)return; reslist.innerHTML=lastRes.map(function(x){return cardHTML(x.r,x.name);}).join('')+(DESC>0?'<div class="rc rc-desc"><div class="rc-left"><div class="rc-ic" style="background:#e9f6ee"><svg viewBox="0 0 24 24" fill="none" stroke="#1f7a45" stroke-width="1.8"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div><div style="min-width:0"><div class="rc-nm">'+esc(t('lbl_desc'))+'</div></div></div><div class="rc-right"><div class="rc-p" style="color:#1f7a45">− '+fmt(DESC/100)+'</div></div></div>':'');
+function renderResList(){ if(!lastRes)return; reslist.innerHTML=lastRes.map(function(x){return cardHTML(x.r,x.name);}).join('')+(DESC>0?'<div class="rc rc-desc"><div class="rc-left"><div class="rc-ic" style="background:#e9f6ee"><svg viewBox="0 0 24 24" fill="none" stroke="#1f7a45" stroke-width="1.8"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div><div style="min-width:0"><div class="rc-nm">'+esc(t('lbl_desc'))+'</div></div></div><div class="rc-right"><div class="rc-p" style="color:#1f7a45">− '+fmt(DESC/100)+'</div></div></div>':'')+(MIN>0?'<div class="rc rc-min"><div class="rc-left"><div class="rc-ic" style="background:#eef0f2"><svg viewBox="0 0 24 24" fill="none" stroke="#4d4d4d" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg></div><div style="min-width:0"><div class="rc-nm">'+esc(t('lbl_min'))+'</div></div></div><div class="rc-right"><div class="rc-p">+ '+fmt(MIN/100)+'</div></div></div>':'');
   var an=document.getElementById('anexo-note'); if(an){ an.textContent=ANEXO_ORFAO?t('anexo_orfao'):''; an.style.display=ANEXO_ORFAO?'':'none'; } }
 
 
@@ -1537,7 +1568,7 @@ function optCents(k){ return TB&&TB.opc[k]?TB.opc[k].valor_cents:null; }
 var estrBR=false;
 function fisOk(){ return !ehEstrangeiro||estrBR; }
 function fisAtiva(){ return !!opts.fisica&&fisOk(); }
-function subtotalCents(){ var s=base-DESC; if(opts.apostila&&optCents('apostila')!=null) s+=optCents('apostila'); if(fisAtiva()&&optCents('fisica')!=null) s+=optCents('fisica'); return s; }
+function subtotalCents(){ var s=base-DESC+MIN; if(opts.apostila&&optCents('apostila')!=null) s+=optCents('apostila'); if(fisAtiva()&&optCents('fisica')!=null) s+=optCents('fisica'); return s; }
 function expressCents(){ return (expressSel&&PLAN&&PLAN.express)?PLAN.express.fix:0; }   /* valor FIXO por pedido (capacidade.express_fix_cents / express48_fix_cents) */
 function totalCents(){ return subtotalCents()+expressCents(); }
 function totalGeral(){ return totalCents()/100; }   /* só PRÉVIA ("Estimativa"); o valor cobrado é o que o servidor devolve */
@@ -1699,7 +1730,7 @@ function syncFisUI(){
 function toggleEstrBR(){ estrBR=!estrBR; syncFisUI(); if(PLAN&&PLAN.modo==='auto'&&TB) updateTotal(); }
 function dadosSum(){ var ds=document.getElementById('dados-sum'); if(!ds) return;
   try{ if(!(PLAN&&PLAN.modo==='auto'&&chosen.length)) throw 0; ds.innerHTML='<span>'+esc(docW(chosen.length)+' · '+pagW(PAGS))+'</span><b>'+esc(t('entrega_ate').replace('{d}',fmtData(entregaPrevia())))+'</b>'; ds.style.display=''; }catch(e){ ds.style.display='none'; } }
-function irDados(){syncFisUI();document.getElementById('minitotal').textContent=fmt(totalGeral());document.getElementById('err2').textContent=''; dadosSum(); go('dados');}
+function irDados(){syncFisUI();errOrc('');document.getElementById('minitotal').textContent=fmt(totalGeral());document.getElementById('err2').textContent=''; dadosSum(); go('dados');}
 var ehEstrangeiro=false;
 function toggleEstr(){
   ehEstrangeiro=!ehEstrangeiro; if(!ehEstrangeiro) estrBR=false;
@@ -1922,7 +1953,8 @@ function abrirPagamento(){
     arquivos: ANA ? chosen.map(function(f){ return {hash:f._hash||''}; }) : undefined,   /* só hash; a classificação vem do servidor */
     lote: ANA ? ANA.lote : undefined, lang: LANG,
     consentimento: !!(document.getElementById('consent')&&document.getElementById('consent').checked),
-    express: (expressSel&&PLAN&&PLAN.express)?PLAN.express.tipo:'normal' };
+    express: (expressSel&&PLAN&&PLAN.express)?PLAN.express.tipo:'normal',
+    minimo_cents: MIN };   /* r2: só conferência — o servidor recusa (409 preco_mudou) se o mínimo mostrado não for o dele */
   PAYX=(PLAN&&PAR)?{P:PAGS,ex:(expressSel&&PLAN.express)?PLAN.express.tipo:'normal',ini:PLAN.start,par:PAR.idioma}:null;
   var key=JSON.stringify(payload);
   if(!CREQ||CREQ.key!==key) CREQ={key:key,id:novoReqId()};   /* mesmo pedido = mesmo id (o servidor devolve o Pix existente em vez de criar outro) */
@@ -1939,7 +1971,7 @@ function abrirPagamento(){
     .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d,status:r.status};},function(){return {ok:false,d:{},status:r.status};});})
     .then(function(res){
       clearTimeout(to); if(cobPending===key) cobPending=null;
-      if(!res.ok || !res.d.copiaECola || !res.d.txid){ var er=new Error((res.d&&res.d.message)||'falha'); er.code=res.d&&res.d.error; er.motivo=res.d&&res.d.motivo; er.status=res.status; throw er; }
+      if(!res.ok || !res.d.copiaECola || !res.d.txid){ var er=new Error((res.d&&res.d.message)||'falha'); er.code=res.d&&res.d.error; er.motivo=res.d&&res.d.motivo; er.minimo=res.d&&res.d.minimo_cents; er.status=res.status; throw er; }
       cobRetry=0; var t0=Date.now(); lastCob={key:key,d:res.d,t0:t0};
       mostrarCob(res.d,t0);
     })
@@ -1951,6 +1983,7 @@ function abrirPagamento(){
       if(code==='expirado'&&cobRetry<1){ cobRetry++; CREQ=null; lastCob=null; abrirPagamento(); return; }
       if(code) CREQ=null;   /* erro declarado pelo servidor: próxima tentativa com id novo. Sem código (rede/timeout, resultado desconhecido): mantém o id, o servidor devolve o Pix já criado */
       if(code==='ilegivel'){ mostrarOrcamento(PAGS,'ilegivel'); return; }
+      if(code==='preco_mudou'){ lastCob=null; recotar(e.message,Math.round(Number(e.minimo))||0); return; }   /* r2: valor mudou -> novo orçamento, cliente confere o total */
       if(code==='revisao'){ REV_MOTIVO=(e&&e.motivo)||'analise'; mostrarOrcamento(PAGS,'revisao'); return; }
       if(code==='nao_verificado'){ mostrarOrcamento(PAGS,'verif'); return; }
       if(code==='legado'){ go('form'); err.textContent=t('err_legado'); return; }
@@ -2597,6 +2630,8 @@ rev_consent:[`Podem usar estes dados e os arquivos enviados para preparar o meu 
 rev_btn:[`Receber meu orçamento`,`Get my quote`,`Recibir mi presupuesto`,`Angebot anfordern`,`Recevoir mon devis`,`Ricevi il preventivo`,`获取报价`,`احصل على العرض`],
 swap_lbl:[`Inverter idiomas`,`Swap languages`,`Intercambiar idiomas`,`Sprachen tauschen`,`Inverser les langues`,`Inverti le lingue`,`互换语言`,`تبديل اللغتين`],
 lbl_desc:[`Desconto do pacote`,`Package discount`,`Descuento por paquete`,`Paketrabatt`,`Remise forfaitaire`,`Sconto pacchetto`,`套餐优惠`,`خصم الباقة`],
+lbl_min:[`Pedido mínimo`,`Minimum order`,`Pedido mínimo`,`Mindestauftrag`,`Commande minimum`,`Ordine minimo`,`最低订单`,`الحد الأدنى للطلب`],
+dir_auto:[`Seu documento está em {l}: ajustamos a direção para {d}.`,`Your document is in {l}: we changed the direction to {d}.`,`Su documento está en {l}: ajustamos la dirección a {d}.`,`Ihr Dokument ist auf {l}: Wir haben die Richtung auf {d} umgestellt.`,`Votre document est en {l} : nous avons changé le sens en {d}.`,`Il suo documento è in {l}: abbiamo cambiato la direzione in {d}.`,`您的文件是{l}：我们已将方向调整为 {d}。`,`مستندك باللغة {l}: قمنا بتعديل الاتجاه إلى {d}.`],
 loading_preco:[`Calculando o preço do pedido…`,`Calculating the order price…`,`Calculando el precio del pedido…`,`Preis des Auftrags wird berechnet…`,`Calcul du prix de la commande…`,`Calcolo del prezzo dell'ordine…`,`正在计算订单价格…`,`جارٍ حساب سعر الطلب…`],
 rev_need_ok:[`Marque a confirmação para continuar.`,`Please tick the confirmation to continue.`,`Marca la confirmación para continuar.`,`Bitte bestätigen Sie das Kästchen.`,`Cochez la confirmation pour continuer.`,`Spunta la conferma per continuare.`,`请勾选确认后继续。`,`يرجى تحديد خانة التأكيد للمتابعة.`],
 rev_fail:[`Não foi possível enviar agora. Tente de novo ou fale com a gente no WhatsApp.`,`Could not send right now. Try again or message us on WhatsApp.`,`No se pudo enviar ahora. Inténtalo de nuevo o escríbenos por WhatsApp.`,`Senden hat gerade nicht geklappt. Bitte erneut versuchen oder per WhatsApp schreiben.`,`Envoi impossible pour le moment. Réessayez ou écrivez-nous sur WhatsApp.`,`Invio non riuscito. Riprova o scrivici su WhatsApp.`,`暂时无法发送。请重试或通过 WhatsApp 联系我们。`,`تعذّر الإرسال الآن. حاول مرة أخرى أو راسلنا عبر واتساب.`],
