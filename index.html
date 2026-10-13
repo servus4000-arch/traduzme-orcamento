@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Orçamento de tradução juramentada online na hora | Traduzme</title>
-<meta name="description" content="Tradução juramentada online com preço estimado na hora. Envie seus documentos, veja o valor na hora e pague por Pix, PayPal ou Wise. 100% digital, com validade jurídica no Brasil e no exterior." />
+<meta name="description" content="Tradução juramentada online com preço estimado na hora. Envie seus documentos, veja o valor na hora e pague por Pix. 100% digital, com validade jurídica no Brasil e no exterior." />
 <meta name="keywords" content="tradução juramentada, tradução juramentada online, orçamento tradução juramentada, tradutor juramentado, apostila de haia, tradução certidão, tradução diploma" />
 <meta name="robots" content="noindex, nofollow" />
 <meta name="author" content="Traduzme" />
@@ -17,12 +17,12 @@
 <meta property="og:locale:alternate" content="en_US" />
 <meta property="og:locale:alternate" content="es_ES" />
 <meta property="og:title" content="Tradução juramentada online com preço estimado na hora | Traduzme" />
-<meta property="og:description" content="Envie seus documentos, veja o preço na hora e pague por Pix, PayPal ou Wise. 100% digital, com validade jurídica no Brasil e no exterior." />
+<meta property="og:description" content="Envie seus documentos, veja o preço na hora e pague por Pix. 100% digital, com validade jurídica no Brasil e no exterior." />
 <meta property="og:url" content="https://www.traduzme.com.br/orcamento" />
 <meta property="og:image" content="https://www.traduzme.com.br/og-orcamento.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Tradução juramentada online com preço estimado na hora | Traduzme" />
-<meta name="twitter:description" content="Orçamento automático de tradução juramentada. 100% digital, pague por Pix, PayPal ou Wise." />
+<meta name="twitter:description" content="Orçamento automático de tradução juramentada. 100% digital, pague por Pix." />
 <meta name="twitter:image" content="https://www.traduzme.com.br/og-orcamento.jpg" />
 <!-- Dados estruturados (Schema.org) para Google e buscadores com IA (GEO) -->
 <script type="application/ld+json">
@@ -35,7 +35,7 @@
   {"@type":"Question","name":"Quanto custa uma tradução juramentada?","acceptedAnswer":{"@type":"Answer","text":"No Traduzme o preço estimado aparece na hora: você envia os documentos, escolhe o par de idiomas e vê o valor imediatamente, sem espera. Documentos padrão têm preço por documento; documentos mais extensos ou fora do padrão podem ter um ajuste, sempre informado antes do início."}},
   {"@type":"Question","name":"A tradução juramentada digital tem validade?","acceptedAnswer":{"@type":"Answer","text":"Sim. A tradução é assinada digitalmente no padrão ICP-Brasil, verificável por QR Code, com a mesma validade jurídica do papel, aceita pela maioria dos órgãos no Brasil e no exterior."}},
   {"@type":"Question","name":"Preciso de Apostila de Haia?","acceptedAnswer":{"@type":"Answer","text":"A Apostila de Haia dá validade internacional ao documento nos mais de 120 países da Convenção. Tanto o documento original quanto a tradução juramentada costumam precisar ser apostilados para uso no exterior."}},
-  {"@type":"Question","name":"Como pago a tradução?","acceptedAnswer":{"@type":"Answer","text":"Por Pix, com confirmação automática, ou por PayPal e Wise para quem está no exterior. A tradução começa assim que o pagamento é aprovado."}}
+  {"@type":"Question","name":"Como pago a tradução?","acceptedAnswer":{"@type":"Answer","text":"Por Pix, com confirmação automática. Quem está no exterior e não tem Pix pode combinar PayPal ou Wise pelo WhatsApp. A tradução só começa após a confirmação do pagamento."}}
  ]}
 ]}
 </script>
@@ -456,6 +456,195 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     .copia-row input{display:none;}
     .copia-row button{width:100%; height:44px; font-size:14px;}
   }
+  /* ===== Seiten-Agent Runde 2: linke Spalte (Ablauf, Vertrauen, Preislogik), Fortschritt, groessere Boxen, Fehler-/Fokuszustaende ===== */
+  :root{ --gold:#e9a400; --warn-bg:#fdf0ed; --warn-bd:#f1c4b9; --brand-soft:#f2f8f5; }
+  :focus-visible{outline:3px solid rgba(26,122,94,.55); outline-offset:2px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-shrink:0;}
+  .topbar .langsw{position:static; flex-shrink:0;}
+  .topbar .logo{flex-shrink:0;}
+  .left{justify-content:space-between; gap:12px;}
+  .left-main{display:flex; flex-direction:column; gap:clamp(12px,1.8vh,22px); margin-block:auto; padding-block:8px;}
+  .left-main>*{flex-shrink:0;}
+  .left>*{flex-shrink:0;}
+  .hero-block{margin-top:2px;}
+  .hero-block .kicker{align-self:flex-start;}
+  .whatis{margin:0; font-size:13px;}
+  .flow h3,.pricebox h3{font-size:13px; font-weight:700; color:var(--ink); margin:0 0 8px;}
+  .flow ol{list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .flow li{display:flex; align-items:flex-start; gap:11px; background:var(--branco); border:1px solid var(--borda); border-radius:14px; padding:12px 13px; min-width:0;}
+  .fl-n{width:28px; height:28px; flex:none; border-radius:50%; background:var(--brand); color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  .flow li b,.tt b{display:block; font-size:14px; font-weight:650; line-height:1.25; color:var(--ink);}
+  .flow li span:not(.fl-n),.tt span:not(.tt-i){display:block; font-size:12.5px; line-height:1.4; color:var(--ink-soft); margin-top:2px;}
+  .trust-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .tt{display:flex; align-items:flex-start; gap:11px; background:var(--brand-soft); border:1px solid #d9eae1; border-radius:14px; padding:11px 13px; min-width:0;}
+  .tt.wide{grid-column:1/-1;}
+  .tt-i{width:22px; height:22px; flex:none; color:var(--brand); display:flex; margin-top:1px;}
+  .tt-i svg{width:22px; height:22px;}
+  .tt:first-child .tt-i{color:var(--gold);}
+  .pricebox{background:var(--branco); border:1px solid var(--borda); border-radius:14px; padding:13px 15px;}
+  .pricebox ul{list-style:none; display:flex; flex-direction:column; gap:6px;}
+  .pricebox li{position:relative; padding-inline-start:20px; font-size:13px; line-height:1.42; color:var(--ink-soft);}
+  .pricebox li::before{content:''; position:absolute; inset-inline-start:2px; top:.5em; width:7px; height:7px; border-radius:50%; background:var(--brand);}
+  .pricebox li b{color:var(--ink); font-weight:650;}
+  .usos{display:flex; flex-wrap:wrap; gap:6px; margin:0;}
+  .uso{background:var(--branco); border:1px solid var(--borda); border-radius:999px; padding:3px 7px 3px 9px; font-size:12px; gap:5px;}
+  .uso>svg{width:12px; height:12px;}
+  .uso .q{margin-left:3px;}
+  /* Fortschritt in der Karte */
+  .prog{list-style:none; display:flex; gap:8px; margin:0 0 14px; flex-shrink:0;}
+  .prog li{flex:1; min-width:0; font-size:12px; color:var(--cinza); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .prog li::before{content:''; display:block; height:4px; border-radius:4px; background:var(--borda); margin-bottom:6px;}
+  .prog li.done::before,.prog li.cur::before{background:var(--brand);}
+  .prog li.cur{color:var(--ink); font-weight:700;}
+  .prog li span{display:inline-flex; width:17px; height:17px; border-radius:50%; background:var(--borda); color:var(--ink-soft); font-size:10.5px; font-weight:700; align-items:center; justify-content:center; margin-inline-end:5px;}
+  .prog li.done span,.prog li.cur span{background:var(--brand); color:#fff;}
+  .prog em{font-style:normal;}
+  #card .panel{flex:1;}
+  /* Fehlerzustaende */
+  .err{font-size:13px; line-height:1.4; text-align:start;}
+  .err:not(:empty){background:var(--warn-bg); border:1px solid var(--warn-bd); border-radius:10px; padding:9px 12px; color:#8f2f1c; font-weight:500;}
+  .err:empty{min-height:0; margin-top:0;}
+  .inp.bad,select.bad{border-color:var(--erro); box-shadow:0 0 0 3px var(--warn-bg);}
+  .lgpd-box{font-size:11.5px; line-height:1.5; color:var(--ink-soft); background:var(--brand-soft); border:1px solid #d9eae1; border-radius:10px; padding:9px 12px; margin-top:8px; text-align:start; flex-shrink:0;}
+  .lgpd-box a{color:var(--brand-dark); font-weight:600; text-decoration:underline; cursor:pointer;}
+  .rc-incl{font-size:13px; font-weight:600; color:var(--brand-dark);}
+  .pay-valid{font-size:12.5px; color:var(--ink-soft); margin-top:6px; font-weight:500;}
+  .pay-valid:empty{display:none;}
+  #p-pay.paid .qr,#p-pay.paid .copia,#p-pay.paid .head-bar .back,#p-pay.paid .estrpay,#p-pay.paid .pay-valid{display:none;}
+  #p-pay.paid .pay-grid{grid-template-columns:1fr;}
+  #p-pay.paid .pay-amount{text-align:center;}
+  .disc{font-size:12px;}
+  select,input.inp{font-size:15px;}
+  /* Desktop: ganze Flaeche nutzen */
+  @media(min-width:901px) and (min-height:541px){
+    .stage{max-width:1400px; padding:16px clamp(28px,3.5vw,64px); grid-template-columns:minmax(0,.95fr) minmax(0,1fr); gap:clamp(36px,4vw,72px);}
+    .left{max-width:600px; justify-self:end; width:100%;}
+    .left,.card{height:calc(100vh - 32px); max-height:960px;}
+    .card{padding:22px 28px;}
+  }
+  /* Hoehe < 860: kompakter, Chips ausblenden */
+  @media(min-width:901px) and (max-height:860px){
+    .usos{display:none;}
+    .flow li{padding:9px 11px;}
+    .flow li span:not(.fl-n),.tt span:not(.tt-i){font-size:12px; line-height:1.35;}
+    .tt{padding:8px 11px;}
+    .pricebox{padding:10px 13px;}
+    .pricebox li{font-size:12.5px; line-height:1.36;}
+    .left-main{gap:10px;}
+    .hero-block .kicker{margin-bottom:8px;}
+    .sub{font-size:13.5px;}
+  }
+  @media(min-width:901px) and (min-height:861px){
+    h1{font-size:clamp(30px,min(2.9vw,4.6vh),46px);}
+    .sub{font-size:15px; line-height:1.5;}
+    .kicker{font-size:12.5px; padding:5px 12px;}
+  }
+  @media(min-width:901px) and (min-height:1000px){
+    .flow li b,.tt b{font-size:15px;}
+    .flow li span:not(.fl-n),.tt span:not(.tt-i){font-size:13.5px;}
+    .pricebox li{font-size:14px;}
+    .flow li,.tt{padding:14px 16px;}
+  }
+  /* Karte: groessere Bedienelemente wenn Platz ist */
+  @media(min-width:901px) and (min-height:821px){
+    .step h2{font-size:15px;} .step .n{width:24px; height:24px; font-size:12.5px;}
+    .howto{font-size:12.5px;}
+    .dz-t1{font-size:17px; font-weight:600;} .dz-t2{font-size:13px;}
+    .dz-ico{width:52px; height:52px; margin-bottom:10px;} .dz-ico svg{width:26px; height:26px;}
+    select,input.inp{height:46px;}
+    .field label,.field>label{font-size:13px;}
+    .cta{height:54px; font-size:16.5px; border-radius:12px;}
+    .file-item{padding:10px 13px;} .file-item .nm{font-size:14px;} .file-item .mt{font-size:12px;}
+    .rc{padding:12px 15px;} .rc-nm{font-size:14.5px;} .rc-sub{font-size:12px;} .rc-p{font-size:18px;} .rc-badge{font-size:10.5px;}
+    .rc-ic{width:34px; height:34px;}
+    .opt{padding:13px 15px;} .opt-l{font-size:14.5px;} .opt-pr{font-size:13.5px;}
+    .total{padding:16px 20px;} .total-v{font-size:32px;} .total-l{font-size:14px;}
+    .head-bar h2{font-size:17px;}
+    .agree{font-size:12.5px;} .lgpd-box{font-size:12px;}
+    .disc{font-size:12px;}
+    .mini-total{font-size:14px;}
+  }
+  /* Tablet / Mobil */
+  @media(max-width:1100px), (max-height:540px){
+    html,body{height:auto;}
+    .stage{height:auto; min-height:0;}
+    .left,.card{height:auto; max-height:none;}
+    .card{overflow:visible;}
+    .panel{flex:none;}
+    #p-pay,#p-orc{overflow:visible; padding-right:0;}
+    .fields,.files,.res-list{overflow:visible; max-height:none;}
+    #p-form>.dropzone{flex:none; min-height:190px;}
+    #p-form>.files{flex:none;}
+    #p-orc>.res-list{flex:none;}
+    .pay-grid{grid-template-columns:200px 1fr; gap:22px;} .qr{width:200px; height:200px;}
+    .dados-body{overflow:visible;}
+    .left,.left-main{display:contents;}
+    .stage{display:flex; flex-direction:column; align-items:stretch; gap:18px; padding:16px 16px 36px;}
+    .topbar{order:1;} .hero-block{order:2;} .whatis{order:3; align-self:flex-start;}
+    .card{order:4;}
+    .flow{order:5;} .trust-grid{order:6;} .pricebox{order:7;} .usos{order:8;}
+    .topbar,.hero-block,.whatis,.flow,.trust-grid,.pricebox,.usos,.card{width:100%; max-width:760px; margin-inline:auto;}
+    .flow ol{grid-template-columns:1fr 1fr;}
+    .whatis{margin:-6px auto 0; justify-content:flex-start;}
+    h1{font-size:clamp(26px,6.6vw,38px);}
+    .sub{font-size:15px;}
+    .cta{height:52px; font-size:16px;}
+    select,input.inp{height:48px;}
+    .prog li{font-size:11.5px;}
+  }
+  @media(max-width:560px){
+    .flow ol,.trust-grid{grid-template-columns:1fr;}
+    .pay-grid{grid-template-columns:1fr; gap:14px; justify-items:center;}
+    .pay-grid>.qr{width:210px; height:210px; margin:0 auto;}
+    .stage{padding:14px 14px 32px;}
+    .topbar{flex-wrap:wrap;}
+    .card{padding:18px 16px;}
+    .prog li{font-size:10.5px;} .prog li span{display:none;}
+    .usos{gap:5px;}
+  }
+  @media(max-width:420px){ .topbar .langsw{order:0; align-self:auto; margin:0;} }
+  [dir=rtl] .topbar .langsw{left:auto;}
+  [dir=rtl] .uso .q{margin-right:3px; margin-left:0;}
+  /* --- R2 Feinschliff --- */
+  .pay-status{background:var(--brand-soft); border-color:#d9eae1;}
+  .dados-sum{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; background:var(--brand-soft); border:1px solid #d9eae1; border-radius:11px; padding:9px 13px; margin-bottom:12px; font-size:13px; color:var(--ink-soft); flex-shrink:0;}
+  .dados-sum b{color:var(--brand-dark); font-weight:700;}
+  .rc-right{display:flex; align-items:center; gap:10px; flex-direction:row-reverse;}
+  .rc-badge{margin-top:0;}
+  .rc{padding:9px 13px;}
+  .total{display:grid; grid-template-columns:1fr auto; column-gap:14px; align-items:center;}
+  .total-top{grid-column:1/-1;}
+  .prazo-line{grid-column:1; grid-row:2; margin-top:4px;}
+  .total-note{grid-column:1; grid-row:3;}
+  .total-review{grid-column:2; grid-row:2/4; margin-top:0; align-self:center;}
+  #p-pay .pay-status{margin-top:16px;}
+  #p-pay .estrpay{margin-top:auto;}
+  #p-dados .mini-total{margin-top:12px;}
+  #p-dados .fields{flex:0 1 auto;}
+  #p-dados .lgpd-box{margin-top:auto;}
+  @media(min-width:901px) and (min-height:861px){
+    .pay-grid{grid-template-columns:236px 1fr; gap:26px;}
+    .qr{width:236px; height:236px;}
+    .pay-amount b{font-size:42px;}
+    #p-dados:not(.compact) .fields{row-gap:14px;}
+  }
+  @media(min-width:901px) and (max-height:1099px){ .usos{display:none;} }
+  .dados-body{flex:1 1 auto; min-height:0; overflow-y:auto; display:flex; flex-direction:column; padding-inline-end:4px;}
+  .dados-body>*{flex-shrink:0;}
+  #p-dados .fields{overflow:visible; flex:0 0 auto; padding-right:0; min-height:auto;}
+  #p-dados .fields{margin-bottom:10px;}
+  @media(min-width:901px) and (max-height:760px){ #p-orc #prazo-note{display:none;} .dados-sum{padding:6px 12px; margin-bottom:8px;} }
+  @media(min-width:901px) and (max-height:800px){
+    #p-dados .inp,#p-dados select{height:40px;} #p-dados .ddi-btn{height:40px;}
+    .lgpd-box{font-size:11px; line-height:1.4; padding:7px 10px; margin-top:6px;}
+    #p-dados .agree{margin-top:6px;} #p-dados .cta{height:46px; margin-top:8px;}
+    #p-dados .fields{row-gap:8px !important; margin-bottom:2px;}
+  }
+  @media(min-width:901px) and (min-height:1000px){ .left,.card{max-height:1040px;} }
+  @media(min-width:901px) and (max-height:740px){ #p-dados .dados-sum{display:none !important;} }
+  @media(max-width:560px){ .pay-valid{text-align:center;} }
+  .inp.bad:focus,select.bad:focus{border-color:var(--erro); box-shadow:0 0 0 3px var(--warn-bg);}
+  @media(min-width:901px) and (max-height:920px){ .opt{padding:11px 15px;} #p-dados.compact .dados-sum{display:none !important;} }
   /* Árabe (RTL) */
   [dir=rtl] .langsw{right:auto; left:0;}
   [dir=rtl] .pair .swap svg{transform:scaleX(-1);}
@@ -475,14 +664,36 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 <body>
 <div class="stage">
   <div class="left">
+    <div class="topbar">
     <a class="logo" href="https://www.traduzme.com.br" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101.25 30" aria-label="traduzme"><g fill="currentColor"><g transform="translate(7.951591, 21.272097)"><path d="M 1.390625 -10.25 L 6.015625 -10.25 C 6.328125 -10.25 6.585938 -10.144531 6.796875 -9.9375 C 7.003906 -9.726562 7.109375 -9.46875 7.109375 -9.15625 C 7.109375 -8.863281 7.003906 -8.613281 6.796875 -8.40625 C 6.585938 -8.207031 6.328125 -8.109375 6.015625 -8.109375 L 1.390625 -8.109375 C 1.078125 -8.109375 0.816406 -8.210938 0.609375 -8.421875 C 0.398438 -8.628906 0.296875 -8.890625 0.296875 -9.203125 C 0.296875 -9.503906 0.398438 -9.753906 0.609375 -9.953125 C 0.816406 -10.148438 1.078125 -10.25 1.390625 -10.25 Z M 3.484375 -12.703125 C 3.816406 -12.703125 4.085938 -12.585938 4.296875 -12.359375 C 4.515625 -12.128906 4.625 -11.84375 4.625 -11.5 L 4.625 -2.8125 C 4.625 -2.632812 4.660156 -2.484375 4.734375 -2.359375 C 4.804688 -2.242188 4.90625 -2.160156 5.03125 -2.109375 C 5.15625 -2.054688 5.289062 -2.03125 5.4375 -2.03125 C 5.59375 -2.03125 5.734375 -2.054688 5.859375 -2.109375 C 5.992188 -2.171875 6.144531 -2.203125 6.3125 -2.203125 C 6.488281 -2.203125 6.648438 -2.117188 6.796875 -1.953125 C 6.953125 -1.785156 7.03125 -1.550781 7.03125 -1.25 C 7.03125 -0.882812 6.832031 -0.582031 6.4375 -0.34375 C 6.039062 -0.113281 5.613281 0 5.15625 0 C 4.882812 0 4.582031 -0.0195312 4.25 -0.0625 C 3.914062 -0.113281 3.601562 -0.226562 3.3125 -0.40625 C 3.019531 -0.582031 2.773438 -0.851562 2.578125 -1.21875 C 2.378906 -1.582031 2.28125 -2.082031 2.28125 -2.71875 L 2.28125 -11.5 C 2.28125 -11.84375 2.394531 -12.128906 2.625 -12.359375 C 2.851562 -12.585938 3.140625 -12.703125 3.484375 -12.703125 Z"/></g><g transform="translate(14.961987, 21.272097)"><path d="M 2.4375 0 C 2.101562 0 1.820312 -0.113281 1.59375 -0.34375 C 1.375 -0.570312 1.265625 -0.851562 1.265625 -1.1875 L 1.265625 -9.265625 C 1.265625 -9.597656 1.375 -9.878906 1.59375 -10.109375 C 1.820312 -10.335938 2.101562 -10.453125 2.4375 -10.453125 C 2.78125 -10.453125 3.0625 -10.335938 3.28125 -10.109375 C 3.5 -9.878906 3.609375 -9.597656 3.609375 -9.265625 L 3.609375 -7.421875 L 3.484375 -8.734375 C 3.617188 -9.046875 3.800781 -9.320312 4.03125 -9.5625 C 4.257812 -9.800781 4.515625 -10 4.796875 -10.15625 C 5.085938 -10.320312 5.394531 -10.441406 5.71875 -10.515625 C 6.050781 -10.597656 6.378906 -10.640625 6.703125 -10.640625 C 7.085938 -10.640625 7.414062 -10.53125 7.6875 -10.3125 C 7.957031 -10.09375 8.09375 -9.832031 8.09375 -9.53125 C 8.09375 -9.101562 7.976562 -8.796875 7.75 -8.609375 C 7.53125 -8.421875 7.289062 -8.328125 7.03125 -8.328125 C 6.78125 -8.328125 6.554688 -8.367188 6.359375 -8.453125 C 6.160156 -8.546875 5.929688 -8.59375 5.671875 -8.59375 C 5.429688 -8.59375 5.191406 -8.535156 4.953125 -8.421875 C 4.710938 -8.316406 4.488281 -8.144531 4.28125 -7.90625 C 4.082031 -7.675781 3.921875 -7.390625 3.796875 -7.046875 C 3.671875 -6.703125 3.609375 -6.296875 3.609375 -5.828125 L 3.609375 -1.1875 C 3.609375 -0.851562 3.5 -0.570312 3.28125 -0.34375 C 3.0625 -0.113281 2.78125 0 2.4375 0 Z"/></g><g transform="translate(22.460599, 21.272097)"><path d="M 9.828125 -10.640625 C 10.160156 -10.640625 10.4375 -10.53125 10.65625 -10.3125 C 10.882812 -10.09375 11 -9.804688 11 -9.453125 L 11 -1.1875 C 11 -0.851562 10.882812 -0.570312 10.65625 -0.34375 C 10.4375 -0.113281 10.160156 0 9.828125 0 C 9.484375 0 9.203125 -0.113281 8.984375 -0.34375 C 8.765625 -0.570312 8.65625 -0.851562 8.65625 -1.1875 L 8.65625 -2.15625 L 9.078125 -1.96875 C 9.078125 -1.800781 8.984375 -1.597656 8.796875 -1.359375 C 8.617188 -1.117188 8.375 -0.878906 8.0625 -0.640625 C 7.75 -0.410156 7.378906 -0.210938 6.953125 -0.046875 C 6.535156 0.117188 6.082031 0.203125 5.59375 0.203125 C 4.6875 0.203125 3.867188 -0.0234375 3.140625 -0.484375 C 2.410156 -0.953125 1.832031 -1.59375 1.40625 -2.40625 C 0.988281 -3.226562 0.78125 -4.164062 0.78125 -5.21875 C 0.78125 -6.28125 0.988281 -7.21875 1.40625 -8.03125 C 1.832031 -8.851562 2.40625 -9.492188 3.125 -9.953125 C 3.84375 -10.410156 4.640625 -10.640625 5.515625 -10.640625 C 6.066406 -10.640625 6.578125 -10.554688 7.046875 -10.390625 C 7.515625 -10.222656 7.921875 -10.007812 8.265625 -9.75 C 8.617188 -9.488281 8.890625 -9.222656 9.078125 -8.953125 C 9.265625 -8.691406 9.359375 -8.46875 9.359375 -8.28125 L 8.65625 -8.03125 L 8.65625 -9.453125 C 8.65625 -9.796875 8.765625 -10.078125 8.984375 -10.296875 C 9.203125 -10.523438 9.484375 -10.640625 9.828125 -10.640625 Z M 5.875 -1.953125 C 6.445312 -1.953125 6.945312 -2.09375 7.375 -2.375 C 7.8125 -2.664062 8.148438 -3.054688 8.390625 -3.546875 C 8.628906 -4.046875 8.75 -4.601562 8.75 -5.21875 C 8.75 -5.84375 8.628906 -6.398438 8.390625 -6.890625 C 8.148438 -7.390625 7.8125 -7.78125 7.375 -8.0625 C 6.945312 -8.351562 6.445312 -8.5 5.875 -8.5 C 5.320312 -8.5 4.828125 -8.351562 4.390625 -8.0625 C 3.960938 -7.78125 3.628906 -7.390625 3.390625 -6.890625 C 3.148438 -6.398438 3.03125 -5.84375 3.03125 -5.21875 C 3.03125 -4.601562 3.148438 -4.046875 3.390625 -3.546875 C 3.628906 -3.054688 3.960938 -2.664062 4.390625 -2.375 C 4.828125 -2.09375 5.320312 -1.953125 5.875 -1.953125 Z"/></g><g transform="translate(33.747789, 21.272097)"><path d="M 9.828125 -14.453125 C 10.160156 -14.453125 10.4375 -14.34375 10.65625 -14.125 C 10.882812 -13.90625 11 -13.617188 11 -13.265625 L 11 -1.1875 C 11 -0.851562 10.882812 -0.570312 10.65625 -0.34375 C 10.4375 -0.113281 10.160156 0 9.828125 0 C 9.484375 0 9.203125 -0.113281 8.984375 -0.34375 C 8.765625 -0.570312 8.65625 -0.851562 8.65625 -1.1875 L 8.65625 -2.15625 L 9.078125 -1.96875 C 9.078125 -1.800781 8.984375 -1.597656 8.796875 -1.359375 C 8.617188 -1.117188 8.375 -0.878906 8.0625 -0.640625 C 7.75 -0.410156 7.378906 -0.210938 6.953125 -0.046875 C 6.535156 0.117188 6.082031 0.203125 5.59375 0.203125 C 4.6875 0.203125 3.867188 -0.0234375 3.140625 -0.484375 C 2.410156 -0.953125 1.832031 -1.59375 1.40625 -2.40625 C 0.988281 -3.226562 0.78125 -4.164062 0.78125 -5.21875 C 0.78125 -6.28125 0.988281 -7.21875 1.40625 -8.03125 C 1.832031 -8.851562 2.40625 -9.492188 3.125 -9.953125 C 3.84375 -10.410156 4.640625 -10.640625 5.515625 -10.640625 C 6.066406 -10.640625 6.578125 -10.554688 7.046875 -10.390625 C 7.515625 -10.222656 7.921875 -10.007812 8.265625 -9.75 C 8.617188 -9.488281 8.890625 -9.222656 9.078125 -8.953125 C 9.265625 -8.691406 9.359375 -8.46875 9.359375 -8.28125 L 8.65625 -8.03125 L 8.65625 -13.265625 C 8.65625 -13.597656 8.765625 -13.878906 8.984375 -14.109375 C 9.203125 -14.335938 9.484375 -14.453125 9.828125 -14.453125 Z M 5.875 -1.953125 C 6.445312 -1.953125 6.945312 -2.09375 7.375 -2.375 C 7.8125 -2.664062 8.148438 -3.054688 8.390625 -3.546875 C 8.628906 -4.046875 8.75 -4.601562 8.75 -5.21875 C 8.75 -5.84375 8.628906 -6.398438 8.390625 -6.890625 C 8.148438 -7.390625 7.8125 -7.78125 7.375 -8.0625 C 6.945312 -8.351562 6.445312 -8.5 5.875 -8.5 C 5.320312 -8.5 4.828125 -8.351562 4.390625 -8.0625 C 3.960938 -7.78125 3.628906 -7.390625 3.390625 -6.890625 C 3.148438 -6.398438 3.03125 -5.84375 3.03125 -5.21875 C 3.03125 -4.601562 3.148438 -4.046875 3.390625 -3.546875 C 3.628906 -3.054688 3.960938 -2.664062 4.390625 -2.375 C 4.828125 -2.09375 5.320312 -1.953125 5.875 -1.953125 Z"/></g><g transform="translate(45.034978, 21.272097)"><path d="M 9.03125 -10.453125 C 9.363281 -10.453125 9.640625 -10.335938 9.859375 -10.109375 C 10.085938 -9.878906 10.203125 -9.597656 10.203125 -9.265625 L 10.203125 -4.296875 C 10.203125 -2.921875 9.816406 -1.828125 9.046875 -1.015625 C 8.273438 -0.203125 7.164062 0.203125 5.71875 0.203125 C 4.28125 0.203125 3.175781 -0.203125 2.40625 -1.015625 C 1.644531 -1.828125 1.265625 -2.921875 1.265625 -4.296875 L 1.265625 -9.265625 C 1.265625 -9.597656 1.375 -9.878906 1.59375 -10.109375 C 1.820312 -10.335938 2.101562 -10.453125 2.4375 -10.453125 C 2.78125 -10.453125 3.0625 -10.335938 3.28125 -10.109375 C 3.5 -9.878906 3.609375 -9.597656 3.609375 -9.265625 L 3.609375 -4.296875 C 3.609375 -3.503906 3.785156 -2.914062 4.140625 -2.53125 C 4.492188 -2.144531 5.019531 -1.953125 5.71875 -1.953125 C 6.4375 -1.953125 6.972656 -2.144531 7.328125 -2.53125 C 7.679688 -2.914062 7.859375 -3.503906 7.859375 -4.296875 L 7.859375 -9.265625 C 7.859375 -9.597656 7.96875 -9.878906 8.1875 -10.109375 C 8.40625 -10.335938 8.6875 -10.453125 9.03125 -10.453125 Z"/></g><g transform="translate(55.521495, 21.272097)"><path d="M 7.9375 -2.15625 C 8.25 -2.15625 8.507812 -2.050781 8.71875 -1.84375 C 8.925781 -1.644531 9.03125 -1.390625 9.03125 -1.078125 C 9.03125 -0.773438 8.925781 -0.519531 8.71875 -0.3125 C 8.507812 -0.101562 8.25 0 7.9375 0 L 1.640625 0 C 1.316406 0 1.054688 -0.113281 0.859375 -0.34375 C 0.660156 -0.582031 0.570312 -0.820312 0.59375 -1.0625 C 0.601562 -1.25 0.625 -1.414062 0.65625 -1.5625 C 0.695312 -1.71875 0.796875 -1.894531 0.953125 -2.09375 L 5.828125 -8.375 L 5.78125 -8.109375 L 1.8125 -8.109375 C 1.5 -8.109375 1.238281 -8.210938 1.03125 -8.421875 C 0.820312 -8.628906 0.71875 -8.890625 0.71875 -9.203125 C 0.71875 -9.503906 0.820312 -9.753906 1.03125 -9.953125 C 1.238281 -10.148438 1.5 -10.25 1.8125 -10.25 L 7.828125 -10.25 C 8.128906 -10.25 8.382812 -10.140625 8.59375 -9.921875 C 8.800781 -9.703125 8.894531 -9.421875 8.875 -9.078125 C 8.851562 -8.953125 8.828125 -8.820312 8.796875 -8.6875 C 8.765625 -8.5625 8.675781 -8.40625 8.53125 -8.21875 L 3.75 -2.03125 L 3.75 -2.15625 Z"/></g><g transform="translate(63.99655, 21.272097)"><path d="M 6.765625 -10.640625 C 7.804688 -10.640625 8.570312 -10.390625 9.0625 -9.890625 C 9.5625 -9.390625 9.890625 -8.742188 10.046875 -7.953125 L 9.703125 -8.125 L 9.859375 -8.4375 C 10.015625 -8.738281 10.253906 -9.0625 10.578125 -9.40625 C 10.910156 -9.75 11.304688 -10.039062 11.765625 -10.28125 C 12.234375 -10.519531 12.753906 -10.640625 13.328125 -10.640625 C 14.265625 -10.640625 14.972656 -10.4375 15.453125 -10.03125 C 15.941406 -9.632812 16.273438 -9.097656 16.453125 -8.421875 C 16.640625 -7.753906 16.734375 -7.007812 16.734375 -6.1875 L 16.734375 -1.1875 C 16.734375 -0.851562 16.625 -0.570312 16.40625 -0.34375 C 16.1875 -0.113281 15.90625 0 15.5625 0 C 15.226562 0 14.945312 -0.113281 14.71875 -0.34375 C 14.5 -0.570312 14.390625 -0.851562 14.390625 -1.1875 L 14.390625 -6.1875 C 14.390625 -6.625 14.335938 -7.015625 14.234375 -7.359375 C 14.128906 -7.703125 13.941406 -7.976562 13.671875 -8.1875 C 13.398438 -8.394531 13.007812 -8.5 12.5 -8.5 C 12.007812 -8.5 11.585938 -8.394531 11.234375 -8.1875 C 10.878906 -7.976562 10.613281 -7.703125 10.4375 -7.359375 C 10.257812 -7.015625 10.171875 -6.625 10.171875 -6.1875 L 10.171875 -1.1875 C 10.171875 -0.851562 10.0625 -0.570312 9.84375 -0.34375 C 9.625 -0.113281 9.34375 0 9 0 C 8.664062 0 8.382812 -0.113281 8.15625 -0.34375 C 7.9375 -0.570312 7.828125 -0.851562 7.828125 -1.1875 L 7.828125 -6.1875 C 7.828125 -6.625 7.773438 -7.015625 7.671875 -7.359375 C 7.566406 -7.703125 7.378906 -7.976562 7.109375 -8.1875 C 6.835938 -8.394531 6.445312 -8.5 5.9375 -8.5 C 5.445312 -8.5 5.023438 -8.394531 4.671875 -8.1875 C 4.316406 -7.976562 4.050781 -7.703125 3.875 -7.359375 C 3.695312 -7.015625 3.609375 -6.625 3.609375 -6.1875 L 3.609375 -1.1875 C 3.609375 -0.851562 3.5 -0.570312 3.28125 -0.34375 C 3.0625 -0.113281 2.78125 0 2.4375 0 C 2.101562 0 1.820312 -0.113281 1.59375 -0.34375 C 1.375 -0.570312 1.265625 -0.851562 1.265625 -1.1875 L 1.265625 -9.265625 C 1.265625 -9.597656 1.375 -9.878906 1.59375 -10.109375 C 1.820312 -10.335938 2.101562 -10.453125 2.4375 -10.453125 C 2.78125 -10.453125 3.0625 -10.335938 3.28125 -10.109375 C 3.5 -9.878906 3.609375 -9.597656 3.609375 -9.265625 L 3.609375 -8.421875 L 3.328125 -8.484375 C 3.441406 -8.703125 3.601562 -8.9375 3.8125 -9.1875 C 4.019531 -9.445312 4.269531 -9.6875 4.5625 -9.90625 C 4.863281 -10.125 5.195312 -10.300781 5.5625 -10.4375 C 5.925781 -10.570312 6.328125 -10.640625 6.765625 -10.640625 Z"/></g><g transform="translate(81.025192, 21.272097)"><path d="M 6.1875 0.203125 C 5.082031 0.203125 4.125 -0.0234375 3.3125 -0.484375 C 2.5 -0.953125 1.875 -1.582031 1.4375 -2.375 C 1 -3.175781 0.78125 -4.078125 0.78125 -5.078125 C 0.78125 -6.253906 1.015625 -7.253906 1.484375 -8.078125 C 1.960938 -8.898438 2.585938 -9.53125 3.359375 -9.96875 C 4.128906 -10.414062 4.941406 -10.640625 5.796875 -10.640625 C 6.460938 -10.640625 7.09375 -10.503906 7.6875 -10.234375 C 8.28125 -9.960938 8.800781 -9.585938 9.25 -9.109375 C 9.707031 -8.640625 10.070312 -8.09375 10.34375 -7.46875 C 10.613281 -6.84375 10.75 -6.175781 10.75 -5.46875 C 10.726562 -5.15625 10.597656 -4.898438 10.359375 -4.703125 C 10.128906 -4.515625 9.859375 -4.421875 9.546875 -4.421875 L 2.09375 -4.421875 L 1.5 -6.375 L 8.671875 -6.375 L 8.25 -5.984375 L 8.25 -6.5 C 8.21875 -6.882812 8.082031 -7.222656 7.84375 -7.515625 C 7.601562 -7.816406 7.300781 -8.054688 6.9375 -8.234375 C 6.582031 -8.410156 6.203125 -8.5 5.796875 -8.5 C 5.410156 -8.5 5.046875 -8.445312 4.703125 -8.34375 C 4.367188 -8.238281 4.078125 -8.0625 3.828125 -7.8125 C 3.578125 -7.5625 3.378906 -7.226562 3.234375 -6.8125 C 3.097656 -6.394531 3.03125 -5.867188 3.03125 -5.234375 C 3.03125 -4.535156 3.175781 -3.941406 3.46875 -3.453125 C 3.757812 -2.960938 4.132812 -2.585938 4.59375 -2.328125 C 5.0625 -2.078125 5.554688 -1.953125 6.078125 -1.953125 C 6.554688 -1.953125 6.9375 -1.988281 7.21875 -2.0625 C 7.507812 -2.144531 7.742188 -2.238281 7.921875 -2.34375 C 8.097656 -2.457031 8.257812 -2.554688 8.40625 -2.640625 C 8.632812 -2.753906 8.851562 -2.8125 9.0625 -2.8125 C 9.351562 -2.8125 9.59375 -2.710938 9.78125 -2.515625 C 9.96875 -2.328125 10.0625 -2.101562 10.0625 -1.84375 C 10.0625 -1.488281 9.878906 -1.164062 9.515625 -0.875 C 9.171875 -0.59375 8.691406 -0.34375 8.078125 -0.125 C 7.472656 0.09375 6.84375 0.203125 6.1875 0.203125 Z"/></g></g></svg></a>
     <div class="langsw" id="langsw"><button type="button" data-lang="pt" class="on">PT</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button><button type="button" data-lang="de">DE</button><button type="button" data-lang="fr">FR</button><button type="button" data-lang="it">IT</button><button type="button" data-lang="zh">中文</button><button type="button" data-lang="ar">عربي</button></div>
+    </div>
+    <div class="left-main">
     <div class="hero-block">
     <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="kicker">Orçamento automático na hora · sem espera</span></span>
     <h1 data-i18n="h1">Tradução juramentada online</h1>
     <p class="sub" data-i18n-html="sub"><b>100% digital.</b> Envie seus documentos e veja na hora o preço estimado e a data de entrega — sem espera.</p>
     </div>
     <button type="button" class="whatis" onclick="info(event,'sobre')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span data-i18n="whatis">O que é tradução juramentada? O que recebo?</span></button>
+    <section class="flow" aria-labelledby="fl-h">
+      <h3 id="fl-h" data-i18n="fl_h">Como funciona</h3>
+      <ol>
+      <li><span class="fl-n">1</span><div><b data-i18n="fl1_t"></b><span data-i18n="fl1_d"></span></div></li>
+      <li><span class="fl-n">2</span><div><b data-i18n="fl2_t"></b><span data-i18n="fl2_d"></span></div></li>
+      <li><span class="fl-n">3</span><div><b data-i18n="fl3_t"></b><span data-i18n="fl3_d"></span></div></li>
+      <li><span class="fl-n">4</span><div><b data-i18n="fl4_t"></b><span data-i18n="fl4_d"></span></div></li>
+      </ol>
+    </section>
+    <section class="trust-grid" aria-label="Traduzme">
+      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span><div><b data-i18n="tr1_t"></b><span data-i18n="tr1_d"></span></div></div>
+      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg></span><div><b data-i18n="tr2_t"></b><span data-i18n="tr2_d"></span></div></div>
+      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b data-i18n="tr4_t"></b><span data-i18n="tr4_d"></span></div></div>
+      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg></span><div><b data-i18n="tr5_t"></b><span data-i18n="tr5_d"></span></div></div>
+    </section>
+    <section class="pricebox" aria-labelledby="pc-h">
+      <h3 id="pc-h" data-i18n="pc_h">Como o preço é calculado</h3>
+      <ul><li data-i18n-html="pc1"></li><li data-i18n-html="pc2"></li><li data-i18n-html="pc3"></li></ul>
+    </section>
     <div class="usos">
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_visto">Vistos</span><span class="q" onclick="info(event,'visto')">?</span></div>
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_cidadania">Cidadania</span><span class="q" onclick="info(event,'cidadania')">?</span></div>
@@ -497,16 +708,11 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_adocao">Adoção</span><span class="q" onclick="info(event,'adocao')">?</span></div>
       <div class="uso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg><span class="label" data-i18n="u_aposentadoria">Aposentadoria</span><span class="q" onclick="info(event,'aposentadoria')">?</span></div>
     </div>
-    <div class="como">
-      <div class="como-step"><span class="como-n">1</span><div class="como-t" data-i18n-html="step1"><b>Envie e receba o preço na hora.</b></div></div>
-      <div class="como-step"><span class="como-n">2</span><div class="como-t" data-i18n-html="step2"><b>Pague por Pix</b> — confirmação automática.</div></div>
-      <div class="como-step"><span class="como-n">3</span><div class="como-t" data-i18n-html="step3"><b>Receba por e-mail</b> com validade jurídica.</div></div>
     </div>
-    <div class="seg trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg><span data-i18n="trust">Tradutores públicos juramentados (TPIC), registrados na Junta Comercial — com fé pública.</span></div>
-    <div class="seg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="seg">Seus documentos são tratados com total segurança e discrição — e apagados dos nossos servidores após a conclusão do pedido.</span></div>
   </div>
 
   <main class="card" id="card">
+    <ol class="prog" id="prog"><li class="cur"><span>1</span><em data-i18n="pg1">Documentos</em></li><li><span>2</span><em data-i18n="pg2">Orçamento</em></li><li><span>3</span><em data-i18n="pg3">Dados</em></li><li><span>4</span><em data-i18n="pg4">Pagamento</em></li></ol>
     <!-- PANEL 0: CARREGANDO CONFIGURAÇÃO -->
     <div class="panel show" id="p-load"><div class="notice"><div class="ring"></div><p data-i18n="cfg_loading">Carregando…</p></div></div>
 
@@ -562,6 +768,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <button class="back" onclick="go('form')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg><span data-i18n="btn_edit">Editar</span></button></div>
       <div class="dup-note" id="dup-note2" role="status" style="display:none"></div>
       <div class="res-list" id="reslist"></div>
+      <div class="dup-note" id="anexo-note" role="status" style="display:none"></div>
       <div class="opts">
         <div class="opt" id="opt-apostila" onclick="toggleOpt('apostila')">
           <div class="opt-l"><span data-i18n="opt_apostila">Apostila de Haia</span> <span class="q" onclick="info(event,'apostila')">?</span></div>
@@ -588,6 +795,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     <div class="panel" id="p-dados">
       <div class="head-bar"><h2 data-i18n="dados_h">Seus dados</h2>
         <button class="back" onclick="go('orc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg><span data-i18n="btn_back">Voltar</span></button></div>
+      <div class="dados-body">
+      <div class="dados-sum" id="dados-sum" style="display:none"></div>
       <div class="fields">
         <div class="estr-toggle" id="opt-estr" onclick="toggleEstr()"><span class="estr-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5L20 7"/></svg></span><span data-i18n="estr_lbl">Sou estrangeiro(a) — não tenho CPF</span></div>
         <div class="estr-toggle" id="opt-estrbr" onclick="toggleEstrBR()" style="display:none"><span class="estr-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5L20 7"/></svg></span><span data-i18n="estr_br_lbl">Tenho um endereço no Brasil para receber a via física</span></div>
@@ -621,10 +830,11 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <div class="field f-full"><label data-i18n-html="l_wa">WhatsApp <span style="color:var(--cinza-claro)">· contato mais rápido</span></label>
           <div class="wa-row"><div class="ddi" id="ddi"><button type="button" class="ddi-btn" id="ddi-btn" onclick="toggleDDI(event)"><span id="ddi-cur"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="ddi-list" id="ddi-list"></div></div><input class="inp" id="whats" inputmode="tel" data-i18n-ph="ph_wa" placeholder="Número de WhatsApp" maxlength="16" /></div></div>
       </div>
-      <div class="mini-total"><span data-i18n="total">Total</span><b id="minitotal">R$ 0</b></div>
-      <div class="disc" style="text-align:left;margin-top:8px" data-i18n="lgpd_note"></div>
+      <div class="lgpd-box" data-i18n-html="lgpd_note"></div>
       <label class="agree"><input type="checkbox" id="consent"><span data-i18n="consent_lbl"></span></label>
       <label class="agree"><input type="checkbox" id="agree"><span data-i18n-html="agree_lbl">Li e aceito os <a onclick="openTerms(event)">Termos de Serviço</a>.</span></label>
+      </div>
+      <div class="mini-total"><span data-i18n="total">Total</span><b id="minitotal">R$ 0</b></div>
       <button class="cta" onclick="criar()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg><span data-i18n="btn_criar">Criar pedido</span></button>
       <div class="err" id="err2"></div>
     </div>
@@ -637,6 +847,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <div class="qr" id="qr"></div>
         <div>
           <div class="pay-amount"><span data-i18n="pay_amount">Valor a pagar</span><b id="pay-val">…</b></div>
+          <div class="pay-valid" id="pay-valid"></div>
           <div class="copia">
             <label data-i18n="pay_copia">Pix copia e cola</label>
             <div class="copia-row"><input id="copia" readonly /><button id="copiabtn" onclick="copiar()" data-i18n="btn_copy">Copiar</button></div>
@@ -648,7 +859,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <div class="pay-hint" id="pay-hint" data-i18n-html="pay_hint">Abra o app do seu banco, escaneie o QR ou cole o código. <b>A confirmação é automática</b> — assim que pagar, sua tradução começa.</div>
       <div class="disc" style="text-align:left" data-i18n="est_hint"></div>
       <button class="cta" id="regen" style="display:none;margin-top:14px" onclick="abrirPagamento()" data-i18n="btn_regen">Gerar novo Pix</button>
-      <button class="cta" id="simbtn" style="margin-top:14px" onclick="simularPagamento()" data-i18n="btn_sim">Simular pagamento (demo)</button>
+      <button class="cta" id="newbtn" style="display:none;margin-top:14px" onclick="novoOrcamento()" data-i18n="btn_novo">Novo orçamento</button>
+      <button class="cta" id="simbtn" style="margin-top:14px;display:none" onclick="simularPagamento()" data-i18n="btn_sim">Simular pagamento (demo)</button>
       <div class="estrpay">
         <div class="estrpay-tg" id="estrpay-tg" onclick="toggleEstrPay()"><span class="estr-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12l5 5L20 7"/></svg></span><span data-i18n="estrpay_lbl">Sou estrangeiro — não tenho Pix</span></div>
         <div id="estrpay-body" style="display:none">
@@ -854,7 +1066,7 @@ function mostrarOrcamento(P,motivo){
 }
 function renderQuoteText(){
   var q=QUOTE_P, c=(CFG&&PAR&&CFG.idiomas[PAR.idioma])||{max_pag_auto:''};
-  document.getElementById('quote-p').textContent = q.motivo==='ilegivel' ? t('quote_p_ilegivel') : q.motivo==='verif' ? t('quote_p_verif') : q.motivo==='limite' ? t('quote_p_limite') : (q.motivo==='auto'||q.motivo==='orcamento') ? t('quote_p').replace('{p}',q.p).replace('{m}',c.max_pag_auto) : t('quote_p_cap');
+  document.getElementById('quote-p').textContent = q.motivo==='ilegivel' ? t('quote_p_ilegivel') : q.motivo==='verif' ? t('quote_p_verif') : q.motivo==='limite' ? t('quote_p_limite') : q.motivo==='calc' ? t('quote_p_calc') : (q.motivo==='auto'||q.motivo==='orcamento') ? t('quote_p').replace('{p}',pagW(q.p)).replace('{m}',c.max_pag_auto) : t('quote_p_cap');
   document.getElementById('quote-wa').href=waLink('Olá! Gostaria de um orçamento de tradução juramentada ('+FROM_NAME+' → '+TO_NAME+'), cerca de '+q.p+' páginas em '+chosen.length+' arquivo(s).');
 }
 
@@ -882,7 +1094,11 @@ var file=document.getElementById('file'),drop=document.getElementById('drop'),fi
 
 function go(name){if(name!=='pay'&&typeof PAY_ACTIVE!=='undefined') PAY_ACTIVE=false; if(name!=='pay'){ if(typeof pollTimer!=='undefined'&&pollTimer){clearInterval(pollTimer);pollTimer=null;} if(typeof cobCtl!=='undefined'&&cobCtl){try{cobCtl.abort();}catch(e){} cobCtl=null; cobPending=null;} }document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});document.getElementById('p-'+name).classList.add('show');
   try{ if(window.innerWidth<=900 && document.getElementById('card').getBoundingClientRect().top<-20||window.innerWidth<=900&&document.getElementById('card').getBoundingClientRect().top>innerHeight*0.6){ document.getElementById('card').scrollIntoView({behavior:'smooth',block:'start'}); } }catch(e){}
-  try{ if(typeof renderPixBanner==='function') renderPixBanner(name); }catch(e){}}
+  try{ if(typeof renderPixBanner==='function') renderPixBanner(name); }catch(e){}
+  try{ progSet(name); }catch(e){} }
+var PROG_IX={form:1,orc:2,dados:3,pay:4};
+function progSet(name){ var pr=document.getElementById('prog'); if(!pr) return; var n=PROG_IX[name]||0; pr.style.display=n?'':'none';
+  pr.querySelectorAll('li').forEach(function(li,i){ li.className=(i+1<n)?'done':(i+1===n?'cur':''); if(i+1===n) li.setAttribute('aria-current','step'); else li.removeAttribute('aria-current'); }); }
 
 drop.addEventListener('click',function(){file.click();});
 drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('drag');});
@@ -933,7 +1149,9 @@ function contarPaginas(f){
       task=lib.getDocument({data:buf,disableFontFace:true,isEvalSupported:false,verbosity:0});
       return task.promise;
     });
-  }).then(function(pdf){
+  },function(){ return {semLib:true}; }).then(function(pdf){
+    /* Runde 6: pdf.js nicht ladbar (Adblock, Firmennetz, CDN gesperrt): PDF trotzdem zulassen, der SERVIDOR zaehlt die Seiten; ohne seine Zaehlung gibt es ohnehin keinen Auto-Preis (naoVerif) */
+    if(pdf&&pdf.semLib){ f._pg=1; f._pgOk=false; f._pgSkip=true; return 1; }
     var n=Math.max(1,Math.min(100000,pdf.numPages|0)); f._pg=n; f._pgOk=true;
     try{ task.destroy(); }catch(e){}
     return n;
@@ -969,6 +1187,7 @@ function lauW(n){ n=Math.round(Number(n)||0); if(LANG==='ar') return arPl(n,'pag
 function docW(n){ n=Math.round(Number(n)||0); if(LANG==='ar') return arPl(n,'doc'); return n+' '+(n>1?t('docs'):t('doc')); }
 function pgTexto(f){
   if(f._pg==null) return ehPdf(f)?t('pg_count'):'';
+  if(f._pgSkip) return '';
   return (f._pgOk?'':'~')+pagW(f._pg);
 }
 /* Runde 5: Dublettenhinweis. Gleicher Inhalt (SHA-256) mehrfach in der Liste: nur Hinweis, der Preis bleibt je Datei (Kunde entscheidet) */
@@ -1011,7 +1230,7 @@ calc.addEventListener('click',function(){
   var fresco=(Date.now()-CFG_T<45000)?Promise.resolve():carregarConfig(true);
   Promise.all([contagem,espera,fresco]).then(function(){
     calc.disabled=false;
-    if(chosen.some(function(f){ return ehPdf(f)&&!f._pgOk; })){ loading.className='loading'; var ruim=chosen.filter(function(x){ return ehPdf(x)&&!x._pgOk; })[0]; err.textContent=t('pg_fail_f').replace('{f}',ruim?ruim.name:''); renderFiles(); return; } /* nunca orçar PDF com 1 página "chutada" */
+    if(chosen.some(function(f){ return ehPdf(f)&&!f._pgOk&&!f._pgSkip; })){ loading.className='loading'; var ruim=chosen.filter(function(x){ return ehPdf(x)&&!x._pgOk&&!x._pgSkip; })[0]; err.textContent=t('pg_fail_f').replace('{f}',ruim?ruim.name:''); renderFiles(); return; } /* nunca orçar PDF com 1 página "chutada" */
     if(CFG_STATE!=='ok') return;               /* idiomas desativados enquanto isso: showOff já cuidou da tela */
     var par=parDe(f,tt);
     if(!par || idiomasAtivos().indexOf(par.idioma)<0){ loading.className='loading'; populateLangs(); err.textContent=t('err_idioma'); return; }
@@ -1025,10 +1244,38 @@ calc.addEventListener('click',function(){
    o servidor devolve só a classificação por hash e pix-cob recalcula tudo. Qualquer falha = 'outro' (preço por página) + aviso, nunca bloqueia. ===== */
 var PIX_ANALISAR="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/analisar";
 var ANA=null;   /* {key, lote, por:{hash:classificação}, degradado, motivo} */
+/* Runde 6: Bilder > 4,5 MB (Handyfotos) werden VOR Hash/Upload per Canvas auf max. 2000 px / JPEG verkleinert (die KI nimmt nur bis 5 MB). Hash und Upload gelten dann fuer die verkleinerte Datei (f._send). Fehler = Original bleibt. */
+var IMG_RED_BYTES=4.5*1024*1024, IMG_MAX_PX=2000;
+function reduzirImagem(f){
+  if(f._send) return Promise.resolve(f._send);
+  if(ehPdf(f)||f.size<=IMG_RED_BYTES||!window.URL||!URL.createObjectURL||!document.createElement('canvas').toBlob){ f._send=f; return Promise.resolve(f); }
+  return new Promise(function(resolve){
+    var url, img=new Image(), done=false;
+    function fim(r){ if(done) return; done=true; try{ URL.revokeObjectURL(url); }catch(e){} f._send=r||f; resolve(f._send); }
+    function tenta(px,q){
+      var w=img.naturalWidth||img.width, h=img.naturalHeight||img.height; if(!w||!h){ fim(null); return; }
+      var k=Math.min(1,px/Math.max(w,h)), cv=document.createElement('canvas'); cv.width=Math.max(1,Math.round(w*k)); cv.height=Math.max(1,Math.round(h*k));
+      var cx=cv.getContext('2d'); if(!cx){ fim(null); return; }
+      cx.fillStyle='#fff'; cx.fillRect(0,0,cv.width,cv.height); cx.drawImage(img,0,0,cv.width,cv.height);
+      cv.toBlob(function(b){
+        if(!b){ fim(null); return; }
+        if(b.size>IMG_RED_BYTES&&q>0.6){ tenta(Math.round(px*0.8),q-0.15); return; }
+        if(b.size>=f.size){ fim(null); return; }
+        var nm=f.name.replace(/\.[a-z0-9]{2,5}$/i,'')+'.jpg', r;
+        try{ r=new File([b],nm,{type:'image/jpeg',lastModified:f.lastModified}); }catch(e){ r=b; r.name=nm; r.lastModified=f.lastModified; }
+        fim(r);
+      },'image/jpeg',q);
+    }
+    img.onload=function(){ try{ tenta(IMG_MAX_PX,0.85); }catch(e){ fim(null); } };
+    img.onerror=function(){ fim(null); };
+    try{ url=URL.createObjectURL(f); img.src=url; }catch(e){ fim(null); }
+    setTimeout(function(){ fim(null); },30000);
+  });
+}
 function sha256Arq(f){
   if(f._hash!==undefined) return Promise.resolve(f._hash);
   if(!(window.crypto&&crypto.subtle&&crypto.subtle.digest)){ f._hash=''; return Promise.resolve(''); }
-  return (f.arrayBuffer?f.arrayBuffer():new Response(f).arrayBuffer()).then(function(b){ return crypto.subtle.digest('SHA-256',b); }).then(function(d){
+  return reduzirImagem(f).then(function(g){ return (g.arrayBuffer?g.arrayBuffer():new Response(g).arrayBuffer()); }).then(function(b){ return crypto.subtle.digest('SHA-256',b); }).then(function(d){
     var a=new Uint8Array(d), s='', i; for(i=0;i<a.length;i++) s+=(a[i]<16?'0':'')+a[i].toString(16); f._hash=s; return s;
   }).catch(function(){ f._hash=''; return ''; });
 }
@@ -1055,7 +1302,7 @@ function analisarServidor(){
     key=hs.join(',');
     if(ANA&&ANA.key===key&&!ANA.degradado&&!ANA.limite) return ANA;   /* mesmos arquivos: nada é enviado de novo */
     var vistos={}, uniq=[];
-    arqs.forEach(function(f,i){ var hh=hs[i]; if(hh&&!vistos[hh]){ vistos[hh]=f; uniq.push({hash:hh,nome:f.name,tipo:f.type||'',bytes:f.size,paginas:f._pg||1}); } });
+    arqs.forEach(function(f,i){ var hh=hs[i]; if(hh&&!vistos[hh]){ vistos[hh]=f; uniq.push({hash:hh,nome:f.name,tipo:(f._send||f).type||f.type||'',bytes:(f._send||f).size,paginas:f._pg||1}); } });
     if(hs.some(function(x){ return !x; })){ degr=true; motivo='sem_hash'; }
     if(!uniq.length) return fim();
     var feitos=0; progresso(0,uniq.length);
@@ -1064,7 +1311,7 @@ function analisarServidor(){
       var ups={}; ((prep&&prep.itens)||[]).forEach(function(it){ if(it&&it.upload&&it.upload.signedUrl&&vistos[it.hash]) ups[it.hash]=it.upload; });
       /* por arquivo: envio + análise, no máximo 3 em paralelo; progresso "x de n" */
       return limitar(uniq,3,function(u){
-        var envio=ups[u.hash]?subirArq(vistos[u.hash],ups[u.hash]).catch(function(){ /* sem upload o servidor responde 'nao_enviado' */ }):Promise.resolve();
+        var envio=ups[u.hash]?subirArq(vistos[u.hash]._send||vistos[u.hash],ups[u.hash]).catch(function(){ /* sem upload o servidor responde 'nao_enviado' */ }):Promise.resolve();
         return envio.then(function(){
           return postFn(PIX_ANALISAR,{fase:'analisar',lote:lote,arquivos:[{hash:u.hash}]},110000);
         }).then(function(res){
@@ -1088,6 +1335,7 @@ function analisar(de,para,par){
   var ilegivel=false, naoVerif=false;
   ssClear(); PAY_ACTIVE=false;   /* novo cálculo: o Pix anterior não é mais restaurado */
   var ansAj=ajustarAnexos(chosen.map(anDe));
+  ANEXO_ORFAO=chosen.some(function(f,ix){ var o=anDe(f), a2=ansAj[ix]; return !!(o&&o.typ==='anexo'&&o.lesbar!==false&&o.konfidenz>=KONF_MIN&&a2&&a2.typ!=='anexo'); });   /* Runde 6: Anhang ohne Hauptdokument (oder zu viele Anhaenge) -> nur Hinweis, Preislogik unveraendert */
   lastRes=chosen.map(function(f,ix){ var an=ansAj[ix]; if(an&&an.lesbar===false) ilegivel=true; if(!(an&&an.paginas_ok&&an.paginas>0)) naoVerif=true; var it=precoItem(TB.docsTab,TB.lauda,f.name,pagDe(f,an),an); base+=it.cents; P+=it.paginas; return {r:it,name:f.name}; });
   PAGS=P;
   if(ilegivel){ mostrarOrcamento(P,'ilegivel'); return; }
@@ -1103,7 +1351,7 @@ function analisar(de,para,par){
 }
 function rotuloTipo(r){
   if(r.modo==='standard'){ var m=STD_LABEL[LANG]||STD_LABEL.pt, rot=r.ref&&r.ref.rotulos&&typeof r.ref.rotulos==='object'&&(r.ref.rotulos[LANG]||r.ref.rotulos.pt); var nm=rot||m[r.tipo]||(STD_LABEL.pt[r.tipo])||cap(r.tipo); return r.paginas>1 ? nm+' · '+pagW(r.paginas) : nm; }
-  if(r.modo==='anexo') return ({pt:'Verso / apostila (incluído)',en:'Back side / apostille (included)',es:'Reverso / apostilla (incluido)',de:'Rückseite / Apostille (inklusive)'})[LANG]||'Back side / apostille (included)';
+  if(r.modo==='anexo') return t('lbl_anexo');
   return t(r.tipo==='tecnica'?'texto_especial':'texto_comum')+' · '+lauW(r.paginas);
 }
 function cardHTML(r,file){
@@ -1111,10 +1359,11 @@ function cardHTML(r,file){
   if(r.modo==='standard'){bg='var(--brand-bg)';ico='<svg viewBox="0 0 24 24" fill="none" stroke="#d12a08" stroke-width="1.7"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 14l2 2 4-4"/></svg>';}
   else{bg='#eef0f2';ico='<svg viewBox="0 0 24 24" fill="none" stroke="#4d4d4d" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h10"/></svg>';}
   return '<div class="rc"><div class="rc-left"><div class="rc-ic" style="background:'+bg+'">'+ico+'</div><div style="min-width:0"><div class="rc-nm">'+esc(rotuloTipo(r))+'</div><div class="rc-sub" title="'+esc(file)+'">'+esc(file)+'</div></div></div>'+
-    '<div class="rc-right"><div class="rc-p">'+fmt(r.cents/100)+'</div><span class="rc-badge '+(r.modo==='standard'?'std':'lauda')+'">'+t('badge_estim')+'</span></div></div>';
+    (r.modo==='anexo'?'<div class="rc-right"><div class="rc-p rc-incl">'+t('incl_word')+'</div></div></div>':'<div class="rc-right"><div class="rc-p">'+fmt(r.cents/100)+'</div><span class="rc-badge '+(r.modo==='standard'?'std':'lauda')+'">'+t('badge_estim')+'</span></div></div>');
 }
-var lastRes=null;
-function renderResList(){ if(!lastRes)return; reslist.innerHTML=lastRes.map(function(x){return cardHTML(x.r,x.name);}).join(''); }
+var lastRes=null, ANEXO_ORFAO=false;
+function renderResList(){ if(!lastRes)return; reslist.innerHTML=lastRes.map(function(x){return cardHTML(x.r,x.name);}).join('');
+  var an=document.getElementById('anexo-note'); if(an){ an.textContent=ANEXO_ORFAO?t('anexo_orfao'):''; an.style.display=ANEXO_ORFAO?'':'none'; } }
 
 
 function optCents(k){ return TB&&TB.opc[k]?TB.opc[k].valor_cents:null; }
@@ -1282,7 +1531,9 @@ function syncFisUI(){
   try{ if(PLAN&&PLAN.modo==='auto'&&TB) document.getElementById('minitotal').textContent=fmt(totalGeral()); }catch(e){}
 }
 function toggleEstrBR(){ estrBR=!estrBR; syncFisUI(); if(PLAN&&PLAN.modo==='auto'&&TB) updateTotal(); }
-function irDados(){syncFisUI();document.getElementById('minitotal').textContent=fmt(totalGeral());document.getElementById('err2').textContent='';go('dados');}
+function dadosSum(){ var ds=document.getElementById('dados-sum'); if(!ds) return;
+  try{ if(!(PLAN&&PLAN.modo==='auto'&&chosen.length)) throw 0; ds.innerHTML='<span>'+esc(docW(chosen.length)+' · '+pagW(PAGS))+'</span><b>'+esc(t('entrega_ate').replace('{d}',fmtData(entregaPrevia())))+'</b>'; ds.style.display=''; }catch(e){ ds.style.display='none'; } }
+function irDados(){syncFisUI();document.getElementById('minitotal').textContent=fmt(totalGeral());document.getElementById('err2').textContent=''; dadosSum(); go('dados');}
 var ehEstrangeiro=false;
 function toggleEstr(){
   ehEstrangeiro=!ehEstrangeiro; if(!ehEstrangeiro) estrBR=false;
@@ -1312,23 +1563,32 @@ function cpfValido(c){
   s=0; for(i=0;i<10;i++)s+=parseInt(c[i])*(11-i);
   r=(s*10)%11; if(r===10)r=0; return r===parseInt(c[10]);
 }
+/* Runde 6: Fehlerzustand sichtbar: Feld rot markieren, fokussieren, Meldung ins Blickfeld */
+function clearBad(){ document.querySelectorAll('.inp.bad,select.bad').forEach(function(e){ e.classList.remove('bad'); e.removeAttribute('aria-invalid'); }); }
+function fail2(msg,id){
+  var e2=document.getElementById('err2'); e2.textContent=msg;
+  var el=id&&document.getElementById(id); if(el){ el.classList.add('bad'); el.setAttribute('aria-invalid','true'); try{ el.focus(); }catch(x){} }
+  else { try{ e2.scrollIntoView({block:'nearest'}); }catch(x){} }
+}
+document.addEventListener('input',function(e){ var el=e.target; if(el&&el.classList&&el.classList.contains('bad')){ el.classList.remove('bad'); el.removeAttribute('aria-invalid'); } });
 function criar(){
   var nome=document.getElementById('nome').value.trim(),
       cpf=document.getElementById('cpf').value.replace(/\D/g,''),
       email=document.getElementById('email').value.trim(),
       e2=document.getElementById('err2');
-  if(!nome||nome.length>120||/[<>]/.test(nome)){e2.textContent=t('v_nome');return;}
+  clearBad(); e2.textContent='';
+  if(!nome||nome.length>120||/[<>]/.test(nome)){ return fail2(t('v_nome'),'nome'); }
   if(ehEstrangeiro){
     var campos=['e_pais','e_cidade','e_estado','e_cep','e_logr','e_num','e_bairro'];
-    for(var i=0;i<campos.length;i++){ var elc=document.getElementById(campos[i]); if(!elc.value.trim()){ e2.textContent=t('v_preencha')+' '+elc.placeholder+'.'; return; } }
+    for(var i=0;i<campos.length;i++){ var elc=document.getElementById(campos[i]); if(!elc.value.trim()){ return fail2(t('v_preencha')+' '+elc.placeholder+'.',campos[i]); } }
   } else {
-    if(!cpfValido(cpf)){e2.textContent=t('v_cpf');return;}
+    if(!cpfValido(cpf)){ return fail2(t('v_cpf'),'cpf'); }
   }
-  if(!/^[^@\s<>"']+@[^@\s<>"']+\.[^@\s<>"']{2,}$/.test(email)||email.length>120){e2.textContent=t('v_email');return;}
-  if(fisAtiva()&&!enderecoFisicoForm()){e2.textContent=t('v_end_fis');return;}
+  if(!/^[^@\s<>"']+@[^@\s<>"']+\.[^@\s<>"']{2,}$/.test(email)||email.length>120){ return fail2(t('v_email'),'email'); }
+  if(fisAtiva()&&!enderecoFisicoForm()){ var fe=['f_cep','f_uf','f_rua','f_num','f_bairro','f_cidade'].filter(function(id){ var e=document.getElementById(id); return e&&!(e.value||'').trim(); })[0]; return fail2(t('v_end_fis'),fe||'f_cep'); }
   var whats=document.getElementById('whats').value.replace(/\D/g,'');
-  if(whats && whats.length<8){e2.textContent=t('v_wa');return;}
-  if(!document.getElementById('agree').checked){e2.textContent=t('agree_err');document.querySelector('.agree').style.color='#c0401f';return;}
+  if(whats && whats.length<8){ return fail2(t('v_wa'),'whats'); }
+  if(!document.getElementById('agree').checked){ document.querySelector('.agree').style.color='#c0401f'; return fail2(t('agree_err'),null); }
   document.querySelector('.agree').style.color='';
   lastEmail=email;
   abrirPagamento();
@@ -1364,6 +1624,7 @@ function startPolling(txid,t0,imediato){
   if(pollTimer) clearInterval(pollTimer);
   pollFails=0;
   var tick=function(){
+    renderValid();
     if(Date.now()-t0>PIX_TTL_MS){ clearInterval(pollTimer); pollTimer=null; pixExpirado(); return; }
     fetch(PIX_STATUS+'?txid='+encodeURIComponent(txid),{headers:{'apikey':SUPA_ANON,'Authorization':'Bearer '+SUPA_ANON}})
       .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
@@ -1375,8 +1636,16 @@ function startPolling(txid,t0,imediato){
   pollTimer=setInterval(tick,4000);
   if(imediato) tick();   /* Wiederbetreten: sofort pruefen, ob inzwischen bezahlt wurde */
 }
+var PAY_T0=0;
+function renderValid(){
+  var el=document.getElementById('pay-valid'); if(!el) return;
+  if(!PAY_ACTIVE||!PAY_T0){ el.textContent=''; return; }
+  var m=Math.max(1,Math.ceil((PAY_T0+PIX_TTL_MS-Date.now())/60000));
+  el.textContent=t('pay_valid').replace('{m}',m);
+}
+function novoOrcamento(){ try{ ssClear(); }catch(e){} PAY_ACTIVE=false; location.reload(); }
 function pixExpirado(){
-  lastCob=null; PAY_ACTIVE=false; ssClear();
+  lastCob=null; PAY_ACTIVE=false; ssClear(); PAY_T0=0; renderValid();
   document.getElementById('pay-status-txt').textContent=t('pay_exp');
   document.getElementById('qr').innerHTML=''; document.getElementById('copia').value='';
   var b=document.getElementById('regen'); if(b) b.style.display='';
@@ -1391,7 +1660,8 @@ function renderPayPrazo(){
 }
 var lastPrazo=null, PAYX=null;   /* PAYX = Eingaben fuer prazoDesde (Seiten, Express, reservierter Start, Sprache); ueberlebt Reload via sessionStorage */
 function marcarPago(){
-  PAY_ACTIVE=false; ssClear();
+  PAY_ACTIVE=false; ssClear(); PAY_T0=0; renderValid();
+  document.getElementById('p-pay').classList.add('paid'); var nb=document.getElementById('newbtn'); if(nb) nb.style.display='';
   try{ var cx=PAYX&&CFG&&CFG.idiomas&&CFG.idiomas[PAYX.par]; if(cx&&lastPrazo){ var nv=prazoDesde(PAYX.P,cx,Date.now()+SKEW,FER,PAYX.ex,PAYX.ini); if(nv&&nv.entrega>lastPrazo) lastPrazo=nv.entrega; } }catch(e){}   /* Zahlung nach Cut-off/Wochenende: dieselbe Frist wie in der Mail */
   var st=document.getElementById('pay-status'); st.className='pay-status ok'; var rg=document.getElementById('regen'); if(rg) rg.style.display='none';
   st.querySelector('.dot').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" style="width:10px;height:10px"><path d="M5 12l5 5L20 7"/></svg>';
@@ -1411,7 +1681,7 @@ function mostrarCob(d,t0,imediato){
   document.getElementById('pay-status-txt').textContent=t('pay_wait');
   document.getElementById('pay-hint').innerHTML=t('pay_hint');
   var cc=CFG&&PAR&&CFG.idiomas[PAR.idioma]; if(cc&&cc.cutoff_hora!=null) lastH=cc.cutoff_hora;
-  PAY_ACTIVE=true;
+  PAY_ACTIVE=true; PAY_T0=t0; renderValid();
   ssSet({txid:d.txid,copiaECola:d.copiaECola,valor:isFinite(srv)?srv:null,prazo:lastPrazo,nome:(document.getElementById('nome').value||''),email:lastEmail,h:lastH,t0:t0,x:PAYX});
   startPolling(d.txid,t0,imediato);
 }
@@ -1453,6 +1723,7 @@ function renderPixBanner(name){
     }).catch(function(){}).then(function(){ setTimeout(function(){ if(bannerChk===tx) bannerChk=null; },20000); });
 }
 function abrirPagamento(){
+  document.getElementById('p-pay').classList.remove('paid'); var nb0=document.getElementById('newbtn'); if(nb0) nb0.style.display='none';
   document.getElementById('pay-val').textContent='…';
   lastPrazo=null; renderPayPrazo();
   var st=document.getElementById('pay-status'); st.className='pay-status';
@@ -1499,10 +1770,10 @@ function abrirPagamento(){
   var ctl=cobCtl=(window.AbortController?new AbortController():null); cobPending=key;
   var to=setTimeout(function(){ if(ctl) ctl.abort(); },25000);
   fetch(PIX_COB,{method:'POST',signal:ctl?ctl.signal:undefined,headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPA_ANON,'apikey':SUPA_ANON},body:JSON.stringify(payload)})
-    .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d,status:r.status};},function(){return {ok:false,d:{},status:r.status};});})
     .then(function(res){
       clearTimeout(to); if(cobPending===key) cobPending=null;
-      if(!res.ok || !res.d.copiaECola || !res.d.txid){ var er=new Error((res.d&&res.d.message)||'falha'); er.code=res.d&&res.d.error; throw er; }
+      if(!res.ok || !res.d.copiaECola || !res.d.txid){ var er=new Error((res.d&&res.d.message)||'falha'); er.code=res.d&&res.d.error; er.status=res.status; throw er; }
       cobRetry=0; var t0=Date.now(); lastCob={key:key,d:res.d,t0:t0};
       mostrarCob(res.d,t0);
     })
@@ -1517,7 +1788,13 @@ function abrirPagamento(){
       if(code==='nao_verificado'){ mostrarOrcamento(PAGS,'verif'); return; }
       if(code==='legado'){ go('form'); err.textContent=t('err_legado'); return; }
       if(code==='endereco_fisica'){ go('dados'); document.getElementById('err2').textContent=t('v_end_fis'); return; }
-      if(code==='orcamento'||code==='capacidade'||code==='valor'||code==='doc_inativo'){ mostrarOrcamento(PAGS,code==='orcamento'?'auto':'cap'); return; }
+      /* Runde 6: Validierungsfehler des Servers -> zurueck zu "Seus dados" mit passender Meldung (statt generischem Fehler) */
+      var VERR={cpf:'v_cpf',nome:'v_nome',email:'v_email',whatsapp:'v_wa',endereco:'err_endereco'};
+      if(code&&VERR[code]){ go('dados'); document.getElementById('err2').textContent=t(VERR[code]); return; }
+      if(code==='pago'){ marcarPago(); return; }   /* pedido ja pago: mostra a confirmacao em vez de erro */
+      if(e&&e.status===429){ erroPay('err_429'); return; }
+      if(code==='valor'||code==='doc_inativo'){ mostrarOrcamento(PAGS,'calc'); return; }
+      if(code==='orcamento'||code==='capacidade'){ mostrarOrcamento(PAGS,code==='orcamento'?'auto':'cap'); return; }
       if(code==='idioma'){ carregarConfig().then(function(){ if(CFG_STATE==='ok') err.textContent=t('err_idioma'); }); return; }   /* idioma desativado entre o cálculo e o pagamento */
       var st=document.getElementById('pay-status'); st.className='pay-status';
       document.getElementById('pay-val').textContent='—';
@@ -1545,6 +1822,13 @@ function abrirPagamento(){
     });
 }
 
+function erroPay(key){
+  var st=document.getElementById('pay-status'); st.className='pay-status'; document.getElementById('pay-val').textContent='—';
+  document.getElementById('copia').value=''; document.getElementById('qr').innerHTML='';
+  document.getElementById('pay-status-txt').textContent=t(key);
+  document.getElementById('simbtn').style.display='none'; document.getElementById('pay-hint').innerHTML='';
+  var b=document.getElementById('regen'); if(b) b.style.display='';
+}
 function copiar(){
   var i=document.getElementById('copia'),b=document.getElementById('copiabtn');
   function ok(){b.textContent=t('copied');setTimeout(function(){b.textContent=t('btn_copy');},1500);}
@@ -1554,7 +1838,7 @@ function copiar(){
   if(!i.value) return;
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(i.value).then(ok,fallback); } else fallback();
 }
-function simularPagamento(){ marcarPago(); }
+function simularPagamento(){ if(!DEMO) return; marcarPago(); }
 
 function toggleEstrPay(){
   var tg=document.getElementById('estrpay-tg'),on=!tg.classList.contains('active');
@@ -1583,7 +1867,16 @@ function enviarSolicitacao(){
   if(!selMethod){ e3.textContent=t('estrpay_pick'); return; }
   mostrarContato();   /* só mostra o botão do WhatsApp (nome + forma de pagamento); nada é enviado daqui */
 }
-function waMsg(){ var d={nome:(document.getElementById('nome').value||'').trim()}; return encodeURIComponent((LANG==='en'?'Hi! I sent my sworn-translation request on the site (payment by '+selMethod+'). Name: ':LANG==='es'?'¡Hola! Envié mi solicitud de traducción jurada en el sitio (pago por '+selMethod+'). Nombre: ':'Olá! Enviei minha solicitação de tradução juramentada no site (pagamento por '+selMethod+'). Nome: ')+d.nome); }
+function waMsg(){
+  /* Runde 6: ehrliche Nachricht (noch nichts bestellt/gezahlt), in der UI-Sprache, mit Sprachpaar, Dokumenten, Seiten, Summe und Optionen */
+  function sv(id){ var e=document.getElementById(id); return e?(e.value||'').trim():''; }
+  function st(e){ try{ return e.options[e.selectedIndex].text; }catch(x){ return e.value; } }
+  var ok=PLAN&&PLAN.modo==='auto'&&base>0;
+  var op=[opts.apostila?t('apostila_w'):'',fisAtiva()?t('fisica_w'):'',(expressSel&&PLAN&&PLAN.express)?t(PLAN.express.tipo==='48h'?'express_48h':'express_24h'):''].filter(Boolean).join(', ')||'—';
+  var m=t('wa_pay_msg').replace('{m}',selMethod||'').replace('{from}',st(selFrom)).replace('{to}',st(selTo)).replace('{docs}',docW(chosen.length)).replace('{pg}',pagW(PAGS||0))
+    .replace('{tot}',ok?fmt(totalGeral()):'—').replace('{op}',op).replace('{nome}',sv('nome')).replace('{email}',sv('email'));
+  return encodeURIComponent(m);
+}
 function waBtn(){ return '<a class="wa-btn" target="_blank" rel="noopener" href="https://wa.me/'+WHATSAPP+'?text='+waMsg()+'"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.1-.2.2-.3.2-.6.1-1.5-.8-2.6-1.4-3.6-3.1-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6 2 .8 2.7.9 3.7.8.6-.1 1.8-.8 2.1-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1120.2 12 8.2 8.2 0 0112 20.2z"/></svg>'+t('estrpay_wa')+'</a>'; }
 function mostrarContato(){
   document.getElementById('sendreq').style.display='none';
@@ -1657,7 +1950,7 @@ var T={
  pt:{pg_fail:"Não foi possível contar as páginas de um PDF (arquivo protegido ou sem conexão). Tente de novo ou fale com a gente no WhatsApp.",est_hint:"O preço é estimado por IA. Se, após a revisão, ele diferir muito do valor cobrado, entramos em contato e você recebe o reembolso via Pix em até 24 horas ou uma proposta corrigida.",prazo_note:"Prazos e urgência valem apenas em dias úteis (segunda a sexta, exceto feriados) e são contados a partir da confirmação do pagamento, não do envio do pedido. Pagamento confirmado a partir das {h}:00 (horário de Brasília), em fim de semana ou feriado: vale o próximo dia útil.",lim_note:"Urgência: 24h até {a} páginas, 48h até {b} páginas no total do pedido. Pedidos com mais de {m} páginas: orçamento sob medida.",entrega_ate:"Entrega até {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacidade de hoje esgotada, entrega a partir do próximo dia útil.",total_est:"Total estimado",pag:"pág.",pg_count:"contando páginas…",cfg_loading:"Carregando…",off_h:"Orçamento online indisponível no momento",off_p_none:"Estamos ajustando os idiomas disponíveis. Fale com a gente no WhatsApp e passamos o orçamento rapidamente.",off_p_err:"Não conseguimos carregar o orçamento agora. Tente novamente ou fale com a gente no WhatsApp.",btn_retry:"Tentar novamente",quote_h:"Pedir orçamento",quote_p:"Seu pedido tem cerca de {p} páginas — acima do limite de cálculo automático ({m} páginas). Fale com a gente no WhatsApp e passamos um orçamento sob medida. Nenhum pagamento é feito aqui.",quote_p_cap:"No momento não temos capacidade para este pedido com preço automático. Fale com a gente no WhatsApp para um orçamento e um prazo. Nenhum pagamento é feito aqui.",err_idioma:"Este par de idiomas não está disponível no momento. Escolha outro.",err_express:"A urgência escolhida não está mais disponível para este pedido. Volte e escolha outra opção.",v_maxfiles:"Máximo de {n} documentos por pedido.",badge_estim:"Estimativa",pay_conn:"Sem conexão com o servidor. Continuamos tentando…",pay_exp:"Este Pix expirou. Gere um novo para pagar.",btn_regen:"Gerar novo Pix",lgpd_note:"Usamos seu nome, CPF, e-mail e WhatsApp apenas para executar o pedido, emitir a Nota Fiscal e falar com você (LGPD, art. 7º, V). Detalhes e seus direitos nos Termos.",kicker:"Orçamento automático na hora · sem espera",h1:"Tradução juramentada online",
    sub:"<b>100% digital.</b> Envie seus documentos e veja na hora o preço estimado e a data de entrega — sem espera.",
    u_visto:"Vistos",u_cidadania:"Cidadania",u_casamento:"Casamento",u_intercambio:"Intercâmbio",u_trabalho:"Trabalho",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negócios",u_imovel:"Imóveis",u_cnh:"CNH",u_adocao:"Adoção",u_aposentadoria:"Aposentadoria",
-   step1:"<b>Envie e receba o preço na hora.</b>",step2:"<b>Pague por Pix</b>, PayPal ou Wise.",step3:"<b>Receba por e-mail</b> com validade jurídica.",
+   
    seg:"Seus documentos são tratados com total segurança e discrição — e apagados dos nossos servidores após a conclusão do pedido.",
    whatis:"O que é tradução juramentada? O que recebo?",trust:"Tradutores públicos juramentados (TPIC), registrados na Junta Comercial — com fé pública.",
    step_docs:"Envie seus documentos",dz1:"Clique ou arraste seus arquivos",dz2:"Vários documentos · PDF, JPG ou PNG (PDF até 50 MB, imagem até 15 MB)",step_langs:"Idiomas da tradução",from_lbl:"Do idioma",to_lbl:"Para o idioma",btn_calc:"Calcular preço",loading:"Calculando…",
@@ -1676,7 +1969,7 @@ var T={
  en:{pg_fail:"We could not count the pages of a PDF (protected file or no connection). Try again or message us on WhatsApp.",est_hint:"The price is estimated by AI. If, after review, it differs strongly from the amount charged, we will contact you and you will receive a refund via Pix within 24 hours or a corrected quote.",prazo_note:"Deadlines and express delivery apply only on business days (Monday to Friday, excluding holidays) and are counted from payment confirmation, not from when you submit the order. If payment is confirmed from {h}:00 (Brasília time) onwards, on a weekend or on a holiday, the next business day counts.",lim_note:"Express: 24h up to {a} pages, 48h up to {b} pages in total. Orders above {m} pages: custom quote.",entrega_ate:"Delivery by {d}",express_24h:"Express 24h",express_48h:"Express 48h",cap_cheia:"Today's capacity is used up; delivery starts from the next business day.",total_est:"Estimated total",pag:"pg.",pg_count:"counting pages…",cfg_loading:"Loading…",off_h:"Online quote currently unavailable",off_p_none:"We're adjusting the available languages. Message us on WhatsApp and we'll send you a quote quickly.",off_p_err:"We couldn't load the quote tool right now. Try again or message us on WhatsApp.",btn_retry:"Try again",quote_h:"Request a quote",quote_p:"Your order has about {p} pages — above the automatic limit ({m} pages). Message us on WhatsApp for a tailored quote. No payment is made here.",quote_p_cap:"We currently don't have capacity for this order at an automatic price. Message us on WhatsApp for a quote and a delivery date. No payment is made here.",err_idioma:"This language pair is not available right now. Please choose another.",err_express:"The express option you chose is no longer available for this order. Go back and choose another option.",v_maxfiles:"Maximum {n} documents per order.",badge_estim:"Estimate",pay_conn:"No connection to the server. Still trying…",pay_exp:"This Pix has expired. Generate a new one to pay.",btn_regen:"Generate new Pix",lgpd_note:"We use your name, CPF, email and WhatsApp only to carry out the order, issue the invoice and contact you (LGPD, art. 7, V). Details and your rights are in the Terms.",kicker:"Instant automatic quote · no waiting",h1:"Sworn translation online",
    sub:"<b>100% digital.</b> Upload your documents and see the estimated price and delivery date instantly — no waiting.",
    u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
-   step1:"<b>Upload and get the price instantly.</b>",step2:"<b>Pay by Pix</b>, PayPal or Wise.",step3:"<b>Receive by email</b> with legal validity.",
+   
    seg:"Your documents are handled with full security and discretion — and deleted from our servers after your order is completed.",
    whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
    step_docs:"Upload your documents",dz1:"Click or drag your files",dz2:"Multiple documents · PDF, JPG or PNG (PDF up to 50 MB, image up to 15 MB)",step_langs:"Translation languages",from_lbl:"From",to_lbl:"To",btn_calc:"Calculate price",loading:"Calculating…",
@@ -1695,7 +1988,7 @@ var T={
  es:{pg_fail:"No pudimos contar las páginas de un PDF (archivo protegido o sin conexión). Inténtalo de nuevo o escríbenos por WhatsApp.",est_hint:"El precio se estima con IA. Si, tras la revisión, difiere mucho del importe cobrado, nos pondremos en contacto y recibirás el reembolso por Pix en hasta 24 horas o una propuesta corregida.",prazo_note:"Los plazos y la urgencia valen solo en días hábiles (lunes a viernes, sin feriados) y se cuentan desde la confirmación del pago, no desde el envío del pedido. Si el pago se confirma a partir de las {h}:00 (hora de Brasilia), en fin de semana o en feriado, cuenta el siguiente día hábil.",lim_note:"Urgencia: 24h hasta {a} páginas, 48h hasta {b} páginas en total. Pedidos de más de {m} páginas: presupuesto a medida.",entrega_ate:"Entrega hasta el {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacidad de hoy agotada; la entrega empieza el próximo día hábil.",total_est:"Total estimado",pag:"pág.",pg_count:"contando páginas…",cfg_loading:"Cargando…",off_h:"Presupuesto en línea no disponible por ahora",off_p_none:"Estamos ajustando los idiomas disponibles. Escríbenos por WhatsApp y te enviamos un presupuesto enseguida.",off_p_err:"No pudimos cargar el presupuesto ahora. Inténtalo de nuevo o escríbenos por WhatsApp.",btn_retry:"Reintentar",quote_h:"Pedir presupuesto",quote_p:"Tu pedido tiene unas {p} páginas — por encima del límite de cálculo automático ({m} páginas). Escríbenos por WhatsApp y te pasamos un presupuesto a medida. Aquí no se realiza ningún pago.",quote_p_cap:"Por ahora no tenemos capacidad para este pedido con precio automático. Escríbenos por WhatsApp para un presupuesto y un plazo. Aquí no se realiza ningún pago.",err_idioma:"Este par de idiomas no está disponible por ahora. Elige otro.",err_express:"La urgencia elegida ya no está disponible para este pedido. Vuelve y elige otra opción.",v_maxfiles:"Máximo {n} documentos por pedido.",badge_estim:"Estimación",pay_conn:"Sin conexión con el servidor. Seguimos intentando…",pay_exp:"Este Pix caducó. Genera uno nuevo para pagar.",btn_regen:"Generar nuevo Pix",lgpd_note:"Usamos tu nombre, CPF, correo y WhatsApp solo para ejecutar el pedido, emitir la factura y contactarte (LGPD, art. 7, V). Detalles y tus derechos en los Términos.",kicker:"Presupuesto automático al instante · sin esperas",h1:"Traducción jurada online",
    sub:"<b>100% digital.</b> Sube tus documentos y ve al instante el precio estimado y la fecha de entrega — sin esperas.",
    u_visto:"Visados",u_cidadania:"Ciudadanía",u_casamento:"Matrimonio",u_intercambio:"Intercambio",u_trabalho:"Trabajo",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negocios",u_imovel:"Inmuebles",u_cnh:"Licencia de conducir",u_adocao:"Adopción",u_aposentadoria:"Jubilación",
-   step1:"<b>Sube y recibe el precio al instante.</b>",step2:"<b>Paga por Pix</b>, PayPal o Wise.",step3:"<b>Recibe por correo</b> con validez jurídica.",
+   
    seg:"Tus documentos se tratan con total seguridad y discreción — y se eliminan de nuestros servidores tras completar el pedido.",
    whatis:"¿Qué es una traducción jurada? ¿Qué recibo?",trust:"Traductores públicos jurados (TPIC), registrados en la Junta Comercial — con fe pública.",
    step_docs:"Sube tus documentos",dz1:"Haz clic o arrastra tus archivos",dz2:"Varios documentos · PDF, JPG o PNG (PDF hasta 50 MB, imagen hasta 15 MB)",step_langs:"Idiomas de la traducción",from_lbl:"Idioma de origen",to_lbl:"Idioma de destino",btn_calc:"Calcular precio",loading:"Calculando…",
@@ -1714,7 +2007,7 @@ var T={
  de:{lgpd_note:"Wir verwenden Ihren Namen, Ihre CPF, E-Mail und WhatsApp-Nummer nur zur Ausführung des Auftrags, zur Rechnungsstellung und zur Kontaktaufnahme (LGPD, Art. 7, V). Details und Ihre Rechte finden Sie in den Nutzungsbedingungen.",pg_fail:"Die Seitenzahl eines PDFs konnte nicht ermittelt werden (geschützte Datei oder keine Verbindung). Bitte erneut versuchen oder uns per WhatsApp schreiben.",est_hint:"Der Preis wird per KI geschätzt. Weicht er nach Prüfung stark ab, melden wir uns, und Sie erhalten innerhalb von 24 Stunden Ihr Geld per Pix zurück oder ein korrigiertes Angebot.",prazo_note:"Fristen und Eilservice gelten nur an Werktagen (Montag bis Freitag, ohne Feiertage) und zählen ab Zahlungseingang, nicht ab dem Absenden des Auftrags. Geht die Zahlung ab {h}:00 Uhr (Brasília-Zeit), am Wochenende oder an einem Feiertag ein, zählt der nächste Werktag.",lim_note:"Eilservice: 24 h bis {a} Seiten, 48 h bis {b} Seiten insgesamt. Aufträge über {m} Seiten: individuelles Angebot.",entrega_ate:"Lieferung bis {d}",express_24h:"Eilservice 24 h",express_48h:"Eilservice 48 h",cap_cheia:"Die Kapazität für heute ist ausgeschöpft; die Lieferung beginnt ab dem nächsten Werktag.",total_est:"Geschätzte Summe",pag:"S.",pg_count:"Seiten werden gezählt…",cfg_loading:"Wird geladen…",off_h:"Online-Angebot derzeit nicht verfügbar",off_p_none:"Wir passen gerade die verfügbaren Sprachen an. Schreiben Sie uns per WhatsApp, wir senden Ihnen schnell ein Angebot.",off_p_err:"Das Angebot konnte gerade nicht geladen werden. Versuchen Sie es erneut oder schreiben Sie uns per WhatsApp.",btn_retry:"Erneut versuchen",quote_h:"Angebot anfordern",quote_p:"Ihr Auftrag umfasst etwa {p} Seiten — über dem Limit der automatischen Berechnung ({m} Seiten). Schreiben Sie uns per WhatsApp für ein individuelles Angebot. Hier erfolgt keine Zahlung.",quote_p_cap:"Für diesen Auftrag haben wir derzeit keine Kapazität zum automatischen Preis. Schreiben Sie uns per WhatsApp für ein Angebot und einen Liefertermin. Hier erfolgt keine Zahlung.",err_idioma:"Dieses Sprachpaar ist derzeit nicht verfügbar. Bitte wählen Sie ein anderes.",err_express:"Die gewählte Eil-Option ist für diesen Auftrag nicht mehr verfügbar. Gehen Sie zurück und wählen Sie eine andere Option.",v_maxfiles:"Höchstens {n} Dokumente pro Auftrag.",badge_estim:"Schätzung",pay_conn:"Keine Verbindung zum Server. Wir versuchen es weiter…",pay_exp:"Dieser Pix ist abgelaufen. Erzeugen Sie einen neuen.",btn_regen:"Neuen Pix erzeugen",kicker:"Automatisches Angebot sofort · ohne Wartezeit",h1:"Beglaubigte Übersetzung online",
    sub:"<b>100% digital.</b> Dokumente hochladen und sofort den geschätzten Preis und das Lieferdatum sehen — ohne Wartezeit.",
    u_visto:"Visa",u_cidadania:"Staatsbürgerschaft",u_casamento:"Heirat",u_intercambio:"Auslandsstudium",u_trabalho:"Arbeit",u_diploma:"Diplom",u_judicial:"Justiz",u_negocios:"Geschäft",u_imovel:"Immobilien",u_cnh:"Führerschein",u_adocao:"Adoption",u_aposentadoria:"Rente",
-   step1:"<b>Hochladen und den Preis sofort erhalten.</b>",step2:"<b>Per Pix</b>, PayPal oder Wise zahlen.",step3:"<b>Per E-Mail erhalten</b> — rechtsgültig.",
+   
    seg:"Ihre Dokumente werden mit höchster Sicherheit und Diskretion behandelt — und nach Abschluss des Auftrags von unseren Servern gelöscht.",
    whatis:"Was ist eine beglaubigte Übersetzung? Was bekomme ich?",trust:"Öffentlich bestellte und beeidigte Übersetzer (TPIC), bei der Handelskammer registriert — amtlich anerkannt.",
    step_docs:"Dokumente hochladen",dz1:"Dateien anklicken oder hierher ziehen",dz2:"Mehrere Dokumente · PDF, JPG oder PNG (PDF bis 50 MB, Bild bis 15 MB)",step_langs:"Sprachen der Übersetzung",from_lbl:"Ausgangssprache",to_lbl:"Zielsprache",btn_calc:"Preis berechnen",loading:"Wird berechnet…",
@@ -1733,7 +2026,7 @@ var T={
  fr:{lgpd_note:"Nous utilisons votre nom, votre CPF, votre e-mail et votre WhatsApp uniquement pour exécuter la commande, émettre la facture et vous contacter (LGPD, art. 7, V). Détails et vos droits dans les Conditions.",pg_fail:"Impossible de compter les pages d'un PDF (fichier protégé ou pas de connexion). Réessayez ou écrivez-nous sur WhatsApp.",est_hint:"Le prix est estimé par IA. Si, après vérification, il s'écarte fortement du montant facturé, nous vous contactons et vous recevez un remboursement par Pix sous 24 heures ou un devis corrigé.",prazo_note:"Les délais et l'urgence ne valent que les jours ouvrés (lundi au vendredi, hors jours fériés) et courent à partir de la confirmation du paiement, et non de l'envoi de la commande. Si le paiement est confirmé à partir de {h}:00 (heure de Brasília), un week-end ou un jour férié, c'est le jour ouvré suivant qui compte.",lim_note:"Urgence : 24 h jusqu'à {a} pages, 48 h jusqu'à {b} pages au total. Commandes de plus de {m} pages : devis sur mesure.",entrega_ate:"Livraison d'ici le {d}",express_24h:"Urgent 24h",express_48h:"Urgent 48h",cap_cheia:"Capacité du jour épuisée ; livraison à partir du prochain jour ouvré.",total_est:"Total estimé",pag:"p.",pg_count:"comptage des pages…",cfg_loading:"Chargement…",off_h:"Devis en ligne momentanément indisponible",off_p_none:"Nous ajustons les langues disponibles. Écrivez-nous sur WhatsApp et nous vous envoyons rapidement un devis.",off_p_err:"Impossible de charger le devis pour le moment. Réessayez ou écrivez-nous sur WhatsApp.",btn_retry:"Réessayer",quote_h:"Demander un devis",quote_p:"Votre commande compte environ {p} pages — au-delà de la limite du calcul automatique ({m} pages). Écrivez-nous sur WhatsApp pour un devis sur mesure. Aucun paiement n'est effectué ici.",quote_p_cap:"Nous n'avons pas la capacité de traiter cette commande au prix automatique pour le moment. Écrivez-nous sur WhatsApp pour un devis et un délai. Aucun paiement n'est effectué ici.",err_idioma:"Cette combinaison de langues n'est pas disponible pour le moment. Choisissez-en une autre.",err_express:"L'option d'urgence choisie n'est plus disponible pour cette commande. Revenez en arrière et choisissez une autre option.",v_maxfiles:"Maximum {n} documents par commande.",badge_estim:"Estimation",pay_conn:"Pas de connexion au serveur. Nouvelle tentative…",pay_exp:"Ce Pix a expiré. Générez-en un nouveau.",btn_regen:"Générer un nouveau Pix",kicker:"Devis automatique immédiat · sans attente",h1:"Traduction assermentée en ligne",
    sub:"<b>100% numérique.</b> Envoyez vos documents et voyez immédiatement le prix estimé et la date de livraison — sans attente.",
    u_visto:"Visas",u_cidadania:"Citoyenneté",u_casamento:"Mariage",u_intercambio:"Études à l'étranger",u_trabalho:"Travail",u_diploma:"Diplôme",u_judicial:"Judiciaire",u_negocios:"Affaires",u_imovel:"Immobilier",u_cnh:"Permis de conduire",u_adocao:"Adoption",u_aposentadoria:"Retraite",
-   step1:"<b>Envoyez et recevez le prix immédiatement.</b>",step2:"<b>Payez par Pix</b>, PayPal ou Wise.",step3:"<b>Recevez par e-mail</b> avec validité juridique.",
+   
    seg:"Vos documents sont traités en toute sécurité et discrétion — et supprimés de nos serveurs une fois la commande terminée.",
    whatis:"Qu'est-ce qu'une traduction assermentée ? Que vais-je recevoir ?",trust:"Traducteurs publics assermentés (TPIC), inscrits au registre du commerce — officiellement reconnus.",
    step_docs:"Envoyez vos documents",dz1:"Cliquez ou glissez vos fichiers",dz2:"Plusieurs documents · PDF, JPG ou PNG (PDF jusqu'à 50 Mo, image jusqu'à 15 Mo)",step_langs:"Langues de la traduction",from_lbl:"Langue source",to_lbl:"Langue cible",btn_calc:"Calculer le prix",loading:"Calcul en cours…",
@@ -1752,7 +2045,7 @@ var T={
  it:{lgpd_note:"Usiamo il tuo nome, CPF, e-mail e WhatsApp solo per eseguire l'ordine, emettere la fattura e contattarti (LGPD, art. 7, V). Dettagli e tuoi diritti nei Termini.",pg_fail:"Non è stato possibile contare le pagine di un PDF (file protetto o nessuna connessione). Riprova o scrivici su WhatsApp.",est_hint:"Il prezzo è stimato tramite IA. Se, dopo la verifica, si discosta molto dall'importo addebitato, ti contattiamo e ricevi il rimborso tramite Pix entro 24 ore oppure un preventivo corretto.",prazo_note:"Termini e urgenza valgono solo nei giorni lavorativi (da lunedì a venerdì, esclusi i festivi) e decorrono dalla conferma del pagamento, non dall'invio dell'ordine. Se il pagamento è confermato a partire dalle {h}:00 (ora di Brasília), nel fine settimana o in un giorno festivo, conta il giorno lavorativo successivo.",lim_note:"Urgenza: 24h fino a {a} pagine, 48h fino a {b} pagine in totale. Ordini oltre {m} pagine: preventivo su misura.",entrega_ate:"Consegna entro il {d}",express_24h:"Urgente 24h",express_48h:"Urgente 48h",cap_cheia:"Capacità di oggi esaurita; consegna a partire dal prossimo giorno lavorativo.",total_est:"Totale stimato",pag:"pag.",pg_count:"conteggio pagine…",cfg_loading:"Caricamento…",off_h:"Preventivo online al momento non disponibile",off_p_none:"Stiamo aggiornando le lingue disponibili. Scrivici su WhatsApp e ti inviamo subito un preventivo.",off_p_err:"Impossibile caricare il preventivo in questo momento. Riprova o scrivici su WhatsApp.",btn_retry:"Riprova",quote_h:"Richiedi un preventivo",quote_p:"Il tuo ordine ha circa {p} pagine — oltre il limite del calcolo automatico ({m} pagine). Scrivici su WhatsApp per un preventivo su misura. Qui non viene effettuato alcun pagamento.",quote_p_cap:"Al momento non abbiamo capacità per questo ordine a prezzo automatico. Scrivici su WhatsApp per un preventivo e una data di consegna. Qui non viene effettuato alcun pagamento.",err_idioma:"Questa combinazione di lingue al momento non è disponibile. Scegline un'altra.",err_express:"L'opzione urgenza scelta non è più disponibile per questo ordine. Torna indietro e scegli un'altra opzione.",v_maxfiles:"Massimo {n} documenti per ordine.",badge_estim:"Stima",pay_conn:"Nessuna connessione al server. Continuiamo a provare…",pay_exp:"Questo Pix è scaduto. Generane uno nuovo.",btn_regen:"Genera nuovo Pix",kicker:"Preventivo automatico subito · senza attese",h1:"Traduzione giurata online",
    sub:"<b>100% digitale.</b> Carica i tuoi documenti e vedi subito il prezzo stimato e la data di consegna — senza attese.",
    u_visto:"Visti",u_cidadania:"Cittadinanza",u_casamento:"Matrimonio",u_intercambio:"Studio all'estero",u_trabalho:"Lavoro",u_diploma:"Diploma",u_judicial:"Giudiziario",u_negocios:"Affari",u_imovel:"Immobili",u_cnh:"Patente di guida",u_adocao:"Adozione",u_aposentadoria:"Pensione",
-   step1:"<b>Invia e ricevi subito il prezzo.</b>",step2:"<b>Paga con Pix</b>, PayPal o Wise.",step3:"<b>Ricevi via e-mail</b> con validità legale.",
+   
    seg:"I tuoi documenti sono trattati con la massima sicurezza e riservatezza — ed eliminati dai nostri server al termine dell'ordine.",
    whatis:"Cos'è una traduzione giurata? Cosa ricevo?",trust:"Traduttori pubblici giurati (TPIC), iscritti alla Camera di Commercio — ufficialmente riconosciuti.",
    step_docs:"Invia i tuoi documenti",dz1:"Clicca o trascina i tuoi file",dz2:"Più documenti · PDF, JPG o PNG (PDF fino a 50 MB, immagine fino a 15 MB)",step_langs:"Lingue della traduzione",from_lbl:"Lingua di partenza",to_lbl:"Lingua di arrivo",btn_calc:"Calcola il prezzo",loading:"Calcolo in corso…",
@@ -1771,7 +2064,7 @@ var T={
  zh:{lgpd_note:"我们仅将您的姓名、CPF、电子邮箱和 WhatsApp 用于履行订单、开具发票和与您联系（LGPD 第 7 条 V 项）。详情及您的权利见服务条款。",pg_fail:"无法统计某个 PDF 的页数（文件受保护或网络未连接）。请重试，或通过 WhatsApp 联系我们。",est_hint:"价格由 AI 估算。如审核后与实际收费差异较大，我们会联系您，并在 24 小时内通过 Pix 退款或提供更正后的报价。",prazo_note:"交付期限和加急仅按工作日计算（周一至周五，不含法定节假日），自付款确认起算，而非自提交订单起算。若在巴西利亚时间 {h}:00 及之后、周末或节假日确认付款，则从下一个工作日开始计算。",lim_note:"加急：总计最多 {a} 页可选 24 小时，最多 {b} 页可选 48 小时；超过 {m} 页的订单需人工报价。",entrega_ate:"交付日期：{d} 前",express_24h:"加急 24 小时",express_48h:"加急 48 小时",cap_cheia:"今日产能已满，将从下一个工作日起计算交付。",total_est:"预估总价",pag:"页",pg_count:"正在统计页数…",cfg_loading:"加载中…",off_h:"在线报价暂不可用",off_p_none:"我们正在调整可用语言。请通过 WhatsApp 联系我们，我们会尽快给您报价。",off_p_err:"暂时无法加载报价。请重试，或通过 WhatsApp 联系我们。",btn_retry:"重试",quote_h:"申请报价",quote_p:"您的订单约有 {p} 页，超出自动计价上限（{m} 页）。请通过 WhatsApp 联系我们获取定制报价。此处不会产生任何付款。",quote_p_cap:"目前我们无法以自动价格承接此订单。请通过 WhatsApp 联系我们获取报价和交付日期。此处不会产生任何付款。",err_idioma:"该语言组合暂不可用，请选择其他语言。",err_express:"您选择的加急选项已不适用于此订单，请返回选择其他选项。",v_maxfiles:"每个订单最多 {n} 份文件。",badge_estim:"预估",pay_conn:"无法连接服务器，正在重试…",pay_exp:"此 Pix 已过期，请重新生成。",btn_regen:"重新生成 Pix",kicker:"即时自动报价 · 无需等待",h1:"在线宣誓翻译",
    sub:"<b>100% 数字化。</b> 上传文件，立即查看预估价格和交付日期——无需等待。",
    u_visto:"签证",u_cidadania:"入籍",u_casamento:"结婚",u_intercambio:"留学",u_trabalho:"工作",u_diploma:"学历",u_judicial:"司法",u_negocios:"商务",u_imovel:"房产",u_cnh:"驾照",u_adocao:"收养",u_aposentadoria:"退休",
-   step1:"<b>上传并立即获得价格。</b>",step2:"<b>通过 Pix</b>、PayPal 或 Wise 付款。",step3:"<b>通过电子邮件接收</b>，具有法律效力。",
+   
    seg:"您的文件会以最高的安全性和保密性处理——并在订单完成后从我们的服务器中删除。",
    whatis:"什么是宣誓翻译？我会收到什么？",trust:"公共宣誓翻译员（TPIC），在商业登记处注册——具有公信力。",
    step_docs:"上传您的文件",dz1:"点击或拖拽您的文件",dz2:"多个文件 · PDF、JPG 或 PNG（PDF 最大 50 MB，图片最大 15 MB）",step_langs:"翻译语言",from_lbl:"源语言",to_lbl:"目标语言",btn_calc:"计算价格",loading:"计算中…",
@@ -1790,7 +2083,7 @@ var T={
  ar:{lgpd_note:"نستخدم اسمك ورقم CPF وبريدك الإلكتروني وواتساب فقط لتنفيذ الطلب وإصدار الفاتورة والتواصل معك (LGPD، المادة 7، البند V). التفاصيل وحقوقك في الشروط.",pg_fail:"تعذّر عدّ صفحات ملف PDF (ملف محمي أو لا يوجد اتصال). حاول مرة أخرى أو راسلنا عبر واتساب.",est_hint:"يُقدَّر السعر بواسطة الذكاء الاصطناعي. إذا اختلف كثيرًا بعد المراجعة عن المبلغ المحصَّل، سنتواصل معك وتستردّ مبلغك عبر Pix خلال 24 ساعة أو تحصل على عرض سعر مصحَّح.",prazo_note:"المواعيد والاستعجال تُحتسب بأيام العمل فقط (من الاثنين إلى الجمعة دون العطلات الرسمية) اعتبارًا من تأكيد الدفع وليس من إرسال الطلب. إذا تأكد الدفع ابتداءً من الساعة {h}:00 (بتوقيت برازيليا) أو في عطلة نهاية الأسبوع أو في عطلة رسمية، فيُحتسب يوم العمل التالي.",lim_note:"الاستعجال: 24 ساعة حتى {a} صفحات، و48 ساعة حتى {b} صفحة في المجموع. الطلبات التي تزيد عن {m} صفحة: عرض سعر خاص.",entrega_ate:"التسليم حتى {d}",express_24h:"استعجال 24 ساعة",express_48h:"استعجال 48 ساعة",cap_cheia:"الطاقة الاستيعابية لليوم استُنفدت؛ يبدأ التسليم من يوم العمل التالي.",total_est:"الإجمالي التقديري",pag:"ص",pg_count:"جارٍ عدّ الصفحات…",cfg_loading:"جارٍ التحميل…",off_h:"عرض السعر عبر الإنترنت غير متاح حاليًا",off_p_none:"نعمل على تعديل اللغات المتاحة. راسلنا عبر واتساب وسنرسل لك عرض السعر بسرعة.",off_p_err:"تعذّر تحميل عرض السعر الآن. أعد المحاولة أو راسلنا عبر واتساب.",btn_retry:"إعادة المحاولة",quote_h:"اطلب عرض سعر",quote_p:"يضم طلبك نحو {p} صفحة، وهو أكثر من حدّ الحساب التلقائي ({m} صفحة). راسلنا عبر واتساب للحصول على عرض سعر مخصّص. لا يتم أي دفع هنا.",quote_p_cap:"لا تتوفر لدينا حاليًا طاقة لهذا الطلب بسعر تلقائي. راسلنا عبر واتساب للحصول على عرض سعر وموعد تسليم. لا يتم أي دفع هنا.",err_idioma:"هذا الزوج اللغوي غير متاح حاليًا. اختر زوجًا آخر.",err_express:"خيار الاستعجال الذي اخترته لم يعد متاحًا لهذا الطلب. ارجع واختر خيارًا آخر.",v_maxfiles:"الحد الأقصى {n} مستندًا لكل طلب.",badge_estim:"تقدير",pay_conn:"لا يوجد اتصال بالخادم. نواصل المحاولة…",pay_exp:"انتهت صلاحية هذا Pix. أنشئ رمزًا جديدًا.",btn_regen:"إنشاء Pix جديد",kicker:"عرض سعر تلقائي فوري · بلا انتظار",h1:"ترجمة محلّفة عبر الإنترنت",
    sub:"<b>رقمية 100%.</b> ارفع مستنداتك وشاهد فورًا السعر التقديري وموعد التسليم — بلا انتظار.",
    u_visto:"التأشيرات",u_cidadania:"الجنسية",u_casamento:"الزواج",u_intercambio:"الدراسة بالخارج",u_trabalho:"العمل",u_diploma:"الشهادة",u_judicial:"القضاء",u_negocios:"الأعمال",u_imovel:"العقارات",u_cnh:"رخصة القيادة",u_adocao:"التبنّي",u_aposentadoria:"التقاعد",
-   step1:"<b>أرسل واحصل على السعر فورًا.</b>",step2:"<b>ادفع عبر Pix</b> أو PayPal أو Wise.",step3:"<b>استلم عبر البريد الإلكتروني</b> بصلاحية قانونية.",
+   
    seg:"تُعامَل مستنداتك بأقصى درجات الأمان والسرّية — وتُحذف من خوادمنا بعد اكتمال الطلب.",
    whatis:"ما هي الترجمة المحلّفة؟ وماذا سأستلم؟",trust:"مترجمون عموميون محلّفون (TPIC)، مسجّلون لدى الغرفة التجارية — ذوو حجّية رسمية.",
    step_docs:"أرسل مستنداتك",dz1:"انقر أو اسحب ملفاتك",dz2:"عدة مستندات · PDF أو JPG أو PNG (PDF حتى 50 ميغابايت، صورة حتى 15 ميغابايت)",step_langs:"لغتا الترجمة",from_lbl:"اللغة المصدر",to_lbl:"اللغة الهدف",btn_calc:"احسب السعر",loading:"جارٍ الحساب…",
@@ -2057,6 +2350,99 @@ var TERMS={
 /* Runde 5: neue/geaenderte Texte (8 Sprachen): physische Kopie nur Brasilien, Dublettenhinweis, offenes Pix */
 (function(){ var X5={"opt_fisica": {"pt": "Via física impressa (SEDEX no Brasil incluso)", "en": "Printed physical copy (SEDEX within Brazil included)", "es": "Copia física impresa (SEDEX dentro de Brasil incluido)", "de": "Gedruckte Papierausfertigung (SEDEX innerhalb Brasiliens inklusive)", "fr": "Copie papier imprimée (SEDEX au Brésil inclus)", "it": "Copia cartacea stampata (SEDEX in Brasile incluso)", "zh": "纸质打印件（含巴西境内 SEDEX 邮寄）", "ar": "نسخة ورقية مطبوعة (شامل الشحن SEDEX داخل البرازيل)"}, "fisica_sedex": {"pt": "via física por SEDEX no Brasil (1–5 dias úteis após a produção)", "en": "printed copy by SEDEX within Brazil (1–5 business days after production)", "es": "copia física por SEDEX dentro de Brasil (1–5 días hábiles tras la producción)", "de": "Papierausfertigung per SEDEX innerhalb Brasiliens (1–5 Werktage nach Fertigstellung)", "fr": "copie papier par SEDEX au Brésil (1 à 5 jours ouvrés après production)", "it": "copia cartacea con SEDEX in Brasile (1–5 giorni lavorativi dopo la produzione)", "zh": "纸质件通过 SEDEX 寄送至巴西境内（制作完成后1–5个工作日）", "ar": "نسخة ورقية عبر SEDEX داخل البرازيل (1–5 أيام عمل بعد الإنتاج)"}, "estr_br_lbl": {"pt": "Tenho um endereço no Brasil para receber a via física", "en": "I have an address in Brazil to receive the printed copy", "es": "Tengo una dirección en Brasil para recibir la copia física", "de": "Ich habe eine Adresse in Brasilien für die Papierausfertigung", "fr": "J'ai une adresse au Brésil pour recevoir la copie papier", "it": "Ho un indirizzo in Brasile per ricevere la copia cartacea", "zh": "我在巴西有地址，可接收纸质件", "ar": "لدي عنوان في البرازيل لاستلام النسخة الورقية"}, "estr_fis_removed": {"pt": "A via física impressa só é enviada para endereços no Brasil e não faz parte do seu pedido. Você recebe a tradução digital, válida também no exterior.", "en": "The printed copy is only shipped to addresses in Brazil, so it is not part of your order. You will receive the digital translation, which is also valid abroad.", "es": "La copia física impresa solo se envía a direcciones en Brasil, por eso no forma parte de tu pedido. Recibirás la traducción digital, válida también en el exterior.", "de": "Die Papierausfertigung wird nur an Adressen in Brasilien verschickt und ist deshalb nicht Teil Ihres Auftrags. Sie erhalten die digitale Übersetzung, die auch im Ausland gültig ist.", "fr": "La copie papier n'est expédiée qu'à des adresses au Brésil ; elle ne fait donc pas partie de votre commande. Vous recevrez la traduction numérique, valable aussi à l'étranger.", "it": "La copia cartacea viene spedita solo a indirizzi in Brasile, quindi non fa parte del tuo ordine. Riceverai la traduzione digitale, valida anche all'estero.", "zh": "纸质件仅寄送至巴西境内地址，因此不包含在您的订单中。您将收到数字版译文（在国外同样有效）。", "ar": "تُرسَل النسخة الورقية إلى عناوين داخل البرازيل فقط، لذلك ليست جزءًا من طلبك. ستتلقى الترجمة الرقمية الصالحة أيضًا في الخارج."}, "dup_hint": {"pt": "Atenção: arquivos com conteúdo idêntico: {f}. Cada arquivo é cobrado separadamente. Se for o mesmo documento enviado duas vezes, remova a cópia.", "en": "Note: files with identical content: {f}. Each file is priced separately. If it is the same document uploaded twice, remove the copy.", "es": "Atención: archivos con contenido idéntico: {f}. Cada archivo se cobra por separado. Si es el mismo documento subido dos veces, elimina la copia.", "de": "Hinweis: Dateien mit identischem Inhalt: {f}. Jede Datei wird einzeln berechnet. Falls es dasselbe Dokument doppelt ist, entfernen Sie die Kopie.", "fr": "Attention : fichiers au contenu identique : {f}. Chaque fichier est facturé séparément. S'il s'agit du même document envoyé deux fois, supprimez la copie.", "it": "Attenzione: file con contenuto identico: {f}. Ogni file viene calcolato separatamente. Se è lo stesso documento caricato due volte, rimuovi la copia.", "zh": "提示：以下文件内容完全相同：{f}。每个文件单独计费。如果是同一份文件重复上传，请删除多余的副本。", "ar": "تنبيه: ملفات بمحتوى متطابق: {f}. يُحتسب كل ملف على حدة. إذا كان المستند نفسه مرفوعًا مرتين فاحذف النسخة."}, "pix_pend": {"pt": "Você tem um Pix em aberto ({v}). Se já pagou, a confirmação aparece ao voltar ao Pix e chega por e-mail.", "en": "You have an open Pix payment ({v}). If you have already paid, the confirmation appears when you return to the Pix and is sent by email.", "es": "Tienes un Pix pendiente ({v}). Si ya pagaste, la confirmación aparece al volver al Pix y llega por correo electrónico.", "de": "Sie haben ein offenes Pix ({v}). Wenn Sie bereits bezahlt haben, erscheint die Bestätigung beim Zurückkehren zum Pix und kommt per E-Mail.", "fr": "Vous avez un Pix en attente ({v}). Si vous avez déjà payé, la confirmation s'affiche en revenant au Pix et arrive par e-mail.", "it": "Hai un Pix in sospeso ({v}). Se hai già pagato, la conferma compare tornando al Pix e arriva via e-mail.", "zh": "您有一笔未完成的 Pix 付款（{v}）。如果已付款，返回 Pix 页面即可看到确认，同时会通过电子邮件发送。", "ar": "لديك دفعة Pix مفتوحة ({v}). إذا كنت قد دفعت بالفعل فسيظهر التأكيد عند العودة إلى Pix ويصلك عبر البريد الإلكتروني."}, "pix_pend_btn": {"pt": "Voltar ao Pix", "en": "Back to Pix", "es": "Volver al Pix", "de": "Zurück zum Pix", "fr": "Retour au Pix", "it": "Torna al Pix", "zh": "返回 Pix", "ar": "العودة إلى Pix"}, "pix_paid": {"pt": "Pagamento confirmado! Sua tradução já começou; os detalhes foram enviados por e-mail.", "en": "Payment confirmed! Your translation has started; the details were sent by email.", "es": "¡Pago confirmado! Tu traducción ya comenzó; enviamos los detalles por correo electrónico.", "de": "Zahlung bestätigt! Ihre Übersetzung hat begonnen; die Details wurden per E-Mail gesendet.", "fr": "Paiement confirmé ! Votre traduction a commencé ; les détails ont été envoyés par e-mail.", "it": "Pagamento confermato! La tua traduzione è iniziata; i dettagli sono stati inviati via e-mail.", "zh": "付款已确认！翻译已开始，详情已通过电子邮件发送。", "ar": "تم تأكيد الدفع! بدأت ترجمتك وأُرسلت التفاصيل عبر البريد الإلكتروني."}};
   Object.keys(X5).forEach(function(k){ Object.keys(X5[k]).forEach(function(l){ if(T[l]) T[l][k]=X5[k][l]; }); }); })();
+/* Runde 6 (Seiten-Agent R2): neue/geaenderte Texte in 8 Sprachen. Spaetere Zuweisung gewinnt gegen aeltere Bloecke. */
+(function(){
+var L=['pt','en','es','de','fr','it','zh','ar'];
+var X={
+doc_title:[`Orçamento de tradução juramentada online na hora | Traduzme`,`Instant sworn translation quote online | Traduzme`,`Presupuesto de traducción jurada online al instante | Traduzme`,`Beglaubigte Übersetzung online: Preis sofort | Traduzme`,`Devis de traduction assermentée en ligne, immédiat | Traduzme`,`Preventivo di traduzione giurata online, subito | Traduzme`,`在线宣誓翻译即时报价 | Traduzme`,`عرض سعر فوري للترجمة المحلّفة عبر الإنترنت | Traduzme`],
+lbl_anexo:[`Verso / apostila (incluído)`,`Back side / apostille (included)`,`Reverso / apostilla (incluido)`,`Rückseite / Apostille (inklusive)`,`Verso / apostille (inclus)`,`Retro / apostille (incluso)`,`背面 / 海牙认证页（已包含）`,`الظهر / الأبوستيل (مشمول)`],
+incl_word:[`incluído`,`included`,`incluido`,`inklusive`,`inclus`,`incluso`,`已包含`,`مشمول`],
+anexo_orfao:[
+`Um arquivo parece ser o verso ou a apostila de um documento, mas não há documento principal neste pedido; por isso ele foi calculado como texto. Envie o documento principal junto e o verso/apostila fica incluído, sem custo extra.`,
+`One file looks like the back side or apostille of a document, but there is no main document in this order, so it was priced as regular text. Add the main document and the back side/apostille is included at no extra cost.`,
+`Un archivo parece ser el reverso o la apostilla de un documento, pero no hay documento principal en este pedido; por eso se calculó como texto. Añade el documento principal y el reverso/apostilla queda incluido, sin coste extra.`,
+`Eine Datei sieht nach Rückseite oder Apostille eines Dokuments aus, aber dieser Auftrag enthält kein Hauptdokument; sie wurde daher als normaler Text berechnet. Laden Sie das Hauptdokument mit hoch, dann ist die Rückseite/Apostille ohne Aufpreis enthalten.`,
+`Un fichier semble être le verso ou l'apostille d'un document, mais cette commande ne contient pas de document principal ; il a donc été facturé comme du texte. Ajoutez le document principal et le verso/l'apostille sera inclus, sans frais supplémentaires.`,
+`Un file sembra essere il retro o l'apostille di un documento, ma in questo ordine non c'è un documento principale; è stato quindi calcolato come testo. Aggiungi il documento principale e retro/apostille saranno inclusi, senza costi aggiuntivi.`,
+`有一个文件看起来是某份文件的背面或海牙认证页，但本订单中没有主文件，因此按普通文本计价。请同时上传主文件，背面/海牙认证页即可免费包含。`,
+`يبدو أن أحد الملفات هو ظهر مستند أو أبوستيله، لكن لا يوجد مستند رئيسي في هذا الطلب، لذلك حُسب كنص عادي. أضف المستند الرئيسي ويصبح الظهر/الأبوستيل مشمولًا دون تكلفة إضافية.`],
+btn_novo:[`Novo orçamento`,`New quote`,`Nuevo presupuesto`,`Neues Angebot`,`Nouveau devis`,`Nuovo preventivo`,`新的报价`,`عرض سعر جديد`],
+pay_valid:[`Este Pix vale por mais {m} min.`,`This Pix is valid for {m} more min.`,`Este Pix es válido durante {m} min más.`,`Dieser Pix ist noch {m} Min. gültig.`,`Ce Pix est valable encore {m} min.`,`Questo Pix è valido ancora per {m} min.`,`此 Pix 还有 {m} 分钟有效。`,`رمز Pix هذا صالح لمدة {m} دقيقة أخرى.`],
+err_429:[`Muitas solicitações em pouco tempo. Aguarde alguns minutos e tente de novo, ou fale com a gente no WhatsApp.`,`Too many requests in a short time. Please wait a few minutes and try again, or message us on WhatsApp.`,`Demasiadas solicitudes en poco tiempo. Espera unos minutos e inténtalo de nuevo, o escríbenos por WhatsApp.`,`Zu viele Anfragen in kurzer Zeit. Bitte warten Sie einige Minuten und versuchen Sie es erneut, oder schreiben Sie uns per WhatsApp.`,`Trop de demandes en peu de temps. Patientez quelques minutes puis réessayez, ou écrivez-nous sur WhatsApp.`,`Troppe richieste in poco tempo. Attendi qualche minuto e riprova, oppure scrivici su WhatsApp.`,`短时间内请求过多。请等待几分钟后重试，或通过 WhatsApp 联系我们。`,`طلبات كثيرة في وقت قصير. انتظر بضع دقائق ثم أعد المحاولة، أو راسلنا عبر واتساب.`],
+err_endereco:[`Confira o endereço no exterior (país, cidade e logradouro são obrigatórios).`,`Please check the address abroad (country, city and street are required).`,`Revisa la dirección en el exterior (país, ciudad y calle son obligatorios).`,`Bitte prüfen Sie die Adresse im Ausland (Land, Stadt und Straße sind Pflicht).`,`Vérifiez l'adresse à l'étranger (pays, ville et rue sont obligatoires).`,`Controlla l'indirizzo all'estero (paese, città e via sono obbligatori).`,`请检查海外地址（国家、城市和街道为必填项）。`,`يرجى التحقق من العنوان في الخارج (الدولة والمدينة والشارع حقول إلزامية).`],
+quote_p_calc:[`Não conseguimos calcular o valor deste pedido automaticamente. Fale com a gente no WhatsApp e passamos um orçamento. Nenhum pagamento é feito aqui.`,`We couldn't calculate the price for this order automatically. Message us on WhatsApp and we'll send you a quote. No payment is made here.`,`No pudimos calcular automáticamente el precio de este pedido. Escríbenos por WhatsApp y te enviamos un presupuesto. Aquí no se realiza ningún pago.`,`Wir konnten den Preis für diesen Auftrag nicht automatisch berechnen. Schreiben Sie uns per WhatsApp, wir senden Ihnen ein Angebot. Hier erfolgt keine Zahlung.`,`Nous n'avons pas pu calculer automatiquement le prix de cette commande. Écrivez-nous sur WhatsApp et nous vous enverrons un devis. Aucun paiement n'est effectué ici.`,`Non siamo riusciti a calcolare automaticamente il prezzo di questo ordine. Scrivici su WhatsApp e ti invieremo un preventivo. Qui non viene effettuato alcun pagamento.`,`我们无法自动计算此订单的价格。请通过 WhatsApp 联系我们，我们会为您报价。此处不会产生任何付款。`,`تعذّر علينا حساب سعر هذا الطلب تلقائيًا. راسلنا عبر واتساب وسنرسل لك عرض سعر. لا يتم أي دفع هنا.`],
+quote_p:[`Seu pedido tem cerca de {p} — acima do limite de cálculo automático ({m} páginas). Fale com a gente no WhatsApp e passamos um orçamento sob medida. Nenhum pagamento é feito aqui.`,`Your order has about {p} — above the automatic limit ({m} pages). Message us on WhatsApp for a tailored quote. No payment is made here.`,`Tu pedido tiene unas {p} — por encima del límite de cálculo automático ({m} páginas). Escríbenos por WhatsApp y te enviamos un presupuesto a medida. Aquí no se realiza ningún pago.`,`Ihr Auftrag umfasst etwa {p} — über dem Limit der automatischen Berechnung ({m} Seiten). Schreiben Sie uns per WhatsApp für ein individuelles Angebot. Hier erfolgt keine Zahlung.`,`Votre commande compte environ {p} — au-delà de la limite du calcul automatique ({m} pages). Écrivez-nous sur WhatsApp pour un devis sur mesure. Aucun paiement n'est effectué ici.`,`Il tuo ordine comprende circa {p} — oltre il limite del calcolo automatico ({m} pagine). Scrivici su WhatsApp per un preventivo su misura. Qui non viene effettuato alcun pagamento.`,`您的订单约 {p}，超出自动计价上限（{m} 页）。请通过 WhatsApp 联系我们获取定制报价。此处不会产生任何付款。`,`يضم طلبك نحو {p}، وهو أكثر من حدّ الحساب التلقائي ({m} صفحة). راسلنا عبر واتساب للحصول على عرض سعر مخصّص. لا يتم أي دفع هنا.`],
+wa_pay_msg:[
+`Olá! Usei o orçamento automático do site, mas não tenho Pix e gostaria de pagar por {m}. Ainda não fiz nenhum pagamento nem enviei os documentos. Idiomas: {from} → {to}. Documentos: {docs}, {pg}. Total estimado: {tot}. Opções: {op}. Nome: {nome}. E-mail: {email}.`,
+`Hi! I used the automatic quote on your website, but I don't have Pix and would like to pay by {m}. I haven't paid or sent my documents yet. Languages: {from} → {to}. Documents: {docs}, {pg}. Estimated total: {tot}. Options: {op}. Name: {nome}. E-mail: {email}.`,
+`¡Hola! Usé el presupuesto automático del sitio, pero no tengo Pix y me gustaría pagar por {m}. Aún no he pagado ni enviado los documentos. Idiomas: {from} → {to}. Documentos: {docs}, {pg}. Total estimado: {tot}. Opciones: {op}. Nombre: {nome}. Correo: {email}.`,
+`Hallo! Ich habe den automatischen Preisrechner Ihrer Website genutzt, habe aber kein Pix und möchte per {m} bezahlen. Ich habe noch nicht bezahlt und noch keine Dokumente gesendet. Sprachen: {from} → {to}. Dokumente: {docs}, {pg}. Geschätzte Summe: {tot}. Optionen: {op}. Name: {nome}. E-Mail: {email}.`,
+`Bonjour ! J'ai utilisé le devis automatique de votre site, mais je n'ai pas Pix et souhaite payer par {m}. Je n'ai encore rien payé ni envoyé mes documents. Langues : {from} → {to}. Documents : {docs}, {pg}. Total estimé : {tot}. Options : {op}. Nom : {nome}. E-mail : {email}.`,
+`Ciao! Ho usato il preventivo automatico del sito, ma non ho Pix e vorrei pagare con {m}. Non ho ancora pagato né inviato i documenti. Lingue: {from} → {to}. Documenti: {docs}, {pg}. Totale stimato: {tot}. Opzioni: {op}. Nome: {nome}. E-mail: {email}.`,
+`您好！我使用了网站上的自动报价，但我没有 Pix，想通过 {m} 付款。我尚未付款，也尚未发送文件。语言：{from} → {to}。文件：{docs}，{pg}。预估总价：{tot}。选项：{op}。姓名：{nome}。邮箱：{email}。`,
+`مرحبًا! استخدمت عرض السعر التلقائي في موقعكم، لكن ليس لدي Pix وأود الدفع عبر {m}. لم أدفع بعد ولم أرسل المستندات. اللغات: {from} → {to}. المستندات: {docs}، {pg}. الإجمالي التقديري: {tot}. الخيارات: {op}. الاسم: {nome}. البريد: {email}.`],
+estrpay_hint:[`O pagamento online é só por Pix. Sem Pix? Combine PayPal ou Wise pelo WhatsApp — nenhum dado é enviado antes disso:`,`Online payment is by Pix only. No Pix? Arrange PayPal or Wise via WhatsApp — no data is sent before that:`,`El pago online es solo por Pix. ¿Sin Pix? Acuerda PayPal o Wise por WhatsApp; no se envía ningún dato antes:`,`Online ist nur Pix möglich. Kein Pix? Vereinbaren Sie PayPal oder Wise per WhatsApp — vorher werden keine Daten gesendet:`,`Le paiement en ligne se fait uniquement par Pix. Pas de Pix ? Convenez de PayPal ou Wise via WhatsApp ; aucune donnée n'est envoyée avant :`,`Il pagamento online è solo con Pix. Non hai Pix? Concorda PayPal o Wise via WhatsApp: nessun dato viene inviato prima:`,`线上仅支持 Pix 付款。没有 Pix？请通过 WhatsApp 商定 PayPal 或 Wise；在此之前不会发送任何数据：`,`الدفع عبر الإنترنت يتم عبر Pix فقط. ليس لديك Pix؟ اتفق معنا على PayPal أو Wise عبر واتساب؛ لا تُرسل أي بيانات قبل ذلك:`],
+lgpd_note:[
+`Usamos seu nome, CPF, e-mail e WhatsApp para executar o pedido, emitir a Nota Fiscal e falar com você (LGPD, art. 7º, V). Para calcular o preço, seus arquivos são enviados a um serviço de IA (Anthropic, EUA) que, segundo o fornecedor, não os usa para treinar modelos. Apagamos os arquivos 7 dias após a conclusão do pedido (sem pagamento: 7 dias após o envio) e guardamos por até 3 dias um código irreversível (hash) do seu IP contra abuso. Sem compra, seus contatos só são guardados com a sua autorização, por até 90 dias. Excluir seus dados: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Detalhes nos <a onclick="openTerms(event)">Termos</a>.`,
+`We use your name, CPF, e-mail and WhatsApp to carry out the order, issue the invoice and contact you (LGPD, art. 7, V). To calculate the price, your files are sent to an AI service (Anthropic, USA) which, according to the provider, does not use them to train models. We delete the files 7 days after the order is completed (without payment: 7 days after upload) and keep an irreversible code (hash) of your IP address for up to 3 days to prevent abuse. Without a purchase, your contact details are kept only with your consent, for up to 90 days. Delete your data: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Details in the <a onclick="openTerms(event)">Terms</a>.`,
+`Usamos tu nombre, CPF, correo y WhatsApp para ejecutar el pedido, emitir la factura y contactarte (LGPD, art. 7, V). Para calcular el precio, tus archivos se envían a un servicio de IA (Anthropic, EE. UU.) que, según el proveedor, no los usa para entrenar modelos. Borramos los archivos 7 días después de completarse el pedido (sin pago: 7 días después del envío) y guardamos hasta 3 días un código irreversible (hash) de tu IP contra abusos. Sin compra, tus datos de contacto solo se guardan con tu autorización, hasta 90 días. Eliminar tus datos: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Detalles en los <a onclick="openTerms(event)">Términos</a>.`,
+`Wir verwenden Ihren Namen, Ihre CPF, E-Mail und WhatsApp-Nummer, um den Auftrag auszuführen, die Rechnung zu erstellen und Sie zu kontaktieren (LGPD, Art. 7, V). Zur Preisberechnung werden Ihre Dateien an einen KI-Dienst (Anthropic, USA) übermittelt, der sie nach Angaben des Anbieters nicht zum Training von Modellen nutzt. Wir löschen die Dateien 7 Tage nach Abschluss des Auftrags (ohne Zahlung: 7 Tage nach dem Hochladen) und speichern zum Schutz vor Missbrauch bis zu 3 Tage einen nicht umkehrbaren Code (Hash) Ihrer IP-Adresse. Ohne Kauf werden Ihre Kontaktdaten nur mit Ihrer Einwilligung bis zu 90 Tage gespeichert. Daten löschen lassen: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Details in den <a onclick="openTerms(event)">Bedingungen</a>.`,
+`Nous utilisons votre nom, votre CPF, votre e-mail et votre WhatsApp pour exécuter la commande, émettre la facture et vous contacter (LGPD, art. 7, V). Pour calculer le prix, vos fichiers sont envoyés à un service d'IA (Anthropic, États-Unis) qui, selon le fournisseur, ne les utilise pas pour entraîner ses modèles. Nous supprimons les fichiers 7 jours après l'achèvement de la commande (sans paiement : 7 jours après l'envoi) et conservons jusqu'à 3 jours un code irréversible (hash) de votre adresse IP contre les abus. Sans achat, vos coordonnées ne sont conservées qu'avec votre accord, jusqu'à 90 jours. Supprimer vos données : <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Détails dans les <a onclick="openTerms(event)">Conditions</a>.`,
+`Usiamo il tuo nome, CPF, e-mail e WhatsApp per eseguire l'ordine, emettere la fattura e contattarti (LGPD, art. 7, V). Per calcolare il prezzo, i tuoi file vengono inviati a un servizio di IA (Anthropic, USA) che, secondo il fornitore, non li usa per addestrare modelli. Cancelliamo i file 7 giorni dopo il completamento dell'ordine (senza pagamento: 7 giorni dopo l'invio) e conserviamo fino a 3 giorni un codice irreversibile (hash) del tuo IP contro gli abusi. Senza acquisto, i tuoi contatti sono conservati solo con il tuo consenso, fino a 90 giorni. Cancellare i tuoi dati: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Dettagli nei <a onclick="openTerms(event)">Termini</a>.`,
+`我们使用您的姓名、CPF、电子邮箱和 WhatsApp 来执行订单、开具发票并与您联系（LGPD 第 7 条 V 项）。为计算价格，您的文件会发送至 AI 服务（Anthropic，美国），据该服务商称，不会将其用于训练模型。文件在订单完成后 7 天删除（未付款：上传后 7 天）；为防止滥用，我们最多保存 3 天不可逆的 IP 地址代码（哈希）。未购买时，您的联系方式仅在您同意的情况下保存，最长 90 天。删除您的数据：<a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>。详情见<a onclick="openTerms(event)">条款</a>。`,
+`نستخدم اسمك ورقم CPF وبريدك الإلكتروني وواتساب لتنفيذ الطلب وإصدار الفاتورة والتواصل معك (LGPD، المادة 7، V). ولحساب السعر تُرسَل ملفاتك إلى خدمة ذكاء اصطناعي (Anthropic، الولايات المتحدة) لا تستخدمها لتدريب النماذج وفق ما يذكره المزوّد. نحذف الملفات بعد 7 أيام من اكتمال الطلب (دون دفع: بعد 7 أيام من الرفع) ونحتفظ لمدة تصل إلى 3 أيام برمز غير قابل للعكس (هاش) لعنوان IP للحماية من إساءة الاستخدام. وإن لم تشترِ، لا تُحفظ بيانات التواصل إلا بموافقتك ولمدة تصل إلى 90 يومًا. لحذف بياناتك: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. التفاصيل في <a onclick="openTerms(event)">الشروط</a>.`],
+fl_h:[`Como funciona`,`How it works`,`Cómo funciona`,`So funktioniert's`,`Comment ça marche`,`Come funziona`,`办理流程`,`كيف تعمل الخدمة`],
+fl1_t:[`Envie o documento`,`Upload your document`,`Sube tu documento`,`Dokument hochladen`,`Envoyez votre document`,`Invia il documento`,`上传文件`,`ارفع مستندك`],
+fl1_d:[`Foto ou PDF, quantos precisar.`,`Photo or PDF, as many as you need.`,`Foto o PDF, los que necesites.`,`Foto oder PDF, so viele Sie brauchen.`,`Photo ou PDF, autant que nécessaire.`,`Foto o PDF, quanti ne servono.`,`照片或 PDF，数量不限。`,`صورة أو PDF، بالعدد الذي تحتاجه.`],
+fl2_t:[`Preço por IA em segundos`,`AI price in seconds`,`Precio por IA en segundos`,`KI-Preis in Sekunden`,`Prix par IA en secondes`,`Prezzo con IA in secondi`,`AI 几秒报价`,`السعر بالذكاء الاصطناعي في ثوانٍ`],
+fl2_d:[`Valor e data de entrega na hora.`,`Price and delivery date instantly.`,`Valor y fecha de entrega al instante.`,`Preis und Liefertermin sofort.`,`Prix et date de livraison immédiats.`,`Importo e data di consegna subito.`,`价格和交付日期即时显示。`,`السعر وموعد التسليم فورًا.`],
+fl3_t:[`Pague por Pix`,`Pay with Pix`,`Paga por Pix`,`Per Pix bezahlen`,`Payez par Pix`,`Paga con Pix`,`用 Pix 付款`,`ادفع عبر Pix`],
+fl3_d:[`Confirmação automática, a tradução começa.`,`Automatic confirmation, translation starts.`,`Confirmación automática, la traducción comienza.`,`Automatische Bestätigung, die Übersetzung startet.`,`Confirmation automatique, la traduction démarre.`,`Conferma automatica, la traduzione parte.`,`自动确认，翻译随即开始。`,`تأكيد تلقائي وتبدأ الترجمة.`],
+fl4_t:[`Receba por e-mail`,`Receive it by e-mail`,`Recíbela por e-mail`,`Per E-Mail erhalten`,`Recevez-la par e-mail`,`Ricevila via e-mail`,`邮件接收`,`استلمها بالبريد الإلكتروني`],
+fl4_d:[`PDF juramentado com assinatura digital.`,`Sworn PDF with digital signature.`,`PDF jurado con firma digital.`,`Beglaubigtes PDF mit digitaler Signatur.`,`PDF assermenté avec signature numérique.`,`PDF giurato con firma digitale.`,`带数字签名的宣誓翻译 PDF。`,`PDF محلّف بتوقيع رقمي.`],
+tr1_t:[`Nota 5,0 no Google`,`5.0 rating on Google`,`Nota 5,0 en Google`,`5,0 bei Google`,`Note 5,0 sur Google`,`Voto 5,0 su Google`,`Google 评分 5.0`,`تقييم 5.0 على Google`],
+tr1_d:[`48 avaliações`,`48 reviews`,`48 reseñas`,`48 Bewertungen`,`48 avis`,`48 recensioni`,`48 条评价`,`48 تقييمًا`],
+tr2_t:[`Tradutor juramentado`,`Sworn public translator`,`Traductor público jurado`,`Vereidigter Übersetzer`,`Traducteur assermenté`,`Traduttore giurato`,`宣誓翻译员`,`مترجم محلّف`],
+tr2_d:[`Válida no Brasil e no exterior`,`Valid in Brazil and abroad`,`Válida en Brasil y en el exterior`,`Gültig in Brasilien und im Ausland`,`Valable au Brésil et à l'étranger`,`Valida in Brasile e all'estero`,`在巴西及海外具有法律效力`,`صالحة في البرازيل وخارجها`],
+tr3_t:[`Pagamento por Pix`,`Pay with Pix`,`Pago por Pix`,`Zahlung per Pix`,`Paiement par Pix`,`Pagamento con Pix`,`Pix 付款`,`الدفع عبر Pix`],
+tr3_d:[`Confirmação automática`,`Automatic confirmation`,`Confirmación automática`,`Automatische Bestätigung`,`Confirmation automatique`,`Conferma automatica`,`自动确认`,`تأكيد تلقائي`],
+tr4_t:[`Dados protegidos`,`Data protected`,`Datos protegidos`,`Daten geschützt`,`Données protégées`,`Dati protetti`,`数据受保护`,`بياناتك محمية`],
+tr4_d:[`Arquivos apagados após 7 dias`,`Files deleted after 7 days`,`Archivos borrados tras 7 días`,`Dateien nach 7 Tagen gelöscht`,`Fichiers supprimés après 7 jours`,`File cancellati dopo 7 giorni`,`文件 7 天后删除`,`تُحذف الملفات بعد 7 أيام`],
+tr5_t:[`Reembolso se o preço divergir`,`Refund if the price is off`,`Reembolso si el precio difiere`,`Erstattung bei Preisabweichung`,`Remboursement si le prix diffère`,`Rimborso se il prezzo differisce`,`价格偏差可退款`,`استرداد عند اختلاف السعر`],
+tr5_d:[`Se a IA errar muito no valor, você recebe reembolso ou uma proposta corrigida.`,`If the AI estimate is far off after review, you get a refund or a corrected quote.`,`Si la IA se equivoca mucho en el valor, recibes reembolso o una propuesta corregida.`,`Liegt die KI-Schätzung nach Prüfung weit daneben, erhalten Sie Ihr Geld zurück oder ein korrigiertes Angebot.`,`Si l'estimation de l'IA s'écarte fortement après vérification, vous êtes remboursé ou recevez un devis corrigé.`,`Se la stima dell'IA si discosta molto dopo la verifica, ricevi il rimborso o un preventivo corretto.`,`如经审核发现 AI 估价偏差较大，您可获得退款或更正后的报价。`,`إذا اختلف تقدير الذكاء الاصطناعي كثيرًا بعد المراجعة، تحصل على استرداد أو عرض سعر مصحَّح.`],
+pc_h:[`Como o preço é calculado`,`How the price is calculated`,`Cómo se calcula el precio`,`So wird der Preis berechnet`,`Comment le prix est calculé`,`Come viene calcolato il prezzo`,`价格如何计算`,`كيف يُحسب السعر`],
+pc1:[`<b>Documentos padrão</b> (certidões, diplomas, CNH…): preço fixo por documento.`,`<b>Standard documents</b> (certificates, diplomas, driver's licence…): fixed price per document.`,`<b>Documentos estándar</b> (actas, diplomas, carnet…): precio fijo por documento.`,`<b>Standarddokumente</b> (Urkunden, Zeugnisse, Führerschein…): Festpreis pro Dokument.`,`<b>Documents standard</b> (actes, diplômes, permis…) : prix fixe par document.`,`<b>Documenti standard</b> (certificati, diplomi, patente…): prezzo fisso per documento.`,`<b>标准文件</b>（证书、学位证、驾照等）：按文件固定收费。`,`<b>المستندات القياسية</b> (الشهادات والدبلومات ورخصة القيادة…): سعر ثابت لكل مستند.`],
+pc2:[`<b>Verso e Apostila</b> (foto ou página) contam como parte do documento: sem custo extra.`,`<b>Back side and apostille</b> (photo or page) count as part of the document: no extra cost.`,`<b>Reverso y apostilla</b> (foto o página) cuentan como parte del documento: sin coste extra.`,`<b>Rückseite und Apostille</b> (Foto oder Seite) zählen zum Dokument: ohne Aufpreis.`,`<b>Verso et apostille</b> (photo ou page) font partie du document : sans frais supplémentaires.`,`<b>Retro e apostille</b> (foto o pagina) fanno parte del documento: senza costi aggiuntivi.`,`<b>背面和海牙认证页</b>（照片或页面）视为文件的一部分：不另收费。`,`<b>الظهر والأبوستيل</b> (صورة أو صفحة) يُحسبان جزءًا من المستند: دون تكلفة إضافية.`],
+pc3:[`<b>Textos longos e várias páginas</b> (contratos, laudos…): preço por página.`,`<b>Long texts and multi-page documents</b> (contracts, reports…): price per page.`,`<b>Textos largos y varias páginas</b> (contratos, informes…): precio por página.`,`<b>Lange Texte und mehrseitige Dokumente</b> (Verträge, Gutachten…): Preis pro Seite.`,`<b>Textes longs et documents de plusieurs pages</b> (contrats, rapports…) : prix par page.`,`<b>Testi lunghi e documenti di più pagine</b> (contratti, perizie…): prezzo a pagina.`,`<b>长文本和多页文件</b>（合同、报告等）：按页计价。`,`<b>النصوص الطويلة والمستندات متعددة الصفحات</b> (العقود والتقارير…): السعر لكل صفحة.`],
+pg1:[`Documentos`,`Documents`,`Documentos`,`Dokumente`,`Documents`,`Documenti`,`文件`,`المستندات`],
+pg2:[`Orçamento`,`Quote`,`Presupuesto`,`Angebot`,`Devis`,`Preventivo`,`报价`,`العرض`],
+pg3:[`Dados`,`Details`,`Datos`,`Daten`,`Données`,`Dati`,`信息`,`البيانات`],
+pg4:[`Pagamento`,`Payment`,`Pago`,`Zahlung`,`Paiement`,`Pagamento`,`付款`,`الدفع`]
+};
+Object.keys(X).forEach(function(k){ X[k].forEach(function(v,i){ if(T[L[i]]) T[L[i]][k]=v; }); });
+/* Terms: PayPal/Wise nur ueber WhatsApp (Pix = einziger Online-Weg); Hinweis KI-Dienst USA / kein Training; Erstattungsregeln gleichzeitig gueltig */
+var P2=[[`O pagamento é feito por Pix, PayPal ou Wise.`,`O pagamento online é feito somente por Pix; quem não tem Pix pode combinar outra forma de pagamento (PayPal ou Wise) pelo WhatsApp.`],
+[`Payment is made by Pix, PayPal or Wise.`,`Online payment is made by Pix only; if you do not have Pix, you can arrange another payment method (PayPal or Wise) via WhatsApp.`],
+[`El pago se realiza por Pix, PayPal o Wise.`,`El pago online se realiza solo por Pix; si no tienes Pix, puedes acordar otra forma de pago (PayPal o Wise) por WhatsApp.`],
+[`Die Zahlung erfolgt per Pix, PayPal oder Wise.`,`Die Online-Zahlung erfolgt ausschließlich per Pix; wer kein Pix hat, kann per WhatsApp eine andere Zahlungsart (PayPal oder Wise) vereinbaren.`],
+[`Le paiement se fait par Pix, PayPal ou Wise.`,`Le paiement en ligne se fait uniquement par Pix ; si vous n'avez pas Pix, vous pouvez convenir d'un autre moyen de paiement (PayPal ou Wise) via WhatsApp.`],
+[`Il pagamento avviene con Pix, PayPal o Wise.`,`Il pagamento online avviene solo con Pix; se non hai Pix, puoi concordare un altro metodo di pagamento (PayPal o Wise) via WhatsApp.`],
+[`付款通过 Pix、PayPal 或 Wise 进行。`,`线上付款仅通过 Pix 进行；没有 Pix 的客户可通过 WhatsApp 商定其他付款方式（PayPal 或 Wise）。`],
+[`يتم الدفع عبر Pix أو PayPal أو Wise.`,`يتم الدفع عبر الإنترنت عبر Pix فقط؛ ومن ليس لديه Pix يمكنه الاتفاق معنا على وسيلة دفع أخرى (PayPal أو Wise) عبر واتساب.`]];
+var A7=[[`a partir de uma tabela fixa.`,` Isso significa que os arquivos são transmitidos, com criptografia, a um provedor de IA nos Estados Unidos (Anthropic), o que é uma transferência internacional de dados (LGPD, art. 33); segundo o fornecedor, os dados enviados por essa via não são usados para treinar modelos. O resultado da análise (apenas a impressão digital do arquivo e o tipo de documento, sem o conteúdo) pode ficar em cache por até 180 dias.`],
+[`from a fixed table.`,` This means the files are transmitted, encrypted, to an AI provider in the United States (Anthropic), which is an international data transfer (LGPD, art. 33); according to the provider, data sent this way is not used to train models. The analysis result (only the file fingerprint and the document type, not the content) may be cached for up to 180 days.`],
+[`con una tabla fija.`,` Esto significa que los archivos se transmiten, cifrados, a un proveedor de IA en Estados Unidos (Anthropic), lo que constituye una transferencia internacional de datos (LGPD, art. 33); según el proveedor, los datos enviados por esta vía no se usan para entrenar modelos. El resultado del análisis (solo la huella del archivo y el tipo de documento, sin el contenido) puede conservarse en caché hasta 180 días.`],
+[`anhand einer festen Tabelle berechnet.`,` Das bedeutet: Die Dateien werden verschlüsselt an einen KI-Anbieter in den USA (Anthropic) übermittelt, was eine internationale Datenübermittlung darstellt (LGPD, Art. 33); nach Angaben des Anbieters werden so übermittelte Daten nicht zum Training von Modellen genutzt. Das Analyseergebnis (nur der Datei-Fingerabdruck und die Dokumentart, nicht der Inhalt) kann bis zu 180 Tage zwischengespeichert werden.`],
+[`à partir d'un barème fixe.`,` Cela signifie que les fichiers sont transmis, chiffrés, à un fournisseur d'IA aux États-Unis (Anthropic), ce qui constitue un transfert international de données (LGPD, art. 33) ; selon le fournisseur, les données envoyées par ce canal ne sont pas utilisées pour entraîner des modèles. Le résultat de l'analyse (uniquement l'empreinte du fichier et le type de document, sans le contenu) peut être mis en cache jusqu'à 180 jours.`],
+[`in base a una tabella fissa.`,` Ciò significa che i file vengono trasmessi, cifrati, a un fornitore di IA negli Stati Uniti (Anthropic), il che costituisce un trasferimento internazionale di dati (LGPD, art. 33); secondo il fornitore, i dati inviati in questo modo non vengono usati per addestrare modelli. Il risultato dell'analisi (solo l'impronta del file e il tipo di documento, senza il contenuto) può essere conservato in cache fino a 180 giorni.`],
+[`根据固定价目表计算。`,` 这意味着文件会加密传输至美国的 AI 服务商（Anthropic），属于数据跨境传输（LGPD 第 33 条）；据该服务商称，通过此方式发送的数据不会用于训练模型。分析结果（仅文件指纹和文件类型，不含内容）可缓存最长 180 天。`],
+[`من جدول ثابت.`,` ويعني ذلك أن الملفات تُنقل مشفّرة إلى مزوّد ذكاء اصطناعي في الولايات المتحدة (Anthropic)، وهو نقل دولي للبيانات (LGPD، المادة 33)؛ ووفق ما يذكره المزوّد لا تُستخدم البيانات المرسلة بهذه الطريقة لتدريب النماذج. وقد تُحفظ نتيجة التحليل (بصمة الملف ونوع المستند فقط دون المحتوى) في الذاكرة المؤقتة حتى 180 يومًا.`]];
+var A6=[` A regra de reembolso por divergência de preço (item 2) vale em paralelo a este item.`,` The refund rule for price deviations (section 2) applies in addition to this section.`,` La regla de reembolso por diferencia de precio (apartado 2) se aplica en paralelo a este apartado.`,` Die Erstattungsregel bei Preisabweichung (Abschnitt 2) gilt zusätzlich zu diesem Abschnitt.`,` La règle de remboursement en cas d'écart de prix (article 2) s'applique en plus du présent article.`,` La regola di rimborso per differenza di prezzo (punto 2) si applica in aggiunta a questo punto.`,` 第 2 条中关于价格偏差的退款规则与本条并行适用。`,` تسري قاعدة الاسترداد عند اختلاف السعر (البند 2) إلى جانب هذا البند.`];
+L.forEach(function(l,i){ var s=TERMS[l]&&TERMS[l].sec; if(!s) return;
+  if(s[1]&&s[1].p.indexOf(P2[i][0])>-1) s[1].p=s[1].p.replace(P2[i][0],P2[i][1]);
+  if(s[6]&&s[6].p.indexOf(A7[i][0])>-1) s[6].p=s[6].p.replace(A7[i][0],A7[i][0]+A7[i][1]);
+  if(s[5]&&s[5].p.indexOf('§R6')<0) s[5].p=s[5].p.replace(/\s*$/,'')+A6[i]; });
+})();
 function t(k){var d=T[LANG]||T.pt;return d[k]!=null?d[k]:(T.pt[k]!=null?T.pt[k]:k);}
 function updateLangSelects(){
   ['from','to'].forEach(function(id){var s=document.getElementById(id);if(!s)return;for(var i=0;i<s.options.length;i++){var o=s.options[i];var nm=(LANGNAMES[LANG]||LANGNAMES.pt)[o.value];if(!nm){ var kk=IDIOMA_COD[o.value], cc=CFG&&kk&&CFG.idiomas[kk]; nm=cc&&cc.nomes&&(cc.nomes[LANG]||cc.nomes.en||cc.nomes.pt); }if(nm)o.textContent=nm;}});
@@ -2068,6 +2454,7 @@ function setLang(l){
   document.querySelectorAll('.pop-x').forEach(function(b){ b.setAttribute('aria-label',ariaX('close')); });
   document.querySelectorAll('.q[role=button]').forEach(function(b){ b.setAttribute('aria-label',ariaX('q')); });
   document.documentElement.lang=(l==='pt'?'pt-BR':l);
+  try{ document.title=t('doc_title'); }catch(e){}
   document.documentElement.dir=(l==='ar'?'rtl':'ltr');
   document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-html]').forEach(function(el){el.innerHTML=t(el.getAttribute('data-i18n-html'));});
@@ -2091,7 +2478,7 @@ function renderDyn(){
   if(QUOTE_P) renderQuoteText();
   if(CFG) avisoIdioma();
   if(PLAN&&PLAN.modo==='auto'&&TB) renderOrc();
-  renderPayPrazo();
+  renderPayPrazo(); renderValid(); if(document.getElementById('p-dados').classList.contains('show')) dadosSum();
   if(chosen.length) renderFiles();
   renderDup();
 }
