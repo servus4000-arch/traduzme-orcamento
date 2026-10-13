@@ -621,7 +621,10 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   #p-pay .estrpay{margin-top:auto;}
   #p-dados .mini-total{margin-top:12px;}
   #p-dados .fields{flex:0 1 auto;}
-  #p-dados .lgpd-box{margin-top:auto;}
+  #p-dados .lgpd-det{margin-top:auto;}
+  .lgpd-det{flex-shrink:0; font-size:12px; color:var(--ink-soft);}
+  .lgpd-det summary{cursor:pointer; padding:4px 0; text-decoration:underline; width:max-content; max-width:100%;}
+  .lgpd-det .agree{font-size:12px;}
   @media(min-width:901px) and (min-height:861px){
     .pay-grid{grid-template-columns:236px 1fr; gap:26px;}
     .qr{width:236px; height:236px;}
@@ -685,10 +688,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       </ol>
     </section>
     <section class="trust-grid" aria-label="Traduzme">
-      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span><div><b data-i18n="tr1_t"></b><span data-i18n="tr1_d"></span></div></div>
       <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.2 13.5 7 22l5-3 5 3-1.2-8.5"/></svg></span><div><b data-i18n="tr2_t"></b><span data-i18n="tr2_d"></span></div></div>
       <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b data-i18n="tr4_t"></b><span data-i18n="tr4_d"></span></div></div>
-      <div class="tt"><span class="tt-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg></span><div><b data-i18n="tr5_t"></b><span data-i18n="tr5_d"></span></div></div>
     </section>
     <section class="pricebox" aria-labelledby="pc-h">
       <h3 id="pc-h" data-i18n="pc_h">Como o preço é calculado</h3>
@@ -830,8 +831,10 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <div class="field f-full"><label data-i18n-html="l_wa">WhatsApp <span style="color:var(--cinza-claro)">· contato mais rápido</span></label>
           <div class="wa-row"><div class="ddi" id="ddi"><button type="button" class="ddi-btn" id="ddi-btn" onclick="toggleDDI(event)"><span id="ddi-cur"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="ddi-list" id="ddi-list"></div></div><input class="inp" id="whats" inputmode="tel" data-i18n-ph="ph_wa" placeholder="Número de WhatsApp" maxlength="16" /></div></div>
       </div>
+      <details class="lgpd-det"><summary data-i18n="lgpd_sum">Privacidade e dados</summary>
       <div class="lgpd-box" data-i18n-html="lgpd_note"></div>
       <label class="agree"><input type="checkbox" id="consent"><span data-i18n="consent_lbl"></span></label>
+      </details>
       <label class="agree"><input type="checkbox" id="agree"><span data-i18n-html="agree_lbl">Li e aceito os <a onclick="openTerms(event)">Termos de Serviço</a>.</span></label>
       </div>
       <div class="mini-total"><span data-i18n="total">Total</span><b id="minitotal">R$ 0</b></div>
@@ -1525,7 +1528,7 @@ function fecharTerms(e){document.getElementById('pop-terms').classList.remove('s
 
 function syncFisUI(){
   document.getElementById('fis-wrap').style.display=fisAtiva()?'flex':'none';
-  document.getElementById('opt-estrbr').style.display=ehEstrangeiro?'':'none';
+  document.getElementById('opt-estrbr').style.display='none';
   document.getElementById('opt-estrbr').classList.toggle('active',!!estrBR);
   document.getElementById('estr-fis-note').style.display=(ehEstrangeiro&&!estrBR&&opts.fisica)?'':'none';
   try{ if(PLAN&&PLAN.modo==='auto'&&TB) document.getElementById('minitotal').textContent=fmt(totalGeral()); }catch(e){}
@@ -2391,6 +2394,7 @@ lgpd_note:[
 `Usiamo il tuo nome, CPF, e-mail e WhatsApp per eseguire l'ordine, emettere la fattura e contattarti (LGPD, art. 7, V). Per calcolare il prezzo, i tuoi file vengono inviati a un servizio di IA (Anthropic, USA) che, secondo il fornitore, non li usa per addestrare modelli. Cancelliamo i file 7 giorni dopo il completamento dell'ordine (senza pagamento: 7 giorni dopo l'invio) e conserviamo fino a 3 giorni un codice irreversibile (hash) del tuo IP contro gli abusi. Senza acquisto, i tuoi contatti sono conservati solo con il tuo consenso, fino a 90 giorni. Cancellare i tuoi dati: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. Dettagli nei <a onclick="openTerms(event)">Termini</a>.`,
 `我们使用您的姓名、CPF、电子邮箱和 WhatsApp 来执行订单、开具发票并与您联系（LGPD 第 7 条 V 项）。为计算价格，您的文件会发送至 AI 服务（Anthropic，美国），据该服务商称，不会将其用于训练模型。文件在订单完成后 7 天删除（未付款：上传后 7 天）；为防止滥用，我们最多保存 3 天不可逆的 IP 地址代码（哈希）。未购买时，您的联系方式仅在您同意的情况下保存，最长 90 天。删除您的数据：<a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>。详情见<a onclick="openTerms(event)">条款</a>。`,
 `نستخدم اسمك ورقم CPF وبريدك الإلكتروني وواتساب لتنفيذ الطلب وإصدار الفاتورة والتواصل معك (LGPD، المادة 7، V). ولحساب السعر تُرسَل ملفاتك إلى خدمة ذكاء اصطناعي (Anthropic، الولايات المتحدة) لا تستخدمها لتدريب النماذج وفق ما يذكره المزوّد. نحذف الملفات بعد 7 أيام من اكتمال الطلب (دون دفع: بعد 7 أيام من الرفع) ونحتفظ لمدة تصل إلى 3 أيام برمز غير قابل للعكس (هاش) لعنوان IP للحماية من إساءة الاستخدام. وإن لم تشترِ، لا تُحفظ بيانات التواصل إلا بموافقتك ولمدة تصل إلى 90 يومًا. لحذف بياناتك: <a href="mailto:oi@traduzme.com.br">oi@traduzme.com.br</a>. التفاصيل في <a onclick="openTerms(event)">الشروط</a>.`],
+lgpd_sum:[`Privacidade e dados (LGPD)`,`Privacy and data (LGPD)`,`Privacidad y datos (LGPD)`,`Datenschutz (LGPD)`,`Confidentialité et données (LGPD)`,`Privacy e dati (LGPD)`,`隐私与数据（LGPD）`,`الخصوصية والبيانات (LGPD)`],
 fl_h:[`Como funciona`,`How it works`,`Cómo funciona`,`So funktioniert's`,`Comment ça marche`,`Come funziona`,`办理流程`,`كيف تعمل الخدمة`],
 fl1_t:[`Envie o documento`,`Upload your document`,`Sube tu documento`,`Dokument hochladen`,`Envoyez votre document`,`Invia il documento`,`上传文件`,`ارفع مستندك`],
 fl1_d:[`Foto ou PDF, quantos precisar.`,`Photo or PDF, as many as you need.`,`Foto o PDF, los que necesites.`,`Foto oder PDF, so viele Sie brauchen.`,`Photo ou PDF, autant que nécessaire.`,`Foto o PDF, quanti ne servono.`,`照片或 PDF，数量不限。`,`صورة أو PDF، بالعدد الذي تحتاجه.`],
