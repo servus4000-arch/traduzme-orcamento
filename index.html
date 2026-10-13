@@ -689,8 +689,16 @@ function achaDoc(docsTab,nome,an){
 /* Preço de um arquivo: documento padrão (valor fixo só até PAUSCHAL_MAX_PAG páginas por arquivo; Histórico/Boletim/Procuração: 1ª página + extra por página, sem esse limite)
    ou Lauda comum/técnica por página (também para um documento de valor fixo com mais de PAUSCHAL_MAX_PAG páginas). */
 var PAUSCHAL_MAX_PAG=3;
+/* Verso/apostila/continuação de um documento (typ "anexo", só a IA define): vale como parte do documento principal do mesmo pedido, sem custo extra (as páginas contam para o prazo). Sem documento principal, ou mais de 2 anexos por principal => Lauda normal. */
+function ajustarAnexos(ans){
+  var anexo=function(a){ return !!(a&&a.typ==="anexo"&&a.lesbar!==false&&a.konfidenz>=KONF_MIN); };
+  var mains=0, i; for(i=0;i<ans.length;i++) if(ans[i]&&!anexo(ans[i])&&ans[i].typ!=="anexo") mains++;
+  var livres=mains*2;
+  return ans.map(function(a){ if(!a||a.typ!=="anexo") return a; if(anexo(a)&&livres>0){ livres--; return a; } return Object.assign({},a,{typ:"outro"}); });
+}
 function precoItem(docsTab,lauda,nome,pag,an){
   pag=Math.min(300,Math.max(1,Math.round(Number(pag))||1));
+  if(an&&an.typ==="anexo"&&an.lesbar!==false&&an.konfidenz>=KONF_MIN) return {nome:nome,modo:"anexo",tipo:"anexo",paginas:pag,cents:0,ref:{}};
   var hit=achaDoc(docsTab,nome,an), acima=false;
   if(hit&&!(hit.extra_pag_cents>0)&&pag>PAUSCHAL_MAX_PAG){ hit=null; acima=true; }
   if(hit){ var ex=hit.extra_pag_cents||0; return {nome:nome,modo:"standard",tipo:hit.chave,paginas:pag,cents:hit.valor_cents+ex*(pag-1),ref:hit}; }
@@ -1016,7 +1024,8 @@ function analisar(de,para,par){
   base=0; var P=0;
   var ilegivel=false, naoVerif=false;
   ssClear(); PAY_ACTIVE=false;   /* novo cálculo: o Pix anterior não é mais restaurado */
-  lastRes=chosen.map(function(f){ var an=anDe(f); if(an&&an.lesbar===false) ilegivel=true; if(!(an&&an.paginas_ok&&an.paginas>0)) naoVerif=true; var it=precoItem(TB.docsTab,TB.lauda,f.name,pagDe(f,an),an); base+=it.cents; P+=it.paginas; return {r:it,name:f.name}; });
+  var ansAj=ajustarAnexos(chosen.map(anDe));
+  lastRes=chosen.map(function(f,ix){ var an=ansAj[ix]; if(an&&an.lesbar===false) ilegivel=true; if(!(an&&an.paginas_ok&&an.paginas>0)) naoVerif=true; var it=precoItem(TB.docsTab,TB.lauda,f.name,pagDe(f,an),an); base+=it.cents; P+=it.paginas; return {r:it,name:f.name}; });
   PAGS=P;
   if(ilegivel){ mostrarOrcamento(P,'ilegivel'); return; }
   if(ANA&&ANA.limite==='upload'){ mostrarOrcamento(P,'limite'); return; }
@@ -1031,6 +1040,7 @@ function analisar(de,para,par){
 }
 function rotuloTipo(r){
   if(r.modo==='standard'){ var m=STD_LABEL[LANG]||STD_LABEL.pt, rot=r.ref&&r.ref.rotulos&&typeof r.ref.rotulos==='object'&&(r.ref.rotulos[LANG]||r.ref.rotulos.pt); var nm=rot||m[r.tipo]||(STD_LABEL.pt[r.tipo])||cap(r.tipo); return r.paginas>1 ? nm+' · '+pagW(r.paginas) : nm; }
+  if(r.modo==='anexo') return ({pt:'Verso / apostila (incluído)',en:'Back side / apostille (included)',es:'Reverso / apostilla (incluido)',de:'Rückseite / Apostille (inklusive)'})[LANG]||'Back side / apostille (included)';
   return t(r.tipo==='tecnica'?'texto_especial':'texto_comum')+' · '+lauW(r.paginas);
 }
 function cardHTML(r,file){
