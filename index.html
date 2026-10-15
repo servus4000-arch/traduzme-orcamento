@@ -801,6 +801,13 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   /* Desktop: in Schritt 3 passt sich die Karte dem Inhalt an, damit kein Leerraum entsteht */
   @media(min-width:901px) and (min-height:541px){ #card.fit{height:auto; align-self:flex-start;} #card.fit .dados-body{overflow:visible;} #p-dados .agree{margin-top:14px;} #p-dados .mini-total{margin-top:16px;} }
   .priv-op{display:flex; gap:8px; align-items:flex-start; margin-top:10px; font-size:12px; color:var(--ink-soft); line-height:1.45;}
+  /* Dokumentliste (Ben 15.10.): breites Fenster, Kacheln in Spalten, kein Scrollen */
+  .pop-box.pop-wide{max-width:780px; width:100%;}
+  .pop-wide .tipos-l{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:6px;}
+  .pop-wide .tipos-l li{display:flex; align-items:center; justify-content:flex-start; gap:8px; padding:9px 11px; font-size:13px; line-height:1.3; color:var(--ink); background:var(--brand-soft); border:1px solid #d9eae1; border-radius:10px;}
+  .pop-wide .tipos-l li:last-child{border-bottom:1px solid #d9eae1;}
+  .pop-wide .tipos-l svg{width:14px; height:14px; flex-shrink:0; color:var(--brand);}
+  @media(max-width:700px){ .pop-wide .tipos-l{grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px;} .pop-wide .tipos-l li{font-size:12.5px; padding:8px 9px;} }
 </style>
 </head>
 <body>
@@ -1642,7 +1649,7 @@ function updateTotal(){
 
 
 var popKey=null;
-function info(e,k){e.stopPropagation();popKey=k;popTipos=false;var L=INFO_ALL[LANG]||INFO_ALL.pt;var I=L[k]||INFO_ALL.pt[k];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(k,I);
+function info(e,k){e.stopPropagation();document.querySelector('#pop .pop-box').classList.remove('pop-wide');popKey=k;popTipos=false;var L=INFO_ALL[LANG]||INFO_ALL.pt;var I=L[k]||INFO_ALL.pt[k];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(k,I);
   var ex=document.getElementById('pop-extra');
   if(k==='apostila'){ ex.innerHTML='<button type="button" class="maps-btn" onclick="acharCartorio()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('find_cartorio')+'</button><button type="button" class="vid-sobre" onclick="openVid(2)">'+t('vid_apo')+'</button>'; }
   else if(k==='sobre'){ ex.innerHTML='<button type="button" class="vid-sobre" onclick="openVid(1)">'+t('vid_sobre')+'</button>'; }
@@ -1665,7 +1672,7 @@ function acharCartorio(){
 }
 function fecharPop(e){document.getElementById('pop').classList.remove('show');}
 /* Datenschutz (LGPD) im Popup; die freiwillige 90-Tage-Einwilligung bleibt hier waehlbar (Ben 15.10.: nur eine Pflicht-Checkbox im Formular) */
-function openPriv(e){ if(e){e.preventDefault&&e.preventDefault(); e.stopPropagation&&e.stopPropagation();}
+function openPriv(e){ if(e){e.preventDefault&&e.preventDefault(); e.stopPropagation&&e.stopPropagation();} document.querySelector('#pop .pop-box').classList.remove('pop-wide');
   popKey=null; if(typeof popTipos!=='undefined') popTipos=false;
   var c=document.getElementById('consent');
   document.getElementById('pop-t').textContent=t('lgpd_sum');
@@ -1689,10 +1696,11 @@ function abrirTiposDoc(e){
   if(!docs.length){ h='<p class="tipos-nota">'+t('tipos_vazio')+'</p>'; }
   else {
     h='<ul class="tipos-l">';
-    docs.forEach(function(p){ h+='<li><span>'+esc(rotuloTipo(p))+'</span></li>'; });
+    docs.forEach(function(p){ h+='<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg><span>'+esc(rotuloTipo(p))+'</span></li>'; });
     h+='</ul>';
   }
   document.getElementById('pop-extra').innerHTML=h;
+  document.querySelector('#pop .pop-box').classList.add('pop-wide');
   document.getElementById('pop').classList.add('show');
 }
 
