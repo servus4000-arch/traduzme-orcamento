@@ -2293,7 +2293,7 @@ var T={
    usos_h:"What do you need it for?",u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
    
    seg:"Your documents are handled with full security and discretion — and deleted from our servers after your order is completed.",
-   vid_t:"Watch how it works (video)",vtab1:"How it works",vtab2:"What is a sworn translation",vtab3:"Hague Apostille",vid_lang:"in Portuguese",vid_sobre:"Watch the video (3 min, in Portuguese)",vid_apo:"Video: Hague Apostille (3 min, in Portuguese)",whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
+   vid_t:"Watch how it works (video)",vtab1:"How it works",vtab2:"What is a sworn translation",vtab3:"Hague Apostille",vid_lang:"in English",vid_sobre:"Watch the video (4 min)",vid_apo:"Video: Hague Apostille (4 min)",whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
    step_docs:"Upload your documents",dz1:"Click or drag your files",dz2:"Multiple documents · PDF, JPG or PNG (PDF up to 50 MB, image up to 15 MB)",step_langs:"Translation languages",from_lbl:"From",to_lbl:"To",btn_calc:"Calculate price",loading:"Calculating…",
    orc_h:"Your quote",btn_edit:"Edit",opt_apostila:"Apostille, Hague (digital)",opt_fisica:"Printed physical copy",btn_cont:"Continue",
    dados_h:"Your details",btn_back:"Back",estr_lbl:"I'm a foreigner — I don't have a CPF",l_nome:"Full name",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· for the invoice</span>",l_email:"Email",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· fastest contact</span>",total:"Total",btn_criar:"Create order",
@@ -2867,10 +2867,10 @@ var IDIOMAS_SITE=['pt','en','es'];
 (function(){
   var b=document.getElementById('vidbtn'),m=document.getElementById('vidm'),fr=document.getElementById('vidm-fr'),x=document.getElementById('vidm-x');
   if(!b||!m) return;
-  var VIDS=[{id:'AMzYqWgjluY',k:'vtab1',d:'2:42'},{id:'mc9Dsw6Rm7k',k:'vtab2',d:'3:26'},{id:'6DYIGqPCu2o',k:'vtab3',d:'3:09'}], hd=document.getElementById('vidm-head'), tabs=document.getElementById('vidm-tabs'), cur=0;
-  function play(i){cur=i;fr.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDS[i].id+'?autoplay=1&rel=0&playsinline=1" title="'+String(t(VIDS[i].k)).replace(/"/g,'&quot;')+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+  var VPT=[{id:'AMzYqWgjluY',k:'vtab1',d:'2:42'},{id:'mc9Dsw6Rm7k',k:'vtab2',d:'3:26'},{id:'6DYIGqPCu2o',k:'vtab3',d:'3:09'}], VEN=[{id:'2P210nBRWbY',k:'vtab1',d:'2:49'},{id:'Pf9uLB1LPPo',k:'vtab2',d:'3:52'},{id:'0moosf0ZHy8',k:'vtab3',d:'3:33'}], VIDS=VPT, hd=document.getElementById('vidm-head'), tabs=document.getElementById('vidm-tabs'), cur=0;
+  function play(i){cur=i;var en=LANG==='en';VIDS=en?VEN:VPT;fr.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDS[i].id+'?autoplay=1&rel=0&playsinline=1" title="'+String(t(VIDS[i].k)).replace(/"/g,'&quot;')+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     hd.textContent=t('vid_t');
-    tabs.innerHTML=VIDS.map(function(v,j){return '<button type="button" role="tab" data-i="'+j+'" aria-selected="'+(j===i)+'"><img src="vid-'+(j+1)+'.webp" alt="" width="80" height="45" loading="lazy"><span><b>'+t(v.k)+'</b><small>'+v.d+' · '+t('vid_lang')+'</small></span></button>';}).join('');}
+    tabs.innerHTML=VIDS.map(function(v,j){return '<button type="button" role="tab" data-i="'+j+'" aria-selected="'+(j===i)+'"><img src="vid-'+(en?'en-':'')+(j+1)+'.webp" alt="" width="80" height="45" loading="lazy"><span><b>'+t(v.k)+'</b><small>'+v.d+' · '+t('vid_lang')+'</small></span></button>';}).join('');}
   function show(i){play(typeof i==='number'?i:0);m.hidden=false;x.focus();}
   tabs.addEventListener('click',function(e){var bt=e.target.closest('button[data-i]');if(bt)play(+bt.dataset.i);});
   function hide(){fr.innerHTML='';m.hidden=true;b.focus();}
