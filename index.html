@@ -2754,9 +2754,14 @@ function renderDyn(){
   var cp=document.getElementById('copia'),cl=document.querySelector('.copia label'); if(cp&&cl&&cp.id) cl.htmlFor=cp.id;
   var fi=document.getElementById('file'); if(fi) fi.setAttribute('aria-hidden','true');
 })();
+/* Seitensprachen-Schalter oben (PT/EN/ES/...): Ben 15.10.2026 ausgeblendet, Texte bleiben vollständig im Code. Wieder einblenden: true setzen. */
+var MOSTRAR_IDIOMAS_SITE=false;
 (function(){
-  var saved=null; try{saved=localStorage.getItem('tz_lang');}catch(e){}
-  if(!saved){ var n=(navigator.language||'pt').slice(0,2).toLowerCase(); saved=(['en','es','de','fr','it','zh','ar'].indexOf(n)>-1)?n:'pt'; }
+  var saved=null;
+  if(MOSTRAR_IDIOMAS_SITE){
+    try{saved=localStorage.getItem('tz_lang');}catch(e){}
+    if(!saved){ var n=(navigator.language||'pt').slice(0,2).toLowerCase(); saved=(['en','es','de','fr','it','zh','ar'].indexOf(n)>-1)?n:'pt'; }
+  } else { saved='pt'; var sw=document.getElementById('langsw'); if(sw) sw.style.display='none'; }
   setLang(saved);
   carregarConfig(restaurarPix());   /* Pix aberto antes do recarregar: volta à tela do Pix (polling continua) */
 })();
