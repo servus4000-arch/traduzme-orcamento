@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Sicherheit 15.10.: CSP erlaubt nur die Server, die der Rechner wirklich braucht (Supabase, pdf.js von cdnjs, Schrift von gstatic, YouTube-nocookie). Neue externe Quelle = hier eintragen, sonst blockiert der Browser sie. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://ypdvpytpajgkzglbzxwg.supabase.co https://cdnjs.cloudflare.com; frame-src https://www.youtube-nocookie.com; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>Orçamento de tradução juramentada online na hora | traduzme</title>
 <meta name="description" content="Tradução juramentada online: envie seus documentos, veja na hora o preço estimado e pague por Pix. 100% digital, com validade jurídica no Brasil e no exterior." />
 <meta name="keywords" content="tradução juramentada, tradução juramentada online, orçamento tradução juramentada, tradutor juramentado, apostila de haia, tradução certidão, tradução diploma" />
@@ -1713,7 +1716,7 @@ function acharCartorio(){
   var q='cart%C3%B3rio+de+notas';
   var gen='https://www.google.com/maps/search/'+q;
   // Abre a aba JÁ no clique (gesto do usuário) — senão o navegador bloqueia o popup ao abrir dentro do callback de geolocalização.
-  var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
+  var w=null; try{ w=window.open('about:blank','_blank'); if(w) w.opener=null; }catch(e){}
   if(w){ try{ w.document.write('<!doctype html><meta charset="utf-8"><title>traduzme</title><body style="margin:0;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;color:#13233a;background:#fbfaf7"><p>'+t('cart_loading')+'</p></body>'); }catch(e){} }
   function go(url){ if(w){ try{ w.location.href=url; return; }catch(e){} } window.open(url,'_blank'); }
   if(navigator.geolocation){
@@ -1781,7 +1784,7 @@ function loadPdfJs(){
     if(window.pdfjsLib){ resolve(window.pdfjsLib); return; }
     var s=document.createElement('script');
     /* SRI (Runde 4): Hash nicht berechnet (kein Netzzugriff beim Bauen). Im Probelauf: curl -s <URL> | openssl dgst -sha384 -binary | openssl base64 -A  ->  s.integrity='sha384-<hash>'; s.crossOrigin='anonymous'; (gleiches gilt fuer pdf.worker.min.js). Die Seitenzahl, die zaehlt, kommt vom Server; pdf.js dient nur Vorschau/Anzeige. */
-    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'; s.integrity='sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e'; s.crossOrigin='anonymous';   /* SRI 15.10.: Hash gegen die cdnjs-Datei geprueft (identisch mit npm pdfjs-dist 3.11.174) */
     s.onload=function(){ try{ window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; resolve(window.pdfjsLib); }catch(e){ reject(e); } };
     s.onerror=function(e){ pdfjsReady=null; try{ s.remove(); }catch(x){} reject(e); };
     document.head.appendChild(s);
