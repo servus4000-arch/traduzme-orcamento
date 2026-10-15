@@ -1683,7 +1683,7 @@ function openPriv(e){ if(e){e.preventDefault&&e.preventDefault(); e.stopPropagat
 }
 /* Lista "Documentos padrão" (Ben 15.10.2026): todos os tipos com preço fixo do par escolhido, direto de pix-config (= mesma tabela do cálculo, nada fixo no código) */
 var popTipos=false;
-function rotuloTipo(p){ var m=STD_LABEL[LANG]||STD_LABEL.pt, rot=p.rotulos&&typeof p.rotulos==='object'&&(p.rotulos[LANG]||p.rotulos.pt); return rot||m[p.chave]||STD_LABEL.pt[p.chave]||cap(p.chave); }
+function rotuloTipoLista(p){ var m=STD_LABEL[LANG]||STD_LABEL.pt, rot=p.rotulos&&typeof p.rotulos==='object'&&(p.rotulos[LANG]||p.rotulos.pt); return rot||m[p.chave]||STD_LABEL.pt[p.chave]||cap(p.chave); }
 function abrirTiposDoc(e){
   if(e&&e.stopPropagation) e.stopPropagation();
   popKey=null; popTipos=true;
@@ -1696,7 +1696,7 @@ function abrirTiposDoc(e){
   if(!docs.length){ h='<p class="tipos-nota">'+t('tipos_vazio')+'</p>'; }
   else {
     h='<ul class="tipos-l">';
-    docs.forEach(function(p){ h+='<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg><span>'+esc(rotuloTipo(p))+'</span></li>'; });
+    docs.forEach(function(p){ h+='<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg><span>'+esc(rotuloTipoLista(p))+'</span></li>'; });
     h+='</ul>';
   }
   document.getElementById('pop-extra').innerHTML=h;
