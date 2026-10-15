@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://ypdvpytpajgkzglbzxwg.supabase.co; base-uri 'none'; form-action 'none'">
+<title>traduzme · pedido</title>
+<style>
+  :root{--ink:#13233a;--soft:#2d4260;--grey:#6a7384;--brand:#1a7a5e;--paper:#f4f2ec;--card:#fff;--line:#e7e3d9;--warn:#b4442f}
+  @media (prefers-color-scheme:dark){:root{--ink:#eef1f5;--soft:#c9d2de;--grey:#9aa4b2;--brand:#4fc39c;--paper:#10161f;--card:#18212d;--line:#2a3442;--warn:#ff8a73}}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;padding:16px}
+  .box{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 24px;text-align:center}
+  .logo{font-weight:800;font-size:20px;letter-spacing:-.02em;margin-bottom:18px}
+  h1{font-size:21px;margin:0 0 8px}
+  p{font-size:15px;line-height:1.55;color:var(--soft);margin:0 0 18px}
+  button{width:100%;border:0;border-radius:10px;background:var(--brand);color:#fff;font-size:17px;font-weight:700;padding:15px 18px;cursor:pointer}
+  button[disabled]{opacity:.6;cursor:default}
+  .ok{color:var(--brand);font-weight:700}
+  .erro{color:var(--warn)}
+  .pq{font-size:13px;color:var(--grey);margin-top:16px}
+</style>
+</head>
+<body>
+<main class="box">
+  <div class="logo">traduzme</div>
+  <h1 id="t">Pedido</h1>
+  <p id="m">Carregando…</p>
+  <button id="b" type="button" hidden></button>
+  <div class="pq" id="pq"></div>
+</main>
+<script>
+(function(){
+  var FN="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-acao";
+  var q=new URLSearchParams(location.search), P=q.get("p")||"", A=q.get("a")||"", K=q.get("k")||"";
+  var t=document.getElementById("t"), m=document.getElementById("m"), b=document.getElementById("b"), pq=document.getElementById("pq");
+  var TXT={recebido:{t:"Confirmar recebimento",m:"Clique para confirmar que você recebeu o pedido e assume a tradução no prazo.",b:"Recebido",ok:"Recebimento confirmado. Obrigado!"},
+           entregue:{t:"Confirmar entrega",m:"Clique depois de responder ao e-mail do pedido com o PDF assinado.",b:"Entregue",ok:"Entrega confirmada. Obrigado! O pagamento sai via Pix no dia da entrega."}};
+  function dataHora(iso){ try{ return new Date(iso).toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return iso; } }
+  function erro(x){ t.textContent="Link inválido"; m.innerHTML=""; m.className="erro"; m.textContent=x||"Este link não funciona. Responda o e-mail do pedido, por favor."; b.hidden=true; }
+  function chamar(extra){ return fetch(FN,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({p:P,a:A,k:K},extra||{}))}).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); }); }
+  function mostrar(r){
+    var T=TXT[A]; pq.textContent="Pedido #"+(r.pedido||"");
+    var feito=A==="recebido"?r.recebido_em:r.entregue_em;
+    if(feito){ t.textContent=T.t; m.className="ok"; m.textContent=T.ok+" ("+dataHora(feito)+")"; b.hidden=true; return; }
+    t.textContent=T.t; m.className=""; m.textContent=T.m; b.textContent=T.b; b.hidden=false; b.disabled=false;
+  }
+  if(!TXT[A]||!/^[0-9a-f]{20,64}$/i.test(P)||!/^[0-9a-f]{32}$/i.test(K)){ erro(); return; }
+  chamar({consultar:true}).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Tente de novo em instantes."); });
+  b.addEventListener("click",function(){ b.disabled=true; b.textContent="Enviando…";
+    chamar().then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ b.disabled=false; b.textContent=TXT[A].b; m.className="erro"; m.textContent="Sem conexão. Tente de novo."; }); });
+})();
+</script>
+</body>
+</html>

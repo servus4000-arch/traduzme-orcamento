@@ -1666,7 +1666,10 @@ function optCents(k){ return TB&&TB.opc[k]?TB.opc[k].valor_cents:null; }
 var estrBR=false;
 function fisOk(){ return !ehEstrangeiro||estrBR; }
 function fisAtiva(){ return !!opts.fisica&&fisOk(); }
-function subtotalCents(){ var s=base-DESC+MIN; if(opts.apostila&&optCents('apostila')!=null) s+=optCents('apostila'); if(fisAtiva()&&optCents('fisica')!=null) s+=optCents('fisica'); return s; }
+/* Apostila JE DOKUMENT (Ben 15.10.): Hauptdokumente = Standard/Lauda, Verso/Fortsetzung zaehlen nicht (wie pix-cob v34) */
+function nApoDocs(){ var n=(lastRes||[]).filter(function(x){ return x.r&&(x.r.modo==='standard'||x.r.modo==='lauda'); }).length; return Math.max(1,n); }
+function apoCents(){ var c=optCents('apostila'); return c==null?null:c*nApoDocs(); }
+function subtotalCents(){ var s=base-DESC+MIN; if(opts.apostila&&apoCents()!=null) s+=apoCents(); if(fisAtiva()&&optCents('fisica')!=null) s+=optCents('fisica'); return s; }
 function expressCents(){ return (expressSel&&PLAN&&PLAN.express)?PLAN.express.fix:0; }   /* valor FIXO por pedido (capacidade.express_fix_cents / express48_fix_cents) */
 function totalCents(){ return subtotalCents()+expressCents(); }
 function totalGeral(){ return totalCents()/100; }   /* só PRÉVIA ("Estimativa"); o valor cobrado é o que o servidor devolve */
@@ -1681,7 +1684,7 @@ function renderOrc(){
     var row=document.getElementById('opt-'+k), c=optCents(k);
     var oculto=(c==null)||(k==='fisica'&&!fisOk());
     row.classList.toggle('hidden',oculto); row.classList.toggle('active',k==='fisica'?fisAtiva():!!opts[k]);
-    if(c!=null) row.querySelector('.opt-pr').textContent='+ '+fmt(c/100);
+    if(c!=null) row.querySelector('.opt-pr').textContent=(k==='apostila'&&nApoDocs()>1)?'+ '+fmt(c*nApoDocs()/100)+' ('+nApoDocs()+' × '+fmt(c/100)+')':'+ '+fmt(c/100);
   });
   var ex=PLAN&&PLAN.express, rowx=document.getElementById('opt-express');
   rowx.classList.toggle('hidden',!ex); rowx.classList.toggle('active',!!(ex&&expressSel));
