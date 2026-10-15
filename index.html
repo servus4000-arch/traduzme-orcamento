@@ -914,6 +914,10 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   }
   /* Tablet/schmales Fenster (Karte mit Auto-Hoehe): Abstand vor "Sou estrangeiro - nao tenho Pix" wie bisher */
   @media(min-width:901px) and (max-width:1100px){ #card #p-pay .estrpay{margin-top:16px;} #card .dados-body{overflow:visible;} }
+  /* Webflow-Einbettung Handy/Tablet (Ben 15.10.): iframe waechst mit dem Inhalt (html.tz-auto, Hoehe per postMessage an die Webflow-Seite).
+     Popups liegen dann im sichtbaren Ausschnitt statt in der Mitte des langen iframes. Desktop und direkter Aufruf unveraendert. */
+  html.tz-auto .pop,html.tz-auto .vidm{top:var(--tz-top,0px); bottom:auto; height:var(--tz-vh,100vh);}
+  html.tz-auto .pop-box{max-height:calc(var(--tz-vh,100vh) - 32px);}
 </style>
 </head>
 <body>
@@ -1401,8 +1405,10 @@ var file=document.getElementById('file'),drop=document.getElementById('drop'),fi
     calc=document.getElementById('calc'),err=document.getElementById('err'),loading=document.getElementById('loading'),
     reslist=document.getElementById('reslist'),totalbar=document.getElementById('totalbar');
 
+/* Webflow-Einbettung mit wachsendem iframe: Scrollen macht die Webflow-Seite (block 'card' = wie bisher nur wenn Karte weit weg, 'nearest' = minimal) */
+function tzZeig(el,block){ if(!el||!document.documentElement.classList.contains('tz-auto')) return false; try{ var r=el.getBoundingClientRect(); parent.postMessage({tz:'scroll',y:Math.round(r.top),h:Math.round(r.height),block:block},'*'); }catch(e){} return true; }
 function go(name){var _c=document.getElementById('card'); if(_c) _c.classList.remove('fit'); if(name!=='pay'&&typeof PAY_ACTIVE!=='undefined') PAY_ACTIVE=false; if(name!=='pay'){ if(typeof pollTimer!=='undefined'&&pollTimer){clearInterval(pollTimer);pollTimer=null;} if(typeof cobCtl!=='undefined'&&cobCtl){try{cobCtl.abort();}catch(e){} cobCtl=null; cobPending=null;} }document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('show');});document.getElementById('p-'+name).classList.add('show');
-  try{ if(window.innerWidth<=900 && document.getElementById('card').getBoundingClientRect().top<-20||window.innerWidth<=900&&document.getElementById('card').getBoundingClientRect().top>innerHeight*0.6){ document.getElementById('card').scrollIntoView({behavior:'smooth',block:'start'}); } }catch(e){}
+  try{ var _cd=document.getElementById('card'); if(window.innerWidth<=900 && !tzZeig(_cd,'card') && (_cd.getBoundingClientRect().top<-20||_cd.getBoundingClientRect().top>innerHeight*0.6)){ _cd.scrollIntoView({behavior:'smooth',block:'start'}); } }catch(e){}
   try{ if(typeof renderPixBanner==='function') renderPixBanner(name); }catch(e){}
   try{ progSet(name); }catch(e){} }
 var PROG_IX={load:1,form:1,orc:2,dados:3,pay:4};   /* load:1 = Fortschritt bleibt beim Laden stehen (sonst springt die Karte, CLS) */
@@ -1991,8 +1997,8 @@ function cpfValido(c){
 function clearBad(){ document.querySelectorAll('.inp.bad,select.bad').forEach(function(e){ e.classList.remove('bad'); e.removeAttribute('aria-invalid'); }); }
 function fail2(msg,id){
   var e2=document.getElementById('err2'); e2.textContent=msg;
-  var el=id&&document.getElementById(id); if(el){ el.classList.add('bad'); el.setAttribute('aria-invalid','true'); try{ el.focus(); }catch(x){} }
-  else { try{ e2.scrollIntoView({block:'nearest'}); }catch(x){} }
+  var el=id&&document.getElementById(id); if(el){ el.classList.add('bad'); el.setAttribute('aria-invalid','true'); try{ el.focus(); }catch(x){} tzZeig(el,'nearest'); }
+  else { if(!tzZeig(e2,'nearest')) try{ e2.scrollIntoView({block:'nearest'}); }catch(x){} }
 }
 document.addEventListener('input',function(e){ var el=e.target; if(el&&el.classList&&el.classList.contains('bad')){ el.classList.remove('bad'); el.removeAttribute('aria-invalid'); } });
 function criar(){
@@ -3012,6 +3018,22 @@ var IDIOMAS_SITE=['pt','en','es'];
   b.addEventListener('click',function(){show(0);}); x.addEventListener('click',hide);
   m.addEventListener('click',function(e){if(e.target===m)hide();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)hide();});
+})();
+</script>
+<script>
+/* Webflow-Einbettung (Ben 15.10.): Auf Handy/Tablet meldet die Webflow-Seite "auto". Dann schickt der Rechner seine Hoehe und die Seite macht das iframe
+   so hoch wie den Inhalt: nichts abgeschnitten, kein Scrollen im iframe. Die Seite meldet den sichtbaren Ausschnitt (--tz-top/--tz-vh) fuer Popups. */
+(function(){
+  if(window.parent===window) return;
+  var de=document.documentElement, on=false, last=0, ro=null;
+  function hoehe(){ if(!on) return; var h=Math.ceil(document.body.getBoundingClientRect().height); if(h&&Math.abs(h-last)>1){ last=h; try{ parent.postMessage({tz:'h',h:h},'*'); }catch(e){} } }
+  window.addEventListener('message',function(e){ if(e.source!==window.parent||!e.data||typeof e.data!=='object') return; var d=e.data;
+    if(d.tz==='host'){ on=!!d.auto; de.classList.toggle('tz-auto',on); last=0;
+      if(on){ if(!ro&&window.ResizeObserver){ ro=new ResizeObserver(hoehe); ro.observe(document.body); } hoehe(); } else if(ro){ ro.disconnect(); ro=null; } }
+    else if(d.tz==='vp'&&on){ de.style.setProperty('--tz-top',Math.max(0,+d.top||0)+'px'); de.style.setProperty('--tz-vh',Math.max(200,+d.vh||0)+'px'); }
+  });
+  try{ parent.postMessage({tz:'ready'},'*'); }catch(e){}
+  window.addEventListener('load',hoehe);
 })();
 </script>
 </body>
