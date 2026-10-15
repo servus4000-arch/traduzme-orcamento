@@ -584,12 +584,12 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     .dados-body{overflow:visible;}
     .left,.left-main{display:contents;}
     .stage{display:flex; flex-direction:column; align-items:stretch; gap:18px; padding:16px 16px 36px;}
-    .topbar{order:1;} .hero-block{order:2;} .whatis{order:3; align-self:flex-start;}
+    .topbar{order:1;} .hero-block{order:2;} .hlinks{order:3; align-self:flex-start;}
     .card{order:4;}
     .flow{order:5;} .trust-grid{order:6;} .pricebox{order:7;} .usos{order:8;}
-    .topbar,.hero-block,.whatis,.flow,.trust-grid,.pricebox,.usos,.card{width:100%; max-width:760px; margin-inline:auto;}
+    .topbar,.hero-block,.hlinks,.flow,.trust-grid,.pricebox,.usos,.card{width:100%; max-width:760px; margin-inline:auto;}
     .flow ol{grid-template-columns:1fr 1fr;}
-    .whatis{margin:-6px auto 0; justify-content:flex-start;}
+    .hlinks{margin:-6px auto 0;}
     h1{font-size:clamp(26px,6.6vw,38px);}
     .sub{font-size:15px;}
     .cta{height:52px; font-size:16px;}
@@ -773,12 +773,31 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .vidbtn .vt i:after{content:""; position:absolute; left:12px; top:9px; border-left:10px solid var(--brand-dark); border-top:6px solid transparent; border-bottom:6px solid transparent;}
   .vidbtn b{display:block; font-size:14px; color:var(--brand-dark);}
   .vidbtn span.vd{display:block; font-size:12px; color:#5b6b66; margin-top:2px;}
+  .hlinks{display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; align-self:flex-start;}
+  .hlinks .whatis{margin:0; align-self:center;}
+  .vidlink{display:inline-flex; align-items:center; gap:8px; padding:4px 10px 4px 4px; background:#fff; border:1px solid var(--brand-bg); border-radius:999px; cursor:pointer; font-family:inherit; font-size:13px; font-weight:600; color:var(--brand-dark); box-shadow:0 1px 6px rgba(21,98,75,.08); transition:box-shadow .15s, transform .15s;}
+  .vidlink:hover{transform:translateY(-1px); box-shadow:0 4px 14px rgba(21,98,75,.16);}
+  .vidlink:focus-visible{outline:3px solid var(--brand); outline-offset:2px;}
+  .vl-p{position:relative; width:24px; height:24px; border-radius:50%; background:#376259; flex:none;}
+  .vl-p:after{content:""; position:absolute; left:9px; top:7px; border-left:8px solid #fff; border-top:5px solid transparent; border-bottom:5px solid transparent;}
+  .vl-n{min-width:20px; height:20px; padding:0 6px; border-radius:999px; background:var(--brand-bg); color:var(--brand-dark); font-size:11.5px; line-height:20px; text-align:center;}
   .vidm{position:fixed; inset:0; z-index:9999; background:rgba(15,30,26,.86); display:flex; align-items:center; justify-content:center; padding:16px;}
   .vidm[hidden]{display:none;}
-  .vidm-box{position:relative; width:100%; max-width:1000px;}
+  .vidm-box{position:relative; width:100%; max-width:min(1000px, calc((100vh - 200px) * 16 / 9));}
   .vidm-fr{position:relative; padding-top:56.25%; background:#000; border-radius:12px; overflow:hidden;}
   .vidm-fr iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
-  .vidm-x{position:absolute; top:-46px; right:0; width:40px; height:40px; border:0; border-radius:50%; background:#fff; color:#15624b; font-size:26px; line-height:40px; cursor:pointer;}
+  .vidm-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px;}
+  .vidm-tabs button{display:flex; align-items:center; gap:10px; text-align:left; border:2px solid transparent; border-radius:12px; padding:6px; font-family:inherit; background:rgba(255,255,255,.1); color:#fff; cursor:pointer; min-width:0;}
+  .vidm-tabs button:hover{background:rgba(255,255,255,.18);}
+  .vidm-tabs button[aria-selected="true"]{background:#fff; color:#15624b; border-color:#97B9A8;}
+  .vidm-tabs img{width:80px; height:45px; border-radius:6px; object-fit:cover; flex:none; display:block;}
+  .vidm-tabs b{display:block; font-size:13px; line-height:1.25;}
+  .vidm-tabs small{display:block; font-size:11.5px; opacity:.75; margin-top:2px;}
+  .vidm-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; color:#fff; font-weight:700; font-size:15px; padding-inline-end:52px; min-height:40px;}
+  @media(max-width:640px){ .vidm-tabs{grid-template-columns:1fr; gap:6px;} .vidm-tabs img{width:64px; height:36px;} .vidm{align-items:flex-start; padding-top:56px; overflow-y:auto;} }
+  .vid-sobre{display:inline-flex; align-items:center; gap:8px; margin-top:12px; border:0; border-radius:999px; padding:9px 16px; background:#376259; color:#fff; font:600 13px/1.2 inherit; font-family:inherit; cursor:pointer;}
+  .vid-sobre:before{content:""; border-left:9px solid #fff; border-top:6px solid transparent; border-bottom:6px solid transparent;}
+  .vidm-x{position:absolute; top:-4px; inset-inline-end:0; width:40px; height:40px; border:0; border-radius:50%; background:#fff; color:#15624b; font-size:26px; line-height:40px; cursor:pointer;}
   @media(max-width:980px){ .vidbtn{order:3; max-width:none; margin:0; padding:6px 12px 6px 6px;} .vidbtn .vt{width:80px; height:45px;} .vidbtn .vt i{width:24px; height:24px;} .vidbtn .vt i:after{left:9px; top:6px; border-left-width:8px; border-top-width:6px; border-bottom-width:6px;} }
 </style>
 </head>
@@ -795,8 +814,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     <h1 data-i18n="h1">Tradução juramentada online</h1>
     <p class="sub" data-i18n-html="sub"><b>100% digital.</b> Envie seus documentos e veja na hora o preço estimado e a data de entrega — sem espera.</p>
     </div>
-    <button type="button" class="whatis" onclick="info(event,'sobre')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span data-i18n="whatis">O que é tradução juramentada? O que recebo?</span></button>
-    <button type="button" class="vidbtn" id="vidbtn" aria-haspopup="dialog"><span class="vt"><img src="video-capa.webp" alt="" width="112" height="63" loading="lazy" decoding="async"><i></i></span><span><b data-i18n="vid_t">Veja como funciona</b><span class="vd" data-i18n="vid_d">Vídeo de 2 minutos</span></span></button>
+    <div class="hlinks"><button type="button" class="whatis" onclick="info(event,'sobre')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span data-i18n="whatis">O que é tradução juramentada? O que recebo?</span></button><button type="button" class="vidlink" id="vidbtn" aria-haspopup="dialog"><span class="vl-p"></span><span data-i18n="vid_t">Vídeos explicativos</span><span class="vl-n">3</span></button></div>
     <section class="flow" aria-labelledby="fl-h">
       <h3 id="fl-h" data-i18n="fl_h">Como funciona</h3>
       <ol>
@@ -1627,7 +1645,8 @@ function updateTotal(){
 var popKey=null;
 function info(e,k){e.stopPropagation();popKey=k;var L=INFO_ALL[LANG]||INFO_ALL.pt;var I=L[k]||INFO_ALL.pt[k];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(k,I);
   var ex=document.getElementById('pop-extra');
-  if(k==='apostila'){ ex.innerHTML='<button type="button" class="maps-btn" onclick="acharCartorio()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('find_cartorio')+'</button>'; }
+  if(k==='apostila'){ ex.innerHTML='<button type="button" class="maps-btn" onclick="acharCartorio()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('find_cartorio')+'</button><button type="button" class="vid-sobre" onclick="openVid(2)">'+t('vid_apo')+'</button>'; }
+  else if(k==='sobre'){ ex.innerHTML='<button type="button" class="vid-sobre" onclick="openVid(1)">'+t('vid_sobre')+'</button>'; }
   else ex.innerHTML='';
   document.getElementById('pop').classList.add('show');}
 function acharCartorio(){
@@ -2169,7 +2188,7 @@ var T={
    usos_h:"Para que você precisa?",u_visto:"Vistos",u_cidadania:"Cidadania",u_casamento:"Casamento",u_intercambio:"Intercâmbio",u_trabalho:"Trabalho",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negócios",u_imovel:"Imóveis",u_cnh:"CNH",u_adocao:"Adoção",u_aposentadoria:"Aposentadoria",
    
    seg:"Seus documentos são tratados com total segurança e discrição — e apagados dos nossos servidores após a conclusão do pedido.",
-   vid_t:"Veja como funciona",vid_d:"Vídeo de 2 minutos",whatis:"O que é tradução juramentada? O que recebo?",trust:"Tradutores públicos juramentados (TPIC), registrados na Junta Comercial — com fé pública.",
+   vid_t:"Vídeos explicativos",vtab1:"Como funciona",vtab2:"O que é tradução juramentada",vtab3:"Apostila de Haia",vid_lang:"em português",vid_sobre:"Assista ao vídeo (3 min)",vid_apo:"Vídeo: Apostila de Haia (3 min)",whatis:"O que é tradução juramentada? O que recebo?",trust:"Tradutores públicos juramentados (TPIC), registrados na Junta Comercial — com fé pública.",
    step_docs:"Envie seus documentos",dz1:"Clique ou arraste seus arquivos",dz2:"Vários documentos · PDF, JPG ou PNG (PDF até 50 MB, imagem até 15 MB)",step_langs:"Idiomas da tradução",from_lbl:"Do idioma",to_lbl:"Para o idioma",btn_calc:"Calcular preço",loading:"Calculando…",
    orc_h:"Seu orçamento",btn_edit:"Editar",opt_apostila:"Apostila de Haia (digital)",opt_fisica:"Via física impressa",btn_cont:"Continuar",
    dados_h:"Seus dados",btn_back:"Voltar",estr_lbl:"Sou estrangeiro(a) — não tenho CPF",l_nome:"Nome completo",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· para a Nota Fiscal</span>",l_email:"E-mail",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· contato mais rápido</span>",total:"Total",btn_criar:"Criar pedido",
@@ -2188,7 +2207,7 @@ var T={
    usos_h:"What do you need it for?",u_visto:"Visas",u_cidadania:"Citizenship",u_casamento:"Marriage",u_intercambio:"Study abroad",u_trabalho:"Work",u_diploma:"Diploma",u_judicial:"Legal",u_negocios:"Business",u_imovel:"Real estate",u_cnh:"Driver's license",u_adocao:"Adoption",u_aposentadoria:"Retirement",
    
    seg:"Your documents are handled with full security and discretion — and deleted from our servers after your order is completed.",
-   vid_t:"Watch how it works",vid_d:"2-minute video (in Portuguese)",whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
+   vid_t:"Explainer videos",vtab1:"How it works",vtab2:"What is a sworn translation",vtab3:"Hague Apostille",vid_lang:"in Portuguese",vid_sobre:"Watch the video (3 min, in Portuguese)",vid_apo:"Video: Hague Apostille (3 min, in Portuguese)",whatis:"What is a sworn translation? What do I get?",trust:"Sworn public translators (TPIC), officially registered with the Board of Trade.",
    step_docs:"Upload your documents",dz1:"Click or drag your files",dz2:"Multiple documents · PDF, JPG or PNG (PDF up to 50 MB, image up to 15 MB)",step_langs:"Translation languages",from_lbl:"From",to_lbl:"To",btn_calc:"Calculate price",loading:"Calculating…",
    orc_h:"Your quote",btn_edit:"Edit",opt_apostila:"Apostille, Hague (digital)",opt_fisica:"Printed physical copy",btn_cont:"Continue",
    dados_h:"Your details",btn_back:"Back",estr_lbl:"I'm a foreigner — I don't have a CPF",l_nome:"Full name",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· for the invoice</span>",l_email:"Email",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· fastest contact</span>",total:"Total",btn_criar:"Create order",
@@ -2207,7 +2226,7 @@ var T={
    usos_h:"¿Para qué lo necesitas?",u_visto:"Visados",u_cidadania:"Ciudadanía",u_casamento:"Matrimonio",u_intercambio:"Intercambio",u_trabalho:"Trabajo",u_diploma:"Diploma",u_judicial:"Judicial",u_negocios:"Negocios",u_imovel:"Inmuebles",u_cnh:"Licencia de conducir",u_adocao:"Adopción",u_aposentadoria:"Jubilación",
    
    seg:"Tus documentos se tratan con total seguridad y discreción — y se eliminan de nuestros servidores tras completar el pedido.",
-   vid_t:"Mira cómo funciona",vid_d:"Video de 2 minutos (en portugués)",whatis:"¿Qué es una traducción jurada? ¿Qué recibo?",trust:"Traductores públicos jurados (TPIC), registrados en la Junta Comercial — con fe pública.",
+   vid_t:"Videos explicativos",vtab1:"Cómo funciona",vtab2:"Qué es la traducción jurada",vtab3:"Apostilla de La Haya",vid_lang:"en portugués",vid_sobre:"Ver el video (3 min, en portugués)",vid_apo:"Video: Apostilla de La Haya (3 min, en portugués)",whatis:"¿Qué es una traducción jurada? ¿Qué recibo?",trust:"Traductores públicos jurados (TPIC), registrados en la Junta Comercial — con fe pública.",
    step_docs:"Sube tus documentos",dz1:"Haz clic o arrastra tus archivos",dz2:"Varios documentos · PDF, JPG o PNG (PDF hasta 50 MB, imagen hasta 15 MB)",step_langs:"Idiomas de la traducción",from_lbl:"Idioma de origen",to_lbl:"Idioma de destino",btn_calc:"Calcular precio",loading:"Calculando…",
    orc_h:"Tu presupuesto",btn_edit:"Editar",opt_apostila:"Apostilla de La Haya (digital)",opt_fisica:"Copia física impresa",btn_cont:"Continuar",
    dados_h:"Tus datos",btn_back:"Volver",estr_lbl:"Soy extranjero(a) — no tengo CPF",l_nome:"Nombre completo",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· para la factura</span>",l_email:"Correo electrónico",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· contacto más rápido</span>",total:"Total",btn_criar:"Crear pedido",
@@ -2226,7 +2245,7 @@ var T={
    usos_h:"Wofür brauchen Sie es?",u_visto:"Visa",u_cidadania:"Staatsbürgerschaft",u_casamento:"Heirat",u_intercambio:"Auslandsstudium",u_trabalho:"Arbeit",u_diploma:"Diplom",u_judicial:"Justiz",u_negocios:"Geschäft",u_imovel:"Immobilien",u_cnh:"Führerschein",u_adocao:"Adoption",u_aposentadoria:"Rente",
    
    seg:"Ihre Dokumente werden mit höchster Sicherheit und Diskretion behandelt — und nach Abschluss des Auftrags von unseren Servern gelöscht.",
-   vid_t:"So funktioniert es",vid_d:"2-Minuten-Video (auf Portugiesisch)",whatis:"Was ist eine beglaubigte Übersetzung? Was bekomme ich?",trust:"Öffentlich bestellte und beeidigte Übersetzer (TPIC), bei der Handelskammer registriert — amtlich anerkannt.",
+   vid_t:"Erklärvideos",vtab1:"So funktioniert es",vtab2:"Was ist eine beeidigte Übersetzung",vtab3:"Haager Apostille",vid_lang:"auf Portugiesisch",vid_sobre:"Video ansehen (3 Min., auf Portugiesisch)",vid_apo:"Video: Haager Apostille (3 Min., auf Portugiesisch)",whatis:"Was ist eine beglaubigte Übersetzung? Was bekomme ich?",trust:"Öffentlich bestellte und beeidigte Übersetzer (TPIC), bei der Handelskammer registriert — amtlich anerkannt.",
    step_docs:"Dokumente hochladen",dz1:"Dateien anklicken oder hierher ziehen",dz2:"Mehrere Dokumente · PDF, JPG oder PNG (PDF bis 50 MB, Bild bis 15 MB)",step_langs:"Sprachen der Übersetzung",from_lbl:"Ausgangssprache",to_lbl:"Zielsprache",btn_calc:"Preis berechnen",loading:"Wird berechnet…",
    orc_h:"Ihr Angebot",btn_edit:"Bearbeiten",opt_apostila:"Haager Apostille (digital)",opt_fisica:"Gedruckte Papierausfertigung",btn_cont:"Weiter",
    dados_h:"Ihre Daten",btn_back:"Zurück",estr_lbl:"Ich bin Ausländer(in) — habe keine CPF-Nummer",l_nome:"Vollständiger Name",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· für die Rechnung</span>",l_email:"E-Mail",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· schnellster Kontakt</span>",total:"Gesamt",btn_criar:"Auftrag erstellen",
@@ -2245,7 +2264,7 @@ var T={
    usos_h:"Pour quel usage ?",u_visto:"Visas",u_cidadania:"Citoyenneté",u_casamento:"Mariage",u_intercambio:"Études à l'étranger",u_trabalho:"Travail",u_diploma:"Diplôme",u_judicial:"Judiciaire",u_negocios:"Affaires",u_imovel:"Immobilier",u_cnh:"Permis de conduire",u_adocao:"Adoption",u_aposentadoria:"Retraite",
    
    seg:"Vos documents sont traités en toute sécurité et discrétion — et supprimés de nos serveurs une fois la commande terminée.",
-   vid_t:"Voir comment ça marche",vid_d:"Vidéo de 2 minutes (en portugais)",whatis:"Qu'est-ce qu'une traduction assermentée ? Que vais-je recevoir ?",trust:"Traducteurs publics assermentés (TPIC), inscrits au registre du commerce — officiellement reconnus.",
+   vid_t:"Vidéos explicatives",vtab1:"Comment ça marche",vtab2:"Qu'est-ce que la traduction assermentée",vtab3:"Apostille de La Haye",vid_lang:"en portugais",vid_sobre:"Voir la vidéo (3 min, en portugais)",vid_apo:"Vidéo : Apostille de La Haye (3 min, en portugais)",whatis:"Qu'est-ce qu'une traduction assermentée ? Que vais-je recevoir ?",trust:"Traducteurs publics assermentés (TPIC), inscrits au registre du commerce — officiellement reconnus.",
    step_docs:"Envoyez vos documents",dz1:"Cliquez ou glissez vos fichiers",dz2:"Plusieurs documents · PDF, JPG ou PNG (PDF jusqu'à 50 Mo, image jusqu'à 15 Mo)",step_langs:"Langues de la traduction",from_lbl:"Langue source",to_lbl:"Langue cible",btn_calc:"Calculer le prix",loading:"Calcul en cours…",
    orc_h:"Votre devis",btn_edit:"Modifier",opt_apostila:"Apostille de La Haye (numérique)",opt_fisica:"Copie papier imprimée",btn_cont:"Continuer",
    dados_h:"Vos informations",btn_back:"Retour",estr_lbl:"Je suis étranger(ère) — je n'ai pas de CPF",l_nome:"Nom complet",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· pour la facture</span>",l_email:"E-mail",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· contact le plus rapide</span>",total:"Total",btn_criar:"Créer la commande",
@@ -2264,7 +2283,7 @@ var T={
    usos_h:"A cosa ti serve?",u_visto:"Visti",u_cidadania:"Cittadinanza",u_casamento:"Matrimonio",u_intercambio:"Studio all'estero",u_trabalho:"Lavoro",u_diploma:"Diploma",u_judicial:"Giudiziario",u_negocios:"Affari",u_imovel:"Immobili",u_cnh:"Patente di guida",u_adocao:"Adozione",u_aposentadoria:"Pensione",
    
    seg:"I tuoi documenti sono trattati con la massima sicurezza e riservatezza — ed eliminati dai nostri server al termine dell'ordine.",
-   vid_t:"Guarda come funziona",vid_d:"Video di 2 minuti (in portoghese)",whatis:"Cos'è una traduzione giurata? Cosa ricevo?",trust:"Traduttori pubblici giurati (TPIC), iscritti alla Camera di Commercio — ufficialmente riconosciuti.",
+   vid_t:"Video esplicativi",vtab1:"Come funziona",vtab2:"Cos'è la traduzione giurata",vtab3:"Apostille dell'Aia",vid_lang:"in portoghese",vid_sobre:"Guarda il video (3 min, in portoghese)",vid_apo:"Video: Apostille dell'Aia (3 min, in portoghese)",whatis:"Cos'è una traduzione giurata? Cosa ricevo?",trust:"Traduttori pubblici giurati (TPIC), iscritti alla Camera di Commercio — ufficialmente riconosciuti.",
    step_docs:"Invia i tuoi documenti",dz1:"Clicca o trascina i tuoi file",dz2:"Più documenti · PDF, JPG o PNG (PDF fino a 50 MB, immagine fino a 15 MB)",step_langs:"Lingue della traduzione",from_lbl:"Lingua di partenza",to_lbl:"Lingua di arrivo",btn_calc:"Calcola il prezzo",loading:"Calcolo in corso…",
    orc_h:"Il tuo preventivo",btn_edit:"Modifica",opt_apostila:"Apostille dell'Aia (digitale)",opt_fisica:"Copia cartacea stampata",btn_cont:"Continua",
    dados_h:"I tuoi dati",btn_back:"Indietro",estr_lbl:"Sono straniero(a) — non ho il CPF",l_nome:"Nome completo",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· per la fattura</span>",l_email:"E-mail",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· contatto più rapido</span>",total:"Totale",btn_criar:"Crea ordine",
@@ -2283,7 +2302,7 @@ var T={
    usos_h:"用途",u_visto:"签证",u_cidadania:"入籍",u_casamento:"结婚",u_intercambio:"留学",u_trabalho:"工作",u_diploma:"学历",u_judicial:"司法",u_negocios:"商务",u_imovel:"房产",u_cnh:"驾照",u_adocao:"收养",u_aposentadoria:"退休",
    
    seg:"您的文件会以最高的安全性和保密性处理——并在订单完成后从我们的服务器中删除。",
-   vid_t:"观看使用流程",vid_d:"2分钟视频（葡萄牙语）",whatis:"什么是宣誓翻译？我会收到什么？",trust:"公共宣誓翻译员（TPIC），在商业登记处注册——具有公信力。",
+   vid_t:"讲解视频",vtab1:"使用流程",vtab2:"什么是宣誓翻译",vtab3:"海牙认证（Apostille）",vid_lang:"葡萄牙语",vid_sobre:"观看视频（3分钟，葡萄牙语）",vid_apo:"视频：海牙认证（3分钟，葡萄牙语）",whatis:"什么是宣誓翻译？我会收到什么？",trust:"公共宣誓翻译员（TPIC），在商业登记处注册——具有公信力。",
    step_docs:"上传您的文件",dz1:"点击或拖拽您的文件",dz2:"多个文件 · PDF、JPG 或 PNG（PDF 最大 50 MB，图片最大 15 MB）",step_langs:"翻译语言",from_lbl:"源语言",to_lbl:"目标语言",btn_calc:"计算价格",loading:"计算中…",
    orc_h:"您的报价",btn_edit:"编辑",opt_apostila:"海牙认证（数字版）",opt_fisica:"纸质打印件",btn_cont:"继续",
    dados_h:"您的信息",btn_back:"返回",estr_lbl:"我是外国人——没有 CPF",l_nome:"全名",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· 用于发票</span>",l_email:"电子邮箱",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· 最快联系方式</span>",total:"合计",btn_criar:"创建订单",
@@ -2302,7 +2321,7 @@ var T={
    usos_h:"لأي غرض تحتاجها؟",u_visto:"التأشيرات",u_cidadania:"الجنسية",u_casamento:"الزواج",u_intercambio:"الدراسة بالخارج",u_trabalho:"العمل",u_diploma:"الشهادة",u_judicial:"القضاء",u_negocios:"الأعمال",u_imovel:"العقارات",u_cnh:"رخصة القيادة",u_adocao:"التبنّي",u_aposentadoria:"التقاعد",
    
    seg:"تُعامَل مستنداتك بأقصى درجات الأمان والسرّية — وتُحذف من خوادمنا بعد اكتمال الطلب.",
-   vid_t:"شاهد كيف يعمل",vid_d:"فيديو مدته دقيقتان (بالبرتغالية)",whatis:"ما هي الترجمة المحلّفة؟ وماذا سأستلم؟",trust:"مترجمون عموميون محلّفون (TPIC)، مسجّلون لدى الغرفة التجارية — ذوو حجّية رسمية.",
+   vid_t:"فيديوهات توضيحية",vtab1:"كيف يعمل",vtab2:"ما هي الترجمة المحلّفة",vtab3:"أبوستيل لاهاي",vid_lang:"بالبرتغالية",vid_sobre:"شاهد الفيديو (3 دقائق، بالبرتغالية)",vid_apo:"فيديو: أبوستيل لاهاي (3 دقائق، بالبرتغالية)",whatis:"ما هي الترجمة المحلّفة؟ وماذا سأستلم؟",trust:"مترجمون عموميون محلّفون (TPIC)، مسجّلون لدى الغرفة التجارية — ذوو حجّية رسمية.",
    step_docs:"أرسل مستنداتك",dz1:"انقر أو اسحب ملفاتك",dz2:"عدة مستندات · PDF أو JPG أو PNG (PDF حتى 50 ميغابايت، صورة حتى 15 ميغابايت)",step_langs:"لغتا الترجمة",from_lbl:"اللغة المصدر",to_lbl:"اللغة الهدف",btn_calc:"احسب السعر",loading:"جارٍ الحساب…",
    orc_h:"عرض السعر",btn_edit:"تعديل",opt_apostila:"أبوستيل لاهاي (رقمي)",opt_fisica:"نسخة ورقية مطبوعة",btn_cont:"متابعة",
    dados_h:"بياناتك",btn_back:"رجوع",estr_lbl:"أنا أجنبي — ليس لديّ CPF",l_nome:"الاسم الكامل",l_cpf:"CPF <span style=\"color:var(--cinza-claro)\">· للفاتورة</span>",l_email:"البريد الإلكتروني",l_wa:"WhatsApp <span style=\"color:var(--cinza-claro)\">· أسرع وسيلة تواصل</span>",total:"الإجمالي",btn_criar:"إنشاء الطلب",
@@ -2745,14 +2764,20 @@ function renderDyn(){
 /* Mobil-Feinschliff: alte Fehlermeldung unter "Criar pedido" verschwindet, sobald der Kunde ein Feld korrigiert */
 (function(){ var pd=document.getElementById('p-dados'), e2=document.getElementById('err2'); if(!pd||!e2) return; function clr(){ if(e2.textContent) e2.textContent=''; } pd.addEventListener('input',clr); pd.addEventListener('change',clr); })();
 </script>
-<div class="vidm" id="vidm" role="dialog" aria-modal="true" aria-label="Vídeo" hidden><div class="vidm-box"><button type="button" class="vidm-x" id="vidm-x" aria-label="Fechar">&times;</button><div class="vidm-fr" id="vidm-fr"></div></div></div>
+<div class="vidm" id="vidm" role="dialog" aria-modal="true" aria-label="Vídeo" hidden><div class="vidm-box"><button type="button" class="vidm-x" id="vidm-x" aria-label="Fechar">&times;</button><div class="vidm-head" id="vidm-head"></div><div class="vidm-fr" id="vidm-fr"></div><div class="vidm-tabs" id="vidm-tabs" role="tablist"></div></div></div>
 <script>
 (function(){
   var b=document.getElementById('vidbtn'),m=document.getElementById('vidm'),fr=document.getElementById('vidm-fr'),x=document.getElementById('vidm-x');
   if(!b||!m) return;
-  function show(){fr.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/AMzYqWgjluY?autoplay=1&rel=0&playsinline=1" title="traduzme: como funciona" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';m.hidden=false;x.focus();}
+  var VIDS=[{id:'AMzYqWgjluY',k:'vtab1',d:'2:42'},{id:'mc9Dsw6Rm7k',k:'vtab2',d:'3:26'},{id:'6DYIGqPCu2o',k:'vtab3',d:'3:09'}], hd=document.getElementById('vidm-head'), tabs=document.getElementById('vidm-tabs'), cur=0;
+  function play(i){cur=i;fr.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+VIDS[i].id+'?autoplay=1&rel=0&playsinline=1" title="traduzme" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+    hd.textContent=t('vid_t');
+    tabs.innerHTML=VIDS.map(function(v,j){return '<button type="button" role="tab" data-i="'+j+'" aria-selected="'+(j===i)+'"><img src="vid-'+(j+1)+'.webp" alt="" width="80" height="45" loading="lazy"><span><b>'+t(v.k)+'</b><small>'+v.d+' · '+t('vid_lang')+'</small></span></button>';}).join('');}
+  function show(i){play(typeof i==='number'?i:0);m.hidden=false;x.focus();}
+  tabs.addEventListener('click',function(e){var bt=e.target.closest('button[data-i]');if(bt)play(+bt.dataset.i);});
   function hide(){fr.innerHTML='';m.hidden=true;b.focus();}
-  b.addEventListener('click',show); x.addEventListener('click',hide);
+  window.openVid=function(i){try{fecharPop();}catch(e){}show(i);};
+  b.addEventListener('click',function(){show(0);}); x.addEventListener('click',hide);
   m.addEventListener('click',function(e){if(e.target===m)hide();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)hide();});
 })();
