@@ -326,6 +326,10 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .pop{position:fixed; inset:0; background:rgba(26,26,26,.5); display:none; align-items:center; justify-content:center; padding:26px; z-index:99;}
   .pop.show{display:flex;}
   .pop-box{position:relative; background:#fff; border-radius:14px; padding:20px 20px 18px; max-width:380px; max-height:calc(100vh - 52px); overflow-y:auto; animation:pop .2s ease;}
+  .pc-tipos{cursor:pointer;} .pc-ver{color:var(--brand); font-weight:600; text-decoration:underline; white-space:nowrap;}
+  .tipos-dir{font-size:12.5px; color:var(--ink-soft); margin:-2px 0 10px;}
+  .tipos-l{list-style:none; margin:0; padding:0;} .tipos-l li{display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid #eee; font-size:13.5px;} .tipos-l li:last-child{border-bottom:none;} .tipos-l b{white-space:nowrap; font-weight:600;} .tipos-l small{display:block; color:var(--ink-soft); font-size:11.5px;}
+  .tipos-nota{font-size:12px; color:var(--ink-soft); margin-top:10px; line-height:1.5;}
   .pop-box h4{font-size:15px; font-weight:600; margin-bottom:8px; padding-right:28px;}
   .pop-box p{font-size:13px; color:var(--ink-soft); line-height:1.55; white-space:pre-line;}
   .pop-x{position:absolute; top:12px; right:12px; width:28px; height:28px; border:none; background:none; color:var(--cinza); font-size:17px; cursor:pointer; border-radius:7px; display:flex; align-items:center; justify-content:center; line-height:1;}
@@ -828,7 +832,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     </section>
     <section class="pricebox" aria-labelledby="pc-h">
       <h3 id="pc-h" data-i18n="pc_h">Como o preço é calculado</h3>
-      <ul><li data-i18n-html="pc1"></li><li data-i18n-html="pc2"></li><li data-i18n-html="pc3"></li></ul>
+      <ul><li class="pc-tipos" onclick="abrirTiposDoc(event)"><span data-i18n-html="pc1"></span> <span class="pc-ver" data-i18n="pc1_ver"></span></li><li data-i18n-html="pc2"></li><li data-i18n-html="pc3"></li></ul>
     </section>
     <div class="usos">
       <h3 class="usos-h" data-i18n="usos_h">Para que você precisa?</h3>
@@ -1638,7 +1642,7 @@ function updateTotal(){
 
 
 var popKey=null;
-function info(e,k){e.stopPropagation();popKey=k;var L=INFO_ALL[LANG]||INFO_ALL.pt;var I=L[k]||INFO_ALL.pt[k];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(k,I);
+function info(e,k){e.stopPropagation();popKey=k;popTipos=false;var L=INFO_ALL[LANG]||INFO_ALL.pt;var I=L[k]||INFO_ALL.pt[k];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(k,I);
   var ex=document.getElementById('pop-extra');
   if(k==='apostila'){ ex.innerHTML='<button type="button" class="maps-btn" onclick="acharCartorio()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 1114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'+t('find_cartorio')+'</button><button type="button" class="vid-sobre" onclick="openVid(2)">'+t('vid_apo')+'</button>'; }
   else if(k==='sobre'){ ex.innerHTML='<button type="button" class="vid-sobre" onclick="openVid(1)">'+t('vid_sobre')+'</button>'; }
@@ -1668,6 +1672,28 @@ function openPriv(e){ if(e){e.preventDefault&&e.preventDefault(); e.stopPropagat
   document.getElementById('pop-p').innerHTML=t('lgpd_note');
   document.getElementById('pop-extra').innerHTML='<label class="priv-op"><input type="checkbox" id="consent-pop"'+(c&&c.checked?' checked':'')+'><span>'+t('consent_lbl')+'</span></label>';
   document.getElementById('consent-pop').onchange=function(){ if(c) c.checked=this.checked; };
+  document.getElementById('pop').classList.add('show');
+}
+/* Lista "Documentos padrão" (Ben 15.10.2026): todos os tipos com preço fixo do par escolhido, direto de pix-config (= mesma tabela do cálculo, nada fixo no código) */
+var popTipos=false;
+function rotuloTipo(p){ var m=STD_LABEL[LANG]||STD_LABEL.pt, rot=p.rotulos&&typeof p.rotulos==='object'&&(p.rotulos[LANG]||p.rotulos.pt); return rot||m[p.chave]||STD_LABEL.pt[p.chave]||cap(p.chave); }
+function abrirTiposDoc(e){
+  if(e&&e.stopPropagation) e.stopPropagation();
+  popKey=null; popTipos=true;
+  var par=PAR||(typeof selFrom!=='undefined'&&selFrom&&parDe(selFrom.value,selTo.value));
+  if(!par&&CFG){ var at=idiomasAtivos(); if(at.length) par={idioma:at[0],direcao:'to_pt'}; }
+  var ln=LANGNAMES[LANG]||LANGNAMES.pt, nm={}; Object.keys(IDIOMA_NOME).forEach(function(k){ nm[k]=ln[IDIOMA_NOME[k]]||IDIOMA_NOME[k]; });
+  var docs=(CFG&&par)?tabela(par).docsTab:[], h='';
+  document.getElementById('pop-t').textContent=t('tipos_t');
+  document.getElementById('pop-p').textContent='';
+  if(!docs.length){ h='<p class="tipos-nota">'+t('tipos_vazio')+'</p>'; }
+  else {
+    var pt=ln['Português']||'Português', l2=nm[par.idioma]||par.idioma;
+    h='<div class="tipos-dir">'+(par.direcao==='to_pt'? l2+' → '+pt : pt+' → '+l2)+'</div><ul class="tipos-l">';
+    docs.forEach(function(p){ h+='<li><span>'+esc(rotuloTipo(p))+(p.extra_pag_cents>0?'<small>'+t('tipos_extra').replace('{v}',fmt(p.extra_pag_cents/100))+'</small>':'')+'</span><b>'+fmt(p.valor_cents/100)+'</b></li>'; });
+    h+='</ul><p class="tipos-nota">'+t('tipos_nota')+'</p>';
+  }
+  document.getElementById('pop-extra').innerHTML=h;
   document.getElementById('pop').classList.add('show');
 }
 
@@ -2656,6 +2682,11 @@ pc_h:[`Como o preço é calculado`,`How the price is calculated`,`Cómo se calcu
 pc1:[`<b>Documentos padrão</b> (certidões, diplomas, CNH…): preço fixo por documento.`,`<b>Standard documents</b> (certificates, diplomas, driver's licence…): fixed price per document.`,`<b>Documentos estándar</b> (actas, diplomas, carnet…): precio fijo por documento.`,`<b>Standarddokumente</b> (Urkunden, Zeugnisse, Führerschein…): Festpreis pro Dokument.`,`<b>Documents standard</b> (actes, diplômes, permis…) : prix fixe par document.`,`<b>Documenti standard</b> (certificati, diplomi, patente…): prezzo fisso per documento.`,`<b>标准文件</b>（证书、学位证、驾照等）：按文件固定收费。`,`<b>المستندات القياسية</b> (الشهادات والدبلومات ورخصة القيادة…): سعر ثابت لكل مستند.`],
 pc2:[`<b>Verso e Apostila</b> (foto ou página) contam como parte do documento: sem custo extra.`,`<b>Back side and apostille</b> (photo or page) count as part of the document: no extra cost.`,`<b>Reverso y apostilla</b> (foto o página) cuentan como parte del documento: sin coste extra.`,`<b>Rückseite und Apostille</b> (Foto oder Seite) zählen zum Dokument: ohne Aufpreis.`,`<b>Verso et apostille</b> (photo ou page) font partie du document : sans frais supplémentaires.`,`<b>Retro e apostille</b> (foto o pagina) fanno parte del documento: senza costi aggiuntivi.`,`<b>背面和海牙认证页</b>（照片或页面）视为文件的一部分：不另收费。`,`<b>الظهر والأبوستيل</b> (صورة أو صفحة) يُحسبان جزءًا من المستند: دون تكلفة إضافية.`],
 pc3:[`<b>Textos longos e várias páginas</b> (contratos, laudos…): preço por página.`,`<b>Long texts and multi-page documents</b> (contracts, reports…): price per page.`,`<b>Textos largos y varias páginas</b> (contratos, informes…): precio por página.`,`<b>Lange Texte und mehrseitige Dokumente</b> (Verträge, Gutachten…): Preis pro Seite.`,`<b>Textes longs et documents de plusieurs pages</b> (contrats, rapports…) : prix par page.`,`<b>Testi lunghi e documenti di più pagine</b> (contratti, perizie…): prezzo a pagina.`,`<b>长文本和多页文件</b>（合同、报告等）：按页计价。`,`<b>النصوص الطويلة والمستندات متعددة الصفحات</b> (العقود والتقارير…): السعر لكل صفحة.`],
+pc1_ver:[`Ver lista`,`See list`,`Ver lista`,`Liste ansehen`,`Voir la liste`,`Vedi elenco`,`查看列表`,`عرض القائمة`],
+tipos_t:[`Documentos com preço fixo`,`Documents with a fixed price`,`Documentos con precio fijo`,`Dokumente mit Festpreis`,`Documents à prix fixe`,`Documenti a prezzo fisso`,`固定价格文件`,`مستندات بسعر ثابت`],
+tipos_extra:[`+ {v} por página adicional`,`+ {v} per additional page`,`+ {v} por página adicional`,`+ {v} je weitere Seite`,`+ {v} par page supplémentaire`,`+ {v} per pagina aggiuntiva`,`每增加一页 + {v}`,`+ {v} لكل صفحة إضافية`],
+tipos_nota:[`Preço por documento de até 3 páginas. Verso e Apostila sem custo extra. Outros documentos: preço por página. Com vários documentos, o total pode ficar menor.`,`Price per document of up to 3 pages. Back side and apostille at no extra cost. Other documents: price per page. With several documents, the total may be lower.`,`Precio por documento de hasta 3 páginas. Reverso y apostilla sin coste extra. Otros documentos: precio por página. Con varios documentos, el total puede ser menor.`,`Preis je Dokument bis 3 Seiten. Rückseite und Apostille ohne Aufpreis. Andere Dokumente: Preis pro Seite. Bei mehreren Dokumenten kann der Gesamtpreis niedriger sein.`,`Prix par document jusqu'à 3 pages. Verso et apostille sans supplément. Autres documents : prix par page. Avec plusieurs documents, le total peut être inférieur.`,`Prezzo per documento fino a 3 pagine. Retro e apostille senza costi extra. Altri documenti: prezzo per pagina. Con più documenti, il totale può essere inferiore.`,`每份文件（最多 3 页）固定价格。背面和海牙认证不另收费。其他文件按页计价。多份文件时，总价可能更低。`,`السعر لكل مستند حتى 3 صفحات. الوجه الخلفي والأبوستيل دون تكلفة إضافية. المستندات الأخرى: السعر لكل صفحة. مع عدة مستندات قد يكون الإجمالي أقل.`],
+tipos_vazio:[`A lista aparece assim que os preços carregarem. Escolha o par de idiomas acima.`,`The list appears once prices have loaded. Choose the language pair above.`,`La lista aparece cuando se cargan los precios. Elige el par de idiomas arriba.`,`Die Liste erscheint, sobald die Preise geladen sind. Wählen Sie oben das Sprachpaar.`,`La liste s'affiche une fois les prix chargés. Choisissez la paire de langues ci-dessus.`,`L'elenco appare quando i prezzi sono caricati. Scegli la coppia di lingue sopra.`,`价格加载后显示列表。请在上方选择语言组合。`,`تظهر القائمة بعد تحميل الأسعار. اختر زوج اللغات أعلاه.`],
 pg1:[`Documentos`,`Documents`,`Documentos`,`Dokumente`,`Documents`,`Documenti`,`文件`,`المستندات`],
 pg2:[`Orçamento`,`Quote`,`Presupuesto`,`Angebot`,`Devis`,`Preventivo`,`报价`,`العرض`],
 pg3:[`Dados`,`Details`,`Datos`,`Daten`,`Données`,`Dati`,`信息`,`البيانات`],
@@ -2727,6 +2758,7 @@ function setLang(l){
   if(typeof lastRes!=='undefined'&&lastRes)renderResList();
   if(typeof base!=='undefined'&&base)updateTotal();
   if(popKey&&document.getElementById('pop').classList.contains('show')){var Lp=INFO_ALL[l]||INFO_ALL.pt;var I=Lp[popKey]||INFO_ALL.pt[popKey];document.getElementById('pop-t').textContent=I.t;document.getElementById('pop-p').textContent=popTxt(popKey,I);var exb=document.querySelector('#pop-extra .maps-btn');if(exb)exb.lastChild.textContent=t('find_cartorio');}
+  if(popTipos&&document.getElementById('pop').classList.contains('show'))abrirTiposDoc();
   if(document.getElementById('pop-upload').classList.contains('show'))openUpload();
   if(document.getElementById('pop-terms').classList.contains('show'))openTerms();
   document.querySelectorAll('#langsw button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lang')===l);});
