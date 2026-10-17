@@ -960,6 +960,36 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   .pop-box .faq-foot{flex:none; margin:0; padding:13px 24px calc(15px + env(safe-area-inset-bottom)); border-top:1px solid var(--borda); font-size:13px; line-height:1.5; color:var(--ink-soft); text-align:left; white-space:normal;}
   .faq-foot a,.faq-a a,.pop-box .nw{white-space:nowrap;}
   @media(max-width:560px){ .pop-box.pop-faq h4{font-size:18px; padding:20px 60px 4px 16px;} .pop-box.pop-faq .pop-x{top:12px; right:10px; width:44px; height:44px;} .faq-sub{padding:0 16px 12px;} .faq-l{padding:2px 16px 14px;} .faq-l summary{padding:12px 14px; font-size:14px;} .faq-a{padding:0 14px 13px;} .pop-box .faq-foot{padding:12px 16px calc(14px + env(safe-area-inset-bottom));} }
+
+  /* Ben 17.10.: Apostila je Dokument auswaehlen (Pop-up) */
+  .opt-sub{display:block; flex-basis:100%; font-size:11.5px; font-weight:500; color:var(--brand-dark); margin-top:2px;}
+  .opt-sub u{text-underline-offset:2px;}
+  .pop-box.apo-box{max-width:460px; width:100%; display:flex; flex-direction:column;}
+  .apo-box h4{padding-right:28px;}
+  .apo-p{font-size:13px; line-height:1.5; color:var(--ink-soft); margin:6px 0 12px;}
+  .apo-l{display:flex; flex-direction:column; gap:8px; overflow-y:auto; max-height:min(52vh,420px); padding:2px;}
+  .apo-row{display:flex; align-items:center; gap:11px; border:1px solid var(--borda-forte); border-radius:11px; padding:9px 11px; cursor:pointer; transition:.15s; background:#fff;}
+  .apo-row:hover{border-color:var(--cinza);}
+  .apo-row.on{border-color:var(--brand); background:var(--brand-bg);}
+  .apo-row input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none;}
+  .apo-row input:focus-visible + .check{outline:2px solid var(--brand); outline-offset:2px;}
+  .apo-row.on .check{background:var(--brand); border-color:var(--brand);}
+  .apo-row .check svg{width:14px; height:14px; opacity:0;}
+  .apo-row.on .check svg{opacity:1;}
+  .apo-th{display:flex; flex:none;}
+  .apo-im{width:34px; height:44px; border-radius:5px; border:1px solid var(--borda); background:#f4f2ee; overflow:hidden; display:flex; align-items:center; justify-content:center;}
+  .apo-im + .apo-im{margin-left:-14px; box-shadow:-2px 0 0 #fff;}
+  .apo-im img,.apo-im canvas{width:100%; height:100%; object-fit:cover; object-position:top; display:block;}
+  .apo-im svg{width:16px; height:16px;}
+  .apo-im .doc-ld{display:none;}
+  .apo-tx{min-width:0; flex:1; display:flex; flex-direction:column; gap:1px;}
+  .apo-tx b{font-size:13.5px; font-weight:600; color:var(--ink);}
+  .apo-tx small{font-size:11.5px; color:var(--cinza); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .apo-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:12px; font-size:12.5px;}
+  .apo-all{border:none; background:none; padding:4px 0; font:inherit; font-size:12.5px; font-weight:600; color:var(--brand-dark); text-decoration:underline; text-underline-offset:2px; cursor:pointer;}
+  .apo-sum{color:var(--cinza); text-align:right;}
+  .apo-box .cta{margin-top:12px;}
+  @media(max-width:560px){ .apo-row{padding:12px;} .apo-tx b{font-size:14.5px;} .apo-l{max-height:none;} }
 </style>
 </head>
 <body>
@@ -1081,7 +1111,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       <div class="dup-note" id="anexo-note" role="status" style="display:none"></div>
       <div class="opts">
         <div class="opt" id="opt-apostila" onclick="toggleOpt('apostila')">
-          <div class="opt-l"><span data-i18n="opt_apostila">Apostila de Haia</span> <span class="q" onclick="info(event,'apostila')">?</span></div>
+          <div class="opt-l"><span data-i18n="opt_apostila">Apostila de Haia</span> <span class="q" onclick="info(event,'apostila')">?</span><span class="opt-sub" id="apo-sub" style="display:none"></span></div>
           <div class="opt-r"><span class="opt-pr"></span><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span></div>
         </div>
         <div class="opt" id="opt-fisica" onclick="toggleOpt('fisica')">
@@ -1219,6 +1249,17 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
         <button class="pop-x" onclick="fecharDocs()" aria-label="Fechar">✕</button>
         <h4 id="docs-title"></h4>
         <div id="docs-body"></div>
+      </div>
+    </div>
+    <!-- Ben 17.10.: Apostila je Dokument -->
+    <div class="pop" id="pop-apo" onclick="fecharApo()">
+      <div class="pop-box apo-box" role="dialog" aria-modal="true" aria-labelledby="apo-t" onclick="event.stopPropagation()">
+        <button class="pop-x" onclick="fecharApo()" aria-label="Fechar">✕</button>
+        <h4 id="apo-t"></h4>
+        <p class="apo-p" id="apo-p"></p>
+        <div class="apo-l" id="apo-l"></div>
+        <div class="apo-foot"><button type="button" class="apo-all" id="apo-all" onclick="apoTodos()"></button><span class="apo-sum" id="apo-sum"></span></div>
+        <button type="button" class="cta" id="apo-ok" onclick="apoConfirmar()"></button>
       </div>
     </div>
   </main>
@@ -1443,7 +1484,7 @@ var INFO={sobre:{t:"Tradução juramentada: como funciona",p:"O que é: a tradu�
           adocao:{t:"Adoção internacional",p:"A adoção entre países exige tradução juramentada de um conjunto grande de documentos: certidões, laudos psicossociais, estudos de habilitação, comprovantes de renda e decisões judiciais, para serem reconhecidos pelas autoridades do país de origem da criança. Em geral também é necessário o apostilamento de cada documento."},
           aposentadoria:{t:"Aposentadoria no exterior",p:"Para dar entrada em aposentadoria ou benefícios em outro país — ou receber um benefício estrangeiro no Brasil — traduza de forma juramentada comprovantes de contribuição, tempo de trabalho, certidões e documentos previdenciários. Acordos internacionais de previdência costumam exigir a tradução oficial e, às vezes, o apostilamento."}};
 
-var chosen=[], base=0, opts={apostila:false, fisica:false}, lastEmail="";
+var chosen=[], base=0, opts={apostila:false, fisica:false}, lastEmail="", APO_SEL=[];
 var file=document.getElementById('file'),drop=document.getElementById('drop'),filesBox=document.getElementById('files'),
     calc=document.getElementById('calc'),err=document.getElementById('err'),loading=document.getElementById('loading'),
     reslist=document.getElementById('reslist'),totalbar=document.getElementById('totalbar');
@@ -1714,15 +1755,15 @@ function analisar(de,para,par,aviso){
   if(ilegivel){ mostrarOrcamento(P,'ilegivel'); return; }
   if(ANA&&ANA.limite==='upload'){ mostrarOrcamento(P,'limite'); return; }
   PERS=pedidoPersonalizado(lastRes,CFG.idiomas[par.idioma],P);
-  if(PERS){ opts={apostila:false,fisica:false}; expressSel=false; mostrarOrcamento(P,'personal'); return; }   /* Ben 15.10.: über den Grenzen kein Preis, persönliches Angebot */
+  if(PERS){ opts={apostila:false,fisica:false}; APO_SEL=[]; expressSel=false; mostrarOrcamento(P,'personal'); return; }   /* Ben 15.10.: über den Grenzen kein Preis, persönliches Angebot */
   { var rv=precisaRevisao(chosen.map(anDe),par.idioma,par.direcao), nd=(rv==='idioma'&&!naoVerif&&!aviso)?direcaoCorrigida(chosen.map(anDe),par):null;
     if(nd){ selFrom.value=nd.de; selTo.value=nd.para; avisoIdioma(); DIR_ND=nd; analisar(nd.de,nd.para,nd.par,dirAutoTxt(nd)); return; }
-    if(rv&&!naoVerif){ opts={apostila:false,fisica:false}; expressSel=false; REV_MOTIVO=rv; mostrarOrcamento(P,'revisao'); return; } }   /* v23: KI unsicher -> kein Festpreis, Pruefanfrage an Ben */
+    if(rv&&!naoVerif){ opts={apostila:false,fisica:false}; APO_SEL=[]; expressSel=false; REV_MOTIVO=rv; mostrarOrcamento(P,'revisao'); return; } }   /* v23: KI unsicher -> kein Festpreis, Pruefanfrage an Ben */
   PLAN=planejar(P,CFG.idiomas[par.idioma],Date.now()+SKEW,usoNum(par.idioma),FER);
   if(PLAN.modo!=='auto'){ mostrarOrcamento(P,PLAN.modo); return; }
   if(naoVerif){ mostrarOrcamento(P,'verif'); return; }   /* páginas só valem se o SERVIDOR as contou (pdf-lib); sem isso nenhum preço automático */
   QUOTE_P=null;
-  opts={apostila:false,fisica:false}; expressSel=false; DESC=0; MIN=0; errOrc(''); var aviso=ERR_PEND; ERR_PEND='';
+  opts={apostila:false,fisica:false}; APO_SEL=[]; expressSel=false; DESC=0; MIN=0; errOrc(''); var aviso=ERR_PEND; ERR_PEND='';
   if(!ANA||ANA.degradado||!ANA.lote){ renderResList(); updateTotal(); go('orc'); errOrc(aviso); return; }
   /* v23: Gesamtpreis — der Server (pix-cob, cotar) laesst die KI den ganzen Auftrag bewerten; Rabatt nur in Leitplanken, beim Pix derselbe Wert. Fehler/Zeitueberschreitung = Tabellenpreis */
   loading.className='loading show'; try{ var lp=loading.querySelector('p'); if(lp) lp.textContent=t('loading_preco'); }catch(e){}
@@ -1783,7 +1824,40 @@ var estrBR=false;
 function fisOk(){ return !ehEstrangeiro||estrBR; }
 function fisAtiva(){ return !!opts.fisica&&fisOk(); }
 /* Apostila JE DOKUMENT (Ben 15.10.): Hauptdokumente = Standard/Lauda, Verso/Fortsetzung zaehlen nicht (wie pix-cob v34) */
-function nApoDocs(){ var n=(lastRes||[]).filter(function(x){ return x.r&&(x.r.modo==='standard'||x.r.modo==='lauda'); }).length; return Math.max(1,n); }
+/* Ben 17.10.: der Kunde waehlt im Pop-up, welche Dokumente die Apostila bekommen (APO_SEL = Datei-Indizes der Hauptdokumente). */
+function apoMains(){ var m=[]; (lastRes||[]).forEach(function(x,i){ if(x.r&&(x.r.modo==='standard'||x.r.modo==='lauda')) m.push(i); }); return m; }
+function nApoDocs(){ if(opts.apostila) return Math.max(1,APO_SEL.length); return Math.max(1,apoMains().length); }
+/* Fotos je Dokument: Rueckseite/Folgeseite (anexo, continuacao) gehoert zum Hauptdokument davor (am Anfang: zum ersten). */
+function apoGrupos(){ var g=[], cur=null, vor=[];
+  (lastRes||[]).forEach(function(x,i){ var main=x.r&&(x.r.modo==='standard'||x.r.modo==='lauda');
+    if(main){ cur={i:i,f:vor.concat([i])}; vor=[]; g.push(cur); } else if(cur) cur.f.push(i); else vor.push(i); });
+  if(vor.length&&g.length) g[0].f=g[0].f.concat(vor);
+  g.forEach(function(x){ x.f.sort(function(a,b){return a-b;}); }); return g; }
+var apoTmp=[];
+function abrirApo(){
+  var g=apoGrupos(), box=document.getElementById('apo-l');
+  apoTmp=opts.apostila?APO_SEL.slice():[];
+  document.getElementById('apo-t').textContent=t('apo_t'); document.getElementById('apo-p').textContent=t('apo_p');
+  box.innerHTML=g.map(function(x){ var r=lastRes[x.i].r, nm=chosen[x.i]?chosen[x.i].name:lastRes[x.i].name;
+    var th=x.f.slice(0,3).map(function(fi){ var f=chosen[fi]; return '<span class="apo-im" data-f="'+fi+'" data-k="'+(f&&/^image\//.test(f.type)?'img':'pdf')+'">'+PDF_ICON+'</span>'; }).join('');
+    var sub=esc(nm)+(x.f.length>1?' · '+t('apo_fotos').replace('{n}',x.f.length):'');
+    return '<label class="apo-row" data-i="'+x.i+'"><input type="checkbox" data-i="'+x.i+'" onchange="apoMarca(this)"><span class="check"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span><span class="apo-th">'+th+'</span><span class="apo-tx"><b>'+esc(rotuloTipo(r))+'</b><small title="'+esc(nm)+'">'+sub+'</small></span></label>'; }).join('');
+  var ims=box.querySelectorAll('.apo-im');
+  for(var k=0;k<ims.length;k++){ (function(el){ var f=chosen[+el.getAttribute('data-f')]; if(!f) return; if(el.getAttribute('data-k')==='img') renderImgThumb(f,el); else renderPdfThumb(f,el); })(ims[k]); }
+  apoSync(); document.getElementById('pop-apo').classList.add('show');
+  var c=box.querySelector('input'); if(c&&!('ontouchstart' in window)) try{ c.focus({preventScroll:true}); }catch(e){}
+}
+function apoMarca(el){ var i=+el.getAttribute('data-i'), p=apoTmp.indexOf(i); if(el.checked&&p<0) apoTmp.push(i); if(!el.checked&&p>=0) apoTmp.splice(p,1); apoSync(); }
+function apoTodos(){ var m=apoMains(); apoTmp=(apoTmp.length===m.length)?[]:m.slice(); apoSync(); }
+function apoSync(){
+  var m=apoMains(), n=apoTmp.length, c=optCents('apostila')||0;
+  document.querySelectorAll('#apo-l .apo-row').forEach(function(row){ var i=+row.getAttribute('data-i'), on=apoTmp.indexOf(i)>=0; row.classList.toggle('on',on); row.querySelector('input').checked=on; });
+  document.getElementById('apo-all').textContent=t(n===m.length?'apo_nenhum':'apo_todos');
+  document.getElementById('apo-sum').textContent=n?('+ '+fmt(c*n/100)+(n>1?' ('+n+' × '+fmt(c/100)+')':'')):'';
+  document.getElementById('apo-ok').textContent=n?t('apo_ok'):t('apo_sem');
+}
+function apoConfirmar(){ var m=apoMains(); APO_SEL=apoTmp.filter(function(i){ return m.indexOf(i)>=0; }).sort(function(a,b){return a-b;}); opts.apostila=APO_SEL.length>0; fecharApo(); updateTotal(); }
+function fecharApo(){ document.getElementById('pop-apo').classList.remove('show'); thumbUrls.forEach(function(u){ try{URL.revokeObjectURL(u);}catch(x){} }); thumbUrls=[]; }
 function apoCents(){ var c=optCents('apostila'); return c==null?null:c*nApoDocs(); }
 function subtotalCents(){ var s=base-DESC+MIN; if(opts.apostila&&apoCents()!=null) s+=apoCents(); if(fisAtiva()&&optCents('fisica')!=null) s+=optCents('fisica'); return s; }
 function expressCents(){ return (expressSel&&PLAN&&PLAN.express)?PLAN.express.fix:0; }   /* valor FIXO por pedido (capacidade.express_fix_cents / express48_fix_cents) */
@@ -1792,6 +1866,7 @@ function totalGeral(){ return totalCents()/100; }   /* só PRÉVIA ("Estimativa"
 function entregaPrevia(){ return (expressSel&&PLAN.express)?PLAN.express.entrega:PLAN.normal.entrega; }
 function toggleOpt(k){
   if(k==='express'){ if(!(PLAN&&PLAN.express)) return; expressSel=!expressSel; }
+  else if(k==='apostila'){ if(optCents(k)==null) return; var m=apoMains(); if(m.length>1){ abrirApo(); return; } opts.apostila=!opts.apostila; APO_SEL=opts.apostila?m:[]; }
   else { if(optCents(k)==null) return; if(k==='fisica'&&!fisOk()) return; opts[k]=!opts[k]; }
   updateTotal();
 }
@@ -1800,8 +1875,10 @@ function renderOrc(){
     var row=document.getElementById('opt-'+k), c=optCents(k);
     var oculto=(c==null)||(k==='fisica'&&!fisOk());
     row.classList.toggle('hidden',oculto); row.classList.toggle('active',k==='fisica'?fisAtiva():!!opts[k]);
-    if(c!=null) row.querySelector('.opt-pr').textContent=(k==='apostila'&&nApoDocs()>1)?'+ '+fmt(c*nApoDocs()/100)+' ('+nApoDocs()+' × '+fmt(c/100)+')':'+ '+fmt(c/100);
+    if(c!=null) row.querySelector('.opt-pr').textContent=(k==='apostila'&&opts.apostila&&nApoDocs()>1)?'+ '+fmt(c*nApoDocs()/100)+' ('+nApoDocs()+' × '+fmt(c/100)+')':(k==='apostila'&&!opts.apostila&&apoMains().length>1)?'+ '+fmt(c/100)+' '+t('apo_por'):'+ '+fmt(c/100);
   });
+  var mA=apoMains(), sb=document.getElementById('apo-sub');
+  if(sb){ var vis=!!opts.apostila&&mA.length>1; sb.style.display=vis?'':'none'; if(vis) sb.innerHTML=esc(t('apo_de').replace('{n}',APO_SEL.length).replace('{m}',mA.length))+' · <u>'+esc(t('apo_editar'))+'</u>'; }
   var ex=PLAN&&PLAN.express, rowx=document.getElementById('opt-express');
   rowx.classList.toggle('hidden',!ex); rowx.classList.toggle('active',!!(ex&&expressSel));
   if(ex){
@@ -2229,7 +2306,7 @@ function abrirPagamento(){
     email:lastEmail, whatsapp:selDDI+' '+document.getElementById('whats').value.replace(/\D/g,''),
     docs: chosen.map(function(f){return f.name;}),
     paginas: chosen.map(function(f){return f._pg||1;}),   /* só indicação; o servidor limita a 1..300 */
-    opcoes: {apostila:!!opts.apostila, fisica:fisAtiva()},
+    opcoes: opts.apostila ? {apostila:true, fisica:fisAtiva(), apostila_docs:APO_SEL.slice()} : {apostila:false, fisica:fisAtiva()},
     endereco_fisica: fisAtiva() ? enderecoFisicoForm() : null,   /* Brasil; o servidor valida de novo */
     arquivos: ANA ? chosen.map(function(f){ return {hash:f._hash||''}; }) : undefined,   /* só hash; a classificação vem do servidor */
     lote: ANA ? ANA.lote : undefined, lang: LANG,
@@ -2343,7 +2420,7 @@ function dadosPedido(){
     email:(document.getElementById('email').value||'').trim(),
     whatsapp:selDDI+' '+document.getElementById('whats').value.replace(/\D/g,''),
     total:fmt(totalGeral())+' ('+t('badge_estim')+')', paginas:PAGS, entrega:(PLAN&&PLAN.modo==='auto'?fmtData(entregaPrevia()):''),
-    opcoes:[opts.apostila?'Apostila':'',fisAtiva()?'Via física':'',(expressSel&&PLAN&&PLAN.express)?PLAN.express.tipo:''].filter(Boolean).join(', ')||'—',
+    opcoes:[opts.apostila?'Apostila'+(APO_SEL.length>1?' ('+APO_SEL.length+')':''):'',fisAtiva()?'Via física':'',(expressSel&&PLAN&&PLAN.express)?PLAN.express.tipo:''].filter(Boolean).join(', ')||'—',
     docs:chosen.map(function(f){return f.name;}).join(', ') };
   if(ehEstrangeiro){ d.endereco=[document.getElementById('e_pais').value,document.getElementById('e_cidade').value,document.getElementById('e_estado').value,document.getElementById('e_cep').value,document.getElementById('e_logr').value,document.getElementById('e_num').value,document.getElementById('e_bairro').value].join(' | '); }
   else if(pjAtivo()){ d.cnpj=document.getElementById('cnpj').value; d.razao_social=d.nome; }
@@ -2360,7 +2437,7 @@ function waMsg(){
   function sv(id){ var e=document.getElementById(id); return e?(e.value||'').trim():''; }
   function st(e){ try{ return e.options[e.selectedIndex].text; }catch(x){ return e.value; } }
   var ok=PLAN&&PLAN.modo==='auto'&&base>0;
-  var op=[opts.apostila?t('apostila_w'):'',fisAtiva()?t('fisica_w'):'',(expressSel&&PLAN&&PLAN.express)?t(PLAN.express.tipo==='48h'?'express_48h':'express_24h'):''].filter(Boolean).join(', ')||'—';
+  var op=[opts.apostila?t('apostila_w')+(APO_SEL.length>1?' ('+APO_SEL.length+')':''):'',fisAtiva()?t('fisica_w'):'',(expressSel&&PLAN&&PLAN.express)?t(PLAN.express.tipo==='48h'?'express_48h':'express_24h'):''].filter(Boolean).join(', ')||'—';
   var m=t('wa_pay_msg').replace('{m}',selMethod||'').replace('{from}',st(selFrom)).replace('{to}',st(selTo)).replace('{docs}',docW(chosen.length)).replace('{pg}',pagW(PAGS||0))
     .replace('{tot}',ok?fmt(totalGeral()):'—').replace('{op}',op).replace('{nome}',sv('nome')).replace('{email}',sv('email'));
   return encodeURIComponent(m);
@@ -3043,7 +3120,7 @@ function renderDyn(){
   /* Runde 4b: Schalter-Zustand fuer Screenreader (aria-pressed folgt der Klasse 'active') */
   document.querySelectorAll('.opt,.estr-toggle,.estrpay-tg').forEach(function(el){ var sy=function(){ el.setAttribute('aria-pressed',el.classList.contains('active')?'true':'false'); }; sy(); try{ new MutationObserver(sy).observe(el,{attributes:true,attributeFilter:['class']}); }catch(e){} });
   /* Esc schliesst Info-/Upload-/AGB-/Dokument-Popups */
-  document.addEventListener('keydown',function(e){ if(e.key!=='Escape') return; var o=function(id){ return document.getElementById(id).classList.contains('show'); }; if(o('pop')) fecharPop(); if(o('pop-upload')) fecharUpload(); if(o('pop-terms')) fecharTerms(); if(o('pop-docs')) fecharDocs(); });
+  document.addEventListener('keydown',function(e){ if(e.key!=='Escape') return; var o=function(id){ return document.getElementById(id).classList.contains('show'); }; if(o('pop')) fecharPop(); if(o('pop-upload')) fecharUpload(); if(o('pop-terms')) fecharTerms(); if(o('pop-docs')) fecharDocs(); if(o('pop-apo')) fecharApo(); });
   ['err','err2'].forEach(function(id){ var e=document.getElementById(id); if(e) e.setAttribute('role','alert'); });
   document.querySelectorAll('.field').forEach(function(f){ var l=f.querySelector('label'),c=f.querySelector('input,select'); if(l&&c&&c.id&&!l.htmlFor) l.htmlFor=c.id; });
   var sf=document.getElementById('from'),st=document.getElementById('to'); if(sf) sf.removeAttribute('aria-label'); if(st) st.removeAttribute('aria-label');
@@ -3082,6 +3159,17 @@ var IDIOMAS_SITE=['pt','en','es','fr'];   /* fr seit 15.10.2026 (Ben: Franzoesis
   b.addEventListener('click',function(){show(0);}); x.addEventListener('click',hide);
   m.addEventListener('click',function(e){if(e.target===m)hide();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden)hide();});
+})();
+</script>
+<script>
+/* Ben 17.10.: Texte Apostila-Auswahl (andere Sprachen fallen auf PT zurueck) */
+(function(){ var A={
+ pt:{apo_t:"Quais documentos levam Apostila?",apo_p:"Marque cada documento que precisa de Apostila de Haia. Frente, verso e páginas do mesmo documento já estão juntos: basta marcar uma vez.",apo_todos:"Marcar todos",apo_nenhum:"Desmarcar todos",apo_ok:"Confirmar",apo_sem:"Continuar sem Apostila",apo_fotos:"{n} fotos",apo_por:"por documento",apo_de:"{n} de {m} documentos",apo_editar:"alterar"},
+ en:{apo_t:"Which documents need an apostille?",apo_p:"Tick each document that needs a Hague Apostille. Front, back and pages of the same document are already grouped: tick it just once.",apo_todos:"Select all",apo_nenhum:"Clear all",apo_ok:"Confirm",apo_sem:"Continue without apostille",apo_fotos:"{n} photos",apo_por:"per document",apo_de:"{n} of {m} documents",apo_editar:"change"},
+ es:{apo_t:"¿Qué documentos llevan Apostilla?",apo_p:"Marca cada documento que necesita Apostilla de La Haya. Anverso, reverso y páginas del mismo documento ya están juntos: márcalo una sola vez.",apo_todos:"Marcar todos",apo_nenhum:"Desmarcar todos",apo_ok:"Confirmar",apo_sem:"Continuar sin Apostilla",apo_fotos:"{n} fotos",apo_por:"por documento",apo_de:"{n} de {m} documentos",apo_editar:"cambiar"},
+ fr:{apo_t:"Quels documents doivent être apostillés ?",apo_p:"Cochez chaque document qui doit recevoir l'Apostille de La Haye. Recto, verso et pages d'un même document sont déjà regroupés : cochez-le une seule fois.",apo_todos:"Tout cocher",apo_nenhum:"Tout décocher",apo_ok:"Confirmer",apo_sem:"Continuer sans apostille",apo_fotos:"{n} photos",apo_por:"par document",apo_de:"{n} sur {m} documents",apo_editar:"modifier"},
+ de:{apo_t:"Welche Dokumente brauchen eine Apostille?",apo_p:"Haken Sie jedes Dokument an, das eine Haager Apostille braucht. Vorder-, Rückseite und Seiten desselben Dokuments sind schon zusammengefasst: einmal anhaken genügt.",apo_todos:"Alle auswählen",apo_nenhum:"Auswahl aufheben",apo_ok:"Bestätigen",apo_sem:"Ohne Apostille weiter",apo_fotos:"{n} Fotos",apo_por:"pro Dokument",apo_de:"{n} von {m} Dokumenten",apo_editar:"ändern"}};
+ for(var l in A){ if(T[l]) for(var k in A[l]) T[l][k]=A[l][k]; }
 })();
 </script>
 <script>
