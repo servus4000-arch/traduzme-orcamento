@@ -36,21 +36,20 @@
   var FN="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-acao";
   var q=new URLSearchParams(location.search), P=q.get("p")||"", A=q.get("a")||"", K=q.get("k")||"";
   var t=document.getElementById("t"), m=document.getElementById("m"), b=document.getElementById("b"), pq=document.getElementById("pq");
-  var TXT={recebido:{t:"Confirmar recebimento",m:"Clique para confirmar que você recebeu o pedido e assume a tradução no prazo.",b:"Recebido",ok:"Recebimento confirmado. Obrigado!"},
-           entregue:{t:"Confirmar entrega",m:"Clique depois de responder ao e-mail do pedido com o PDF assinado.",b:"Entregue",ok:"Entrega confirmada. Obrigado! O pagamento sai via Pix no dia da entrega."}};
+  var TXT={recebido:{t:"Recebimento",ok:"Registrado, obrigado!",wait:"Registrando…"},
+           entregue:{t:"Entrega",ok:"Registrado, obrigado! O pagamento sai via Pix no dia da entrega.",wait:"Registrando…"}};
   function dataHora(iso){ try{ return new Date(iso).toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return iso; } }
   function erro(x){ t.textContent="Link inválido"; m.innerHTML=""; m.className="erro"; m.textContent=x||"Este link não funciona. Responda o e-mail do pedido, por favor."; b.hidden=true; }
   function chamar(extra){ return fetch(FN,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({p:P,a:A,k:K},extra||{}))}).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); }); }
   function mostrar(r){
     var T=TXT[A]; pq.textContent="Pedido #"+(r.pedido||"");
     var feito=A==="recebido"?r.recebido_em:r.entregue_em;
-    if(feito){ t.textContent=T.t; m.className="ok"; m.textContent=T.ok+" ("+dataHora(feito)+")"; b.hidden=true; return; }
-    t.textContent=T.t; m.className=""; m.textContent=T.m; b.textContent=T.b; b.hidden=false; b.disabled=false;
+    t.innerHTML='<span class="ok">\u2713</span> '+T.t; m.className="ok"; m.textContent=T.ok+(feito?" ("+dataHora(feito)+")":""); b.hidden=true;
   }
   if(!TXT[A]||!/^[0-9a-f]{20,64}$/i.test(P)||!/^[0-9a-f]{32}$/i.test(K)){ erro(); return; }
-  chamar({consultar:true}).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Tente de novo em instantes."); });
-  b.addEventListener("click",function(){ b.disabled=true; b.textContent="Enviando…";
-    chamar().then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ b.disabled=false; b.textContent=TXT[A].b; m.className="erro"; m.textContent="Sem conexão. Tente de novo."; }); });
+  /* v2 (18.10.2026): der Klick in der Mail speichert direkt, kein zweiter Knopf */
+  t.textContent=TXT[A].t; m.textContent=TXT[A].wait;
+  chamar({auto:true}).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
 })();
 </script>
 </body>
