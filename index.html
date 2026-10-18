@@ -1009,7 +1009,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     <h1 data-i18n="h1">Tradução juramentada online</h1>
     <p class="sub" data-i18n-html="sub"><b>100% digital.</b> Envie seus documentos e veja na hora o preço estimado e a data de entrega.</p>
     </div>
-    <div class="hlinks"><button type="button" class="whatis" onclick="info(event,'sobre')"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span data-i18n="whatis">O que é tradução juramentada? O que recebo?</span></button><button type="button" class="vidlink" id="vidbtn" aria-haspopup="dialog"><span class="vl-p"></span><span data-i18n="vid_t">Veja em vídeo como funciona</span><span class="vl-n">3</span></button></div>
+    <div class="hlinks"><button type="button" class="vidlink" id="vidbtn" aria-haspopup="dialog"><span class="vl-p"></span><span data-i18n="vid_t">Veja em vídeo como funciona</span><span class="vl-n">3</span></button></div>
     <section class="flow" aria-labelledby="fl-h">
       <h2 id="fl-h" data-i18n="fl_h">Como funciona</h2>
       <ol>
@@ -3094,7 +3094,7 @@ function abrirFaq(e){ if(e&&e.stopPropagation) e.stopPropagation();
   var box=document.querySelector('#pop .pop-box'); box.classList.remove('pop-wide'); box.classList.add('pop-faq');
   document.getElementById('pop-t').textContent=t('faq_t');
   document.getElementById('pop-p').textContent='';
-  var h='<p class="faq-sub">'+t('faq_sub')+'</p><div class="faq-l">';
+  var h='<p class="faq-sub">'+t('faq_sub')+'</p><div class="faq-l"><details><summary>'+esc(t('whatis'))+'</summary><div class="faq-a"><a href="#" onclick="info(event,\'sobre\')">'+esc(t('whatis'))+'</a></div></details>';
   for(var i=1;i<=FAQ_N;i++){ h+='<details><summary>'+esc(t('faq_q'+i))+'</summary><div class="faq-a">'+t('faq_a'+i)+'</div></details>'; }
   h+='</div><p class="faq-foot">'+t('faq_foot')+'</p>';
   document.getElementById('pop-extra').innerHTML=h;
