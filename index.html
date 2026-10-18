@@ -1510,15 +1510,16 @@ var selFrom=document.getElementById('from'), selTo=document.getElementById('to')
 function primeiroAtivo(){ var a=idiomasAtivos(); return a.length?IDIOMA_NOME[a[0]]:'Português'; }
 function populateLangs(){
   var nomes=['Português'].concat(idiomasAtivos().map(function(k){ return IDIOMA_NOME[k]; }));
-  /* Ben 18.10.: nichts vorausgewählt — beide Felder starten auf "Bitte auswählen" (value ""), erst mit beiden Sprachen geht es weiter */
+  /* Ben 18.10.: die Fremdsprache wird nie vorausgewählt ("Bitte auswählen", value ""); ohne sie geht es nicht weiter */
   [selFrom,selTo].forEach(function(s){
     var cur=s.value; s.innerHTML='';
     var ph=document.createElement('option'); ph.value=''; ph.textContent=t('sel_ph'); ph.disabled=true; s.appendChild(ph);
     nomes.forEach(function(n){ var o=document.createElement('option'); o.value=n; o.textContent=n; s.appendChild(o); });
     s.value = nomes.indexOf(cur)>-1 ? cur : '';
   });
-  if(selFrom.value && selFrom.value===selTo.value){ selTo.value=''; }
-  if(selFrom.value && selTo.value && selFrom.value!=='Português' && selTo.value!=='Português'){ selTo.value=''; }
+  /* Ben 18.10.: eine Seite ist IMMER Português. Start: Do idioma = Português, Para o idioma = "Bitte auswählen" */
+  if(selFrom.value!=='Português' && selTo.value!=='Português'){ if(selFrom.value) selTo.value='Português'; else selFrom.value='Português'; }
+  if(selFrom.value==='Português' && selTo.value==='Português') selTo.value='';
   updateLangSelects(); avisoIdioma();
 }
 function syncLangs(changed){
@@ -1534,7 +1535,7 @@ function avisoIdioma(){
 }
 selFrom.addEventListener('change',function(){syncLangs('from');});
 /* Ben 13.10.: Tauschpfeil — Ausgangs- und Zielsprache wechseln die Seiten (pt->en wird en->pt) */
-document.getElementById('swap').addEventListener('click',function(){ var a=selFrom.value, b=selTo.value; if(!a||!b||a===b) return; selFrom.value=b; selTo.value=a; avisoIdioma(); this.classList.toggle('girou'); });
+document.getElementById('swap').addEventListener('click',function(){ var a=selFrom.value, b=selTo.value; if(a===b) return; selFrom.value=b; selTo.value=a; avisoIdioma(); this.classList.toggle('girou'); });
 selTo.addEventListener('change',function(){syncLangs('to');});
 
 
