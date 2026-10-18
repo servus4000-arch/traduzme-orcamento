@@ -1521,13 +1521,16 @@ function populateLangs(){
   if(selFrom.value && selFrom.value!=='Português' && selTo.value!=='Português') selTo.value='Português';
   else if(selTo.value && selTo.value!=='Português' && selFrom.value!=='Português') selFrom.value='Português';
   if(selFrom.value==='Português' && selTo.value==='Português') selTo.value='';
-  updateLangSelects(); avisoIdioma();
+  updateLangSelects(); ocultarDup(); avisoIdioma();
+}
+function ocultarDup(){   /* Sprache der einen Seite steht in der Liste der anderen nicht mehr zur Auswahl */
+  [[selFrom,selTo],[selTo,selFrom]].forEach(function(p){ for(var i=0;i<p[0].options.length;i++){ var o=p[0].options[i]; var dup=(o.value!==''&&o.value===p[1].value); o.hidden=dup; o.disabled=dup||o.value===''; } });
 }
 function syncLangs(changed){
   var outro=changed==='from'?selTo:selFrom, atual=changed==='from'?selFrom:selTo;
   if(atual.value!=='Português'){ outro.value='Português'; }
   else if(outro.value==='Português'){ outro.value=''; }   /* beide Português -> andere Seite zurück auf "Bitte auswählen" */
-  avisoIdioma();
+  ocultarDup(); avisoIdioma();
 }
 function avisoIdioma(){
   var el=document.getElementById('lang-aviso'); if(!el) return;
@@ -1536,7 +1539,7 @@ function avisoIdioma(){
 }
 selFrom.addEventListener('change',function(){syncLangs('from');});
 /* Ben 13.10.: Tauschpfeil — Ausgangs- und Zielsprache wechseln die Seiten (pt->en wird en->pt) */
-document.getElementById('swap').addEventListener('click',function(){ var a=selFrom.value, b=selTo.value; if(a===b) return; selFrom.value=b; selTo.value=a; avisoIdioma(); this.classList.toggle('girou'); });
+document.getElementById('swap').addEventListener('click',function(){ var a=selFrom.value, b=selTo.value; if(a===b) return; selFrom.value=b; selTo.value=a; ocultarDup(); avisoIdioma(); this.classList.toggle('girou'); });
 selTo.addEventListener('change',function(){syncLangs('to');});
 
 
