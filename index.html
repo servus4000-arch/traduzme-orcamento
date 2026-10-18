@@ -1517,8 +1517,9 @@ function populateLangs(){
     nomes.forEach(function(n){ var o=document.createElement('option'); o.value=n; o.textContent=n; s.appendChild(o); });
     s.value = nomes.indexOf(cur)>-1 ? cur : '';
   });
-  /* Ben 18.10.: eine Seite ist IMMER Português. Start: Do idioma = Português, Para o idioma = "Bitte auswählen" */
-  if(selFrom.value!=='Português' && selTo.value!=='Português'){ if(selFrom.value) selTo.value='Português'; else selFrom.value='Português'; }
+  /* Ben 18.10.: beide Felder starten auf "Bitte auswählen"; sobald eine Seite gewählt ist, ist eine Seite immer Português */
+  if(selFrom.value && selFrom.value!=='Português' && selTo.value!=='Português') selTo.value='Português';
+  else if(selTo.value && selTo.value!=='Português' && selFrom.value!=='Português') selFrom.value='Português';
   if(selFrom.value==='Português' && selTo.value==='Português') selTo.value='';
   updateLangSelects(); avisoIdioma();
 }
