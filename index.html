@@ -1648,7 +1648,7 @@ calc.addEventListener('click',function(){
     calc.disabled=true; loading.className='loading show';
     ORG_N=0;
     var corrida=Promise.race([analisarServidor(), new Promise(function(r){ setTimeout(function(){ r(null); },240000); })]);
-    corrida.then(function(a){ if(!a) ANA={key:'',lote:novoReqId(),por:{},degradado:true,motivo:'prazo'}; calc.disabled=false; analisar(f,tt,par); if(ORG_N&&!DIR_ND) dirNote(t('org_aviso').replace('{n}',ORG_N)); });
+    corrida.then(function(a){ if(!a) ANA={key:'',lote:novoReqId(),por:{},degradado:true,motivo:'prazo'}; calc.disabled=false; analisar(f,tt,par); });
   });
 });
 
