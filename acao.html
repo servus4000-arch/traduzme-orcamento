@@ -20,7 +20,22 @@
   button[disabled]{opacity:.6;cursor:default}
   .ok{color:var(--brand);font-weight:700}
   .erro{color:var(--warn)}
-  .pq{font-size:13px;color:var(--grey);margin-top:16px}
+  .pq{font-size:13px;color:var(--grey);margin-top:16px}.box.larga .pq{text-align:center}
+  .box.larga{max-width:520px;text-align:left}.box.larga .logo,.box.larga h1{text-align:center}.box.larga p{text-align:center}
+  #up{display:none}
+  .drop{display:block;border:2px dashed var(--line);border-radius:12px;padding:22px 14px;text-align:center;color:var(--soft);font-size:15px;cursor:pointer;margin:0 0 14px}
+  .drop.on{border-color:var(--brand);background:rgba(26,122,94,.07)}
+  .drop b{color:var(--brand)}
+  .drop input{display:none}
+  #lista{list-style:none;margin:0 0 14px;padding:0}
+  #lista li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 8px;font-size:14px}
+  #lista .n{flex:1;word-break:break-all;color:var(--ink)}
+  #lista .s{font-size:12px;color:var(--grey);white-space:nowrap}
+  #lista .st{font-size:13px;white-space:nowrap}
+  #lista .st.ok{color:var(--brand)}#lista .st.er{color:var(--warn)}
+  #lista button.x{width:auto;background:none;color:var(--grey);font-size:18px;padding:0 4px;font-weight:400}
+  .nota{font-size:13px;color:var(--grey);text-align:center;margin:12px 0 0}
+  .msg{font-size:14px;text-align:center;margin:0 0 12px;min-height:1em}
 </style>
 </head>
 <body>
@@ -28,6 +43,13 @@
   <div class="logo">traduzme</div>
   <h1 id="t">Pedido</h1>
   <p id="m">Carregando…</p>
+  <div id="up">
+    <label class="drop" id="drop"><b>Escolher PDF(s)</b><br><span style="font-size:13px">ou arraste os arquivos para cá · até 15 MB cada</span><input id="f" type="file" accept="application/pdf,.pdf" multiple></label>
+    <ul id="lista"></ul>
+    <div class="msg erro" id="msg"></div>
+    <button id="env" type="button" disabled>Enviar ao cliente</button>
+    <div class="nota" id="nota"></div>
+  </div>
   <button id="b" type="button" hidden></button>
   <div class="pq" id="pq"></div>
 </main>
@@ -47,9 +69,88 @@
     t.innerHTML='<span class="ok">\u2713</span> '+T.t; m.className="ok"; m.textContent=T.ok+(feito?" ("+dataHora(feito)+")":""); b.hidden=true;
   }
   if(!TXT[A]||!/^[0-9a-f]{20,64}$/i.test(P)||!/^[0-9a-f]{32}$/i.test(K)){ erro(); return; }
+  if(A==="entregue"){ entrega(); return; }
   /* v2 (18.10.2026): der Klick in der Mail speichert direkt, kein zweiter Knopf */
   t.textContent=TXT[A].t; m.textContent=TXT[A].wait;
   chamar({auto:true}).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
+
+  /* v3 (18.10.2026): "Entregue" = PDFs hochladen, die Funktion tradutora-entrega mailt sie vom traduzme an den Kunden */
+  function entrega(){
+    var FE="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-entrega";
+    var up=document.getElementById("up"), drop=document.getElementById("drop"), inp=document.getElementById("f"), lista=document.getElementById("lista"), msg=document.getElementById("msg"), env=document.getElementById("env"), nota=document.getElementById("nota");
+    var box=document.querySelector(".box"), itens=[], ocupado=0, MAX=15*1048576, enviando=false;
+    t.textContent="Entrega da tradução"; m.textContent="Carregando…";
+    function ch(extra){ return fetch(FE,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({p:P,k:K},extra))}).then(function(r){ return r.json().catch(function(){ return {ok:false,erro:"resposta"}; }); }); }
+    function mb(b){ return b>=1048576?(b/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(b/1024))+" KB"; }
+    function feito(r){
+      up.style.display="none"; t.innerHTML='<span class="ok">\u2713</span> Entrega enviada'; m.className="ok";
+      m.textContent="O cliente recebeu a tradução por e-mail do traduzme. Obrigado! O pagamento sai via Pix no dia da entrega."+(r.entregue_em?" ("+dataHora(r.entregue_em)+")":""); pq.textContent="Pedido #"+(r.pedido||"");
+    }
+    function pintar(){
+      lista.innerHTML="";
+      itens.forEach(function(it){
+        var li=document.createElement("li"), n=document.createElement("span"), s=document.createElement("span"), st=document.createElement("span"), x=document.createElement("button");
+        n.className="n"; n.textContent=it.nome; s.className="s"; s.textContent=mb(it.bytes);
+        st.className="st "+(it.estado==="ok"?"ok":it.estado==="erro"?"er":""); st.textContent=it.estado==="ok"?"\u2713 pronto":it.estado==="erro"?(it.msg||"erro"):"enviando…";
+        x.type="button"; x.className="x"; x.textContent="\u00d7"; x.title="Remover"; x.disabled=enviando; x.onclick=function(){ remover(it); };
+        li.appendChild(n); li.appendChild(s); li.appendChild(st); li.appendChild(x); lista.appendChild(li);
+      });
+      var prontos=itens.filter(function(i){ return i.estado==="ok"; }).length;
+      env.disabled=enviando||ocupado>0||prontos===0;
+      env.textContent=prontos>1?"Enviar "+prontos+" arquivos ao cliente":"Enviar ao cliente";
+    }
+    function remover(it){
+      itens=itens.filter(function(i){ return i!==it; }); pintar();
+      if(it.estado==="ok") ch({fase:"remover",nome:it.nome}).catch(function(){});
+    }
+    var ERR={pdf:"não é um PDF",nome:"nome inválido",grande:"maior que 15 MB",qtd:"máx. 15 arquivos",total:"arquivos grandes demais",storage:"falhou, tente de novo",db:"falhou, tente de novo",ja:"já enviado"};
+    function subir(file){
+      var it={nome:file.name,bytes:file.size,estado:"subindo"}; 
+      itens=itens.filter(function(i){ return i.nome!==it.nome; }); itens.push(it);
+      if(!/\.pdf$/i.test(file.name)){ it.estado="erro"; it.msg="só PDF"; pintar(); return; }
+      if(file.size>MAX){ it.estado="erro"; it.msg="maior que 15 MB"; pintar(); return; }
+      ocupado++; pintar();
+      var fr=new FileReader();
+      fr.onerror=function(){ ocupado--; it.estado="erro"; it.msg="não consegui ler"; pintar(); };
+      fr.onload=function(){
+        var d=String(fr.result||""), i=d.indexOf(","); d=i>=0?d.slice(i+1):d;
+        ch({fase:"subir",nome:file.name,dados:d}).then(function(r){
+          ocupado--;
+          if(r&&r.ok&&r.ja){ feito(r); return; }
+          if(r&&r.ok){ it.estado="ok"; } else { it.estado="erro"; it.msg=ERR[r&&r.erro]||"falhou, tente de novo"; }
+          pintar();
+        }).catch(function(){ ocupado--; it.estado="erro"; it.msg="sem conexão"; pintar(); });
+      };
+      fr.readAsDataURL(file);
+    }
+    function receber(files){ msg.textContent=""; Array.prototype.forEach.call(files,subir); inp.value=""; }
+    inp.onchange=function(){ receber(inp.files); };
+    ["dragenter","dragover"].forEach(function(e){ drop.addEventListener(e,function(ev){ ev.preventDefault(); drop.classList.add("on"); }); });
+    ["dragleave","drop"].forEach(function(e){ drop.addEventListener(e,function(ev){ ev.preventDefault(); drop.classList.remove("on"); }); });
+    drop.addEventListener("drop",function(ev){ if(ev.dataTransfer&&ev.dataTransfer.files) receber(ev.dataTransfer.files); });
+    env.onclick=function(){
+      var prontos=itens.filter(function(i){ return i.estado==="ok"; }).length;
+      if(!prontos||enviando) return;
+      if(!window.confirm("Enviar "+(prontos>1?prontos+" arquivos":"1 arquivo")+" agora para o cliente?\nNão dá para desfazer.")) return;
+      enviando=true; msg.textContent=""; env.textContent="Enviando…"; pintar();
+      ch({fase:"enviar"}).then(function(r){
+        enviando=false;
+        if(r&&r.ok){ feito(r); return; }
+        var e=r&&r.erro; msg.textContent=e==="mail"?"Não consegui enviar o e-mail ao cliente. Seus arquivos estão salvos: clique em Enviar de novo em alguns instantes. Se continuar, avise o Ben.":e==="ocupado"?"O envio já está em andamento. Aguarde um minuto.":e==="sem_email"?"Falta o e-mail do cliente. Avise o Ben.":"Não deu certo. Tente de novo ou avise o Ben.";
+        pintar();
+      }).catch(function(){ enviando=false; msg.textContent="Sem conexão. Seus arquivos estão salvos: clique em Enviar de novo."; pintar(); });
+    };
+    ch({fase:"estado"}).then(function(r){
+      if(!r||!r.ok) return erro();
+      pq.textContent="Pedido #"+(r.pedido||"");
+      if(r.enviado){ feito(r); return; }
+      box.classList.add("larga"); t.textContent="Entrega da tradução";
+      m.className=""; m.textContent="Anexe a tradução assinada (PDF). Ao clicar em Enviar, o cliente recebe os arquivos por e-mail do traduzme e o pedido fica registrado como entregue.";
+      nota.textContent=r.para?"O e-mail vai para "+r.para+".":"";
+      itens=(r.arquivos||[]).map(function(a){ return {nome:a.nome,bytes:a.bytes,estado:"ok"}; });
+      up.style.display="block"; pintar();
+    }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
+  }
 })();
 </script>
 </body>
