@@ -56,35 +56,43 @@
 <script>
 (function(){
   var FN="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-acao";
-  var q=new URLSearchParams(location.search), P=q.get("p")||"", A=q.get("a")||"", K=q.get("k")||"";
+  var q=new URLSearchParams(location.search), P=q.get("p")||"", A=q.get("a")||"", K=q.get("k")||"", E=q.get("e")||"";
+  /* v4 (11.11.2026): Cartório (e-Apostila) – a=c_recebido | c_entregar, e=orig|trad, Funktion cartorio */
+  var FC="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/cartorio", CART=A==="c_recebido"||A==="c_entregar";
   var t=document.getElementById("t"), m=document.getElementById("m"), b=document.getElementById("b"), pq=document.getElementById("pq");
   var TXT={recebido:{t:"Recebimento",ok:"Registrado, obrigado!",wait:"Registrando…"},
-           entregue:{t:"Entrega",ok:"Registrado, obrigado! O pagamento sai via Pix no dia da entrega.",wait:"Registrando…"}};
+           entregue:{t:"Entrega",ok:"Registrado, obrigado! O pagamento sai via Pix no dia da entrega.",wait:"Registrando…"},
+           c_recebido:{t:"Recebimento (e-Apostila)",ok:"Registrado, obrigado! Quando a apostila estiver pronta, clique em Entregar apostila no e-mail.",wait:"Registrando…"},
+           c_entregar:{t:"Entrega da apostila"}};
   function dataHora(iso){ try{ return new Date(iso).toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return iso; } }
   function erro(x){ t.textContent="Link inválido"; m.innerHTML=""; m.className="erro"; m.textContent=x||"Este link não funciona. Responda o e-mail do pedido, por favor."; b.hidden=true; }
   function chamar(extra){ return fetch(FN,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({p:P,a:A,k:K},extra||{}))}).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); }); }
   function mostrar(r){
     var T=TXT[A]; pq.textContent="Pedido #"+(r.pedido||"");
-    var feito=A==="recebido"?r.recebido_em:r.entregue_em;
+    var feito=A==="recebido"||A==="c_recebido"?r.recebido_em:r.entregue_em;
     t.innerHTML='<span class="ok">\u2713</span> '+T.t; m.className="ok"; m.textContent=T.ok+(feito?" ("+dataHora(feito)+")":""); b.hidden=true;
   }
-  if(!TXT[A]||!/^[0-9a-f]{20,64}$/i.test(P)||!/^[0-9a-f]{32}$/i.test(K)){ erro(); return; }
-  if(A==="entregue"){ entrega(); return; }
+  if(!TXT[A]||!/^[0-9a-f]{20,64}$/i.test(P)||!/^[0-9a-f]{32}$/i.test(K)||(CART&&!/^(orig|trad)$/.test(E))){ erro(); return; }
+  if(A==="entregue"||A==="c_entregar"){ entrega(); return; }
+  if(A==="c_recebido"){ t.textContent=TXT[A].t; m.textContent=TXT[A].wait;
+    fetch(FC,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({p:P,e:E,k:K,fase:"recebido"})}).then(function(r){ return r.json(); }).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
+    return; }
   /* v2 (18.10.2026): der Klick in der Mail speichert direkt, kein zweiter Knopf */
   t.textContent=TXT[A].t; m.textContent=TXT[A].wait;
   chamar({auto:true}).then(function(r){ if(!r||!r.ok) return erro(); mostrar(r); }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
 
   /* v3 (18.10.2026): "Entregue" = PDFs hochladen, die Funktion tradutora-entrega mailt sie vom traduzme an den Kunden */
   function entrega(){
-    var FE="https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-entrega";
+    var FE=CART?FC:"https://ypdvpytpajgkzglbzxwg.supabase.co/functions/v1/tradutora-entrega", VIA=false;
     var up=document.getElementById("up"), drop=document.getElementById("drop"), inp=document.getElementById("f"), lista=document.getElementById("lista"), msg=document.getElementById("msg"), env=document.getElementById("env"), nota=document.getElementById("nota");
     var box=document.querySelector(".box"), itens=[], ocupado=0, MAX=15*1048576, enviando=false;
-    t.textContent="Entrega da tradução"; m.textContent="Carregando…";
-    function ch(extra){ return fetch(FE,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign({p:P,k:K},extra))}).then(function(r){ return r.json().catch(function(){ return {ok:false,erro:"resposta"}; }); }); }
+    var TIT=CART?"Entrega da apostila":"Entrega da tradução";
+    t.textContent=TIT; m.textContent="Carregando…";
+    function ch(extra){ return fetch(FE,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.assign(CART?{p:P,k:K,e:E}:{p:P,k:K},extra))}).then(function(r){ return r.json().catch(function(){ return {ok:false,erro:"resposta"}; }); }); }
     function mb(b){ return b>=1048576?(b/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(b/1024))+" KB"; }
     function feito(r){
       up.style.display="none"; t.innerHTML='<span class="ok">\u2713</span> Entrega enviada'; m.className="ok";
-      m.textContent="O cliente recebeu a tradução por e-mail do traduzme. Obrigado! O pagamento sai via Pix no dia da entrega."+(r.entregue_em?" ("+dataHora(r.entregue_em)+")":""); pq.textContent="Pedido #"+(r.pedido||"");
+      m.textContent=(CART?"Apostila recebida pela traduzme. Obrigado! O pagamento sai via Pix.":r.cartorio?"A tradução foi para o cartório para a apostila. O cliente recebe tudo junto assim que a apostila ficar pronta. Obrigado! O pagamento sai via Pix no dia da entrega.":"O cliente recebeu a tradução por e-mail do traduzme. Obrigado! O pagamento sai via Pix no dia da entrega.")+(r.entregue_em?" ("+dataHora(r.entregue_em)+")":""); pq.textContent="Pedido #"+(r.pedido||"");
     }
     function pintar(){
       lista.innerHTML="";
@@ -97,7 +105,8 @@
       });
       var prontos=itens.filter(function(i){ return i.estado==="ok"; }).length;
       env.disabled=enviando||ocupado>0||prontos===0;
-      env.textContent=prontos>1?"Enviar "+prontos+" arquivos ao cliente":"Enviar ao cliente";
+      var DEST=CART?"à traduzme":VIA?"ao cartório":"ao cliente";
+      env.textContent=prontos>1?"Enviar "+prontos+" arquivos "+DEST:"Enviar "+DEST;
     }
     function remover(it){
       itens=itens.filter(function(i){ return i!==it; }); pintar();
@@ -131,12 +140,12 @@
     env.onclick=function(){
       var prontos=itens.filter(function(i){ return i.estado==="ok"; }).length;
       if(!prontos||enviando) return;
-      if(!window.confirm("Enviar "+(prontos>1?prontos+" arquivos":"1 arquivo")+" agora para o cliente?\nNão dá para desfazer.")) return;
+      if(!window.confirm("Enviar "+(prontos>1?prontos+" arquivos":"1 arquivo")+" agora "+(CART?"para a traduzme":VIA?"para o cartório (apostila)":"para o cliente")+"?\nNão dá para desfazer.")) return;
       enviando=true; msg.textContent=""; env.textContent="Enviando…"; pintar();
       ch({fase:"enviar"}).then(function(r){
         enviando=false;
         if(r&&r.ok){ feito(r); return; }
-        var e=r&&r.erro; msg.textContent=e==="mail"?"Não consegui enviar o e-mail ao cliente. Seus arquivos estão salvos: clique em Enviar de novo em alguns instantes. Se continuar, avise o Ben.":e==="ocupado"?"O envio já está em andamento. Aguarde um minuto.":e==="sem_email"?"Falta o e-mail do cliente. Avise o Ben.":"Não deu certo. Tente de novo ou avise o Ben.";
+        var e=r&&r.erro; msg.textContent=e==="mail"?"Não consegui enviar o e-mail ao cliente. Seus arquivos estão salvos: clique em Enviar de novo em alguns instantes. Se continuar, avise o Ben.":e==="ocupado"?"O envio já está em andamento. Aguarde um minuto.":e==="sem_email"?"Falta o e-mail do cliente. Avise o Ben.":e==="aguarda_original"?"Aguarde o original apostilado: ele chega por e-mail. Traduza também a apostila e envie depois.":"Não deu certo. Tente de novo ou avise o Ben.";
         pintar();
       }).catch(function(){ enviando=false; msg.textContent="Sem conexão. Seus arquivos estão salvos: clique em Enviar de novo."; pintar(); });
     };
@@ -144,9 +153,11 @@
       if(!r||!r.ok) return erro();
       pq.textContent="Pedido #"+(r.pedido||"");
       if(r.enviado){ feito(r); return; }
-      box.classList.add("larga"); t.textContent="Entrega da tradução";
-      m.className=""; m.textContent="Anexe a tradução assinada (PDF). Ao clicar em Enviar, o cliente recebe os arquivos por e-mail do traduzme e o pedido fica registrado como entregue.";
-      nota.textContent=r.para?"O e-mail vai para "+r.para+".":"";
+      VIA=!CART&&!!r.cartorio;
+      box.classList.add("larga"); t.textContent=TIT;
+      m.className=""; m.textContent=CART?"Anexe o PDF apostilado (e-Apostila). Ao clicar em Enviar, o arquivo chega direto à traduzme, que cuida do resto.":VIA?"Anexe a tradução assinada (PDF). Este pedido tem apostila na tradução: ao clicar em Enviar, a tradução vai primeiro ao cartório, e o cliente recebe tudo junto assim que a apostila ficar pronta.":"Anexe a tradução assinada (PDF). Ao clicar em Enviar, o cliente recebe os arquivos por e-mail do traduzme e o pedido fica registrado como entregue.";
+      if(!CART&&r.aguarda_orig) m.textContent+=" Atenção: o original apostilado ainda não chegou. Ele vem por e-mail; traduza também a apostila antes de enviar.";
+      nota.textContent=CART?(r.teste?"TESTE":""):VIA?"":(r.para?"O e-mail vai para "+r.para+".":"");
       itens=(r.arquivos||[]).map(function(a){ return {nome:a.nome,bytes:a.bytes,estado:"ok"}; });
       up.style.display="block"; pintar();
     }).catch(function(){ erro("Sem conexão. Abra o link de novo em instantes."); });
