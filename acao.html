@@ -94,7 +94,7 @@
       if(A==="c_rastreio"){
         if(r.rastreio&&r.rastreio.codigo){ t.innerHTML='<span class="ok">\u2713</span> Rastreio registrado'; m.className="ok"; m.textContent="Código "+r.rastreio.codigo+" ("+dataHora(r.rastreio.em)+"). O cliente recebeu o código por e-mail. Obrigado!"; return; }
         if(!r.devolver_em){ m.textContent="A devolução ainda não foi liberada. Você recebe um e-mail quando o cliente tiver recebido tudo."; return; }
-        m.textContent="Cole a etiqueta paga no envelope (original apostilado + tradução impressa), poste nos Correios e escreva aqui o código de rastreio.";
+        m.textContent="Quando receber da traduzme o e-mail com a etiqueta paga, cole no envelope (original apostilado + tradução impressa), poste nos Correios e escreva aqui o código de rastreio.";
         var inp=el("input",null,"width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:0 0 12px;text-transform:uppercase;background:var(--card);color:var(--ink)"); inp.placeholder="Ex.: AB123456789BR"; inp.autocomplete="off";
         var bt=el("button","Enviar código ao cliente");
         bt.onclick=function(){ var c=inp.value.replace(/[\s.-]/g,"").toUpperCase(); if(!/^[A-Z0-9]{8,30}$/.test(c)){ aviso.className="erro"; aviso.textContent="Código inválido. Confira e tente de novo."; return; }
@@ -112,7 +112,7 @@
         lb.appendChild(cb); lb.appendChild(el("span",d.nome,"flex:1")); lb.appendChild(el("span",d.chegou?"\u2713 chegou "+dataHora(d.chegou):"",d.chegou?"font-size:12px;color:var(--brand)":"")); ul.appendChild(lb); });
       alvo.appendChild(ul);
       if(falta.length){ var bc=el("button","Confirmar chegada"); bc.onclick=function(){ var sel=marcas.filter(function(x){ return x.cb.checked; }).map(function(x){ return x.i; }); if(!sel.length){ aviso.className="erro"; aviso.textContent="Marque pelo menos um documento."; return; }
-          bc.disabled=true; aviso.textContent=""; cf({fase:"chegou",docs:sel}).then(function(x){ bc.disabled=false; if(x&&x.ok){ render(x); aviso.className="ok"; aviso.textContent=x.completo?"Obrigado! Cliente e tradutora foram avisados.":"Registrado. Falta(m) ainda documento(s)."; alvo.appendChild(aviso); return; } aviso.className="erro"; aviso.textContent="Não deu certo. Tente de novo."; }).catch(function(){ bc.disabled=false; aviso.className="erro"; aviso.textContent="Sem conexão."; }); };
+          bc.disabled=true; aviso.textContent=""; cf({fase:"chegou",docs:sel}).then(function(x){ bc.disabled=false; if(x&&x.ok){ render(x); aviso.className="ok"; aviso.textContent=x.completo?"Obrigado! Cliente e tradutora foram avisados.":"Registrado. Ainda falta pelo menos um documento."; alvo.appendChild(aviso); return; } aviso.className="erro"; aviso.textContent="Não deu certo. Tente de novo."; }).catch(function(){ bc.disabled=false; aviso.className="erro"; aviso.textContent="Sem conexão."; }); };
         alvo.appendChild(bc); }
       alvo.appendChild(aviso);
       alvo.appendChild(el("div","Problema?","font-weight:700;margin:22px 0 6px;font-size:15px"));
@@ -190,7 +190,7 @@
       ch({fase:"enviar"}).then(function(r){
         enviando=false;
         if(r&&r.ok){ feito(r); return; }
-        var e=r&&r.erro; msg.textContent=e==="mail"?"Não consegui enviar o e-mail ao cliente. Seus arquivos estão salvos: clique em Enviar de novo em alguns instantes. Se continuar, avise o Ben.":e==="ocupado"?"O envio já está em andamento. Aguarde um minuto.":e==="sem_email"?"Falta o e-mail do cliente. Avise o Ben.":e==="nao_chegou"?"Primeiro marque no e-mail o botão Chegou / Problema: todos os originais em papel precisam ter chegado.":e==="aguarda_original"?"Aguarde o original apostilado: ele chega por e-mail. Traduza também a apostila e envie depois.":"Não deu certo. Tente de novo ou avise o Ben.";
+        var e=r&&r.erro; msg.textContent=e==="mail"?"Não consegui enviar o e-mail ao cliente. Seus arquivos estão salvos: clique em Enviar de novo em alguns instantes. Se continuar, avise o Ben.":e==="ocupado"?"O envio já está em andamento. Aguarde um minuto.":e==="sem_email"?"Falta o e-mail do cliente. Avise o Ben.":e==="nao_chegou"?"Primeiro clique em Chegou / Problema no e-mail e confirme a chegada de todos os originais em papel.":e==="aguarda_original"?"Aguarde o original apostilado: ele chega por e-mail. Traduza também a apostila e envie depois.":"Não deu certo. Tente de novo ou avise o Ben.";
         pintar();
       }).catch(function(){ enviando=false; msg.textContent="Sem conexão. Seus arquivos estão salvos: clique em Enviar de novo."; pintar(); });
     };
@@ -201,7 +201,7 @@
       VIA=!CART&&!!r.cartorio;
       box.classList.add("larga"); t.textContent=TIT;
       m.className=""; m.textContent=CART?"Anexe o PDF apostilado (e-Apostila). Ao clicar em Enviar, o arquivo chega direto à traduzme, que cuida do resto.":VIA?"Anexe a tradução assinada (PDF). Este pedido tem apostila na tradução: ao clicar em Enviar, a tradução vai primeiro ao cartório, e o cliente recebe tudo junto assim que a apostila ficar pronta.":"Anexe a tradução assinada (PDF). Ao clicar em Enviar, o cliente recebe os arquivos por e-mail do traduzme e o pedido fica registrado como entregue.";
-      if(CART&&E==="papel"&&!r.recebido_em) m.textContent="Antes de enviar, marque em Chegou / Problema (no e-mail) que todos os originais em papel chegaram. Depois anexe o PDF do original apostilado.";
+      if(CART&&E==="papel"&&!r.recebido_em) m.textContent="Antes de enviar, clique em Chegou / Problema (no e-mail) e confirme a chegada de todos os originais em papel. Depois anexe o PDF do original apostilado.";
       if(!CART&&r.aguarda_orig) m.textContent+=" Atenção: o original apostilado ainda não chegou. Ele vem por e-mail; traduza também a apostila antes de enviar.";
       nota.textContent=CART?(r.teste?"TESTE":""):VIA?"":(r.para?"O e-mail vai para "+r.para+".":"");
       itens=(r.arquivos||[]).map(function(a){ return {nome:a.nome,bytes:a.bytes,estado:"ok"}; });
