@@ -94,14 +94,16 @@
       if(A==="c_rastreio"){
         if(r.rastreio&&r.rastreio.codigo&&r.rastreio.cliente_em){ t.innerHTML='<span class="ok">\u2713</span> Rastreio registrado'; m.className="ok"; m.textContent="Código "+r.rastreio.codigo+" ("+dataHora(r.rastreio.em)+"). O cliente recebeu o código por e-mail. Obrigado!"; return; }
         if(!r.devolver_em){ m.textContent="A devolução ainda não foi liberada. Você recebe um e-mail quando o cliente tiver recebido tudo."; return; }
-        m.textContent="Quando receber da traduzme o e-mail com a etiqueta paga, cole no envelope (original apostilado + tradução impressa), poste nos Correios e escreva aqui o código de rastreio.";
+        m.textContent="Compre a etiqueta com rastreio (Superfrete ou Melhor Envio) para o endereço do e-mail, poste o envelope (original apostilado + tradução impressa) e escreva aqui o código de rastreio e o valor do frete. A traduzme reembolsa o frete via Pix.";
         var inp=el("input",null,"width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:0 0 12px;text-transform:uppercase;background:var(--card);color:var(--ink)"); inp.placeholder="Ex.: AB123456789BR"; inp.autocomplete="off";
+        var fr=el("input",null,"width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:0 0 12px;background:var(--card);color:var(--ink)"); fr.placeholder="Valor do frete em R$, ex.: 32,50"; fr.inputMode="decimal"; fr.autocomplete="off";
         var bt=el("button","Enviar código ao cliente");
         bt.onclick=function(){ var c=inp.value.replace(/[\s.-]/g,"").toUpperCase(); if(!/^[A-Z0-9]{8,30}$/.test(c)){ aviso.className="erro"; aviso.textContent="Código inválido. Confira e tente de novo."; return; }
-          if(!window.confirm("Enviar o código "+c+" ao cliente?")) return; bt.disabled=true; aviso.textContent="";
-          cf({fase:"rastreio",codigo:c}).then(function(x){ bt.disabled=false; if(x&&x.ok) return render(x); aviso.className="erro"; aviso.textContent=x&&x.erro==="codigo"?"Código inválido.":"Não deu certo. Tente de novo em instantes."; }).catch(function(){ bt.disabled=false; aviso.className="erro"; aviso.textContent="Sem conexão."; }); };
+          var fv=parseFloat(fr.value.replace(/[^\d,.]/g,"").replace(",",".")); if(!(fv>=1&&fv<=300)){ aviso.className="erro"; aviso.textContent="Escreva o valor do frete (R$)."; return; }
+          if(!window.confirm("Enviar o código "+c+" ao cliente? Frete: R$ "+fv.toFixed(2).replace(".",","))) return; bt.disabled=true; aviso.textContent="";
+          cf({fase:"rastreio",codigo:c,frete:fv}).then(function(x){ bt.disabled=false; if(x&&x.ok) return render(x); aviso.className="erro"; aviso.textContent=x&&x.erro==="codigo"?"Código inválido.":x&&x.erro==="frete"?"Valor do frete inválido.":x&&x.erro==="ocupado"?"Já está enviando. Aguarde um minuto.":"Não deu certo. Tente de novo em instantes."; }).catch(function(){ bt.disabled=false; aviso.className="erro"; aviso.textContent="Sem conexão."; }); };
         if(r.rastreio&&r.rastreio.codigo&&!r.rastreio.cliente_em){ inp.value=r.rastreio.codigo; aviso.className="erro"; aviso.textContent="O código foi salvo, mas o e-mail ao cliente não saiu. Clique em Enviar de novo."; }
-        alvo.appendChild(inp); alvo.appendChild(bt); alvo.appendChild(aviso); return;
+        alvo.appendChild(inp); alvo.appendChild(fr); alvo.appendChild(bt); alvo.appendChild(aviso); return;
       }
       /* c_papel */
       var docs=r.docs||[], falta=docs.filter(function(d){ return !d.chegou; });
