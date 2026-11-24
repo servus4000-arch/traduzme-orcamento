@@ -92,7 +92,7 @@
     function render(r){
       pq.textContent="Pedido #"+(r.pedido||"")+(r.teste?" · TESTE":""); alvo.innerHTML=""; t.textContent=TXT[A].t; m.className="";
       if(A==="c_rastreio"){
-        if(r.rastreio&&r.rastreio.codigo){ t.innerHTML='<span class="ok">\u2713</span> Rastreio registrado'; m.className="ok"; m.textContent="Código "+r.rastreio.codigo+" ("+dataHora(r.rastreio.em)+"). O cliente recebeu o código por e-mail. Obrigado!"; return; }
+        if(r.rastreio&&r.rastreio.codigo&&r.rastreio.cliente_em){ t.innerHTML='<span class="ok">\u2713</span> Rastreio registrado'; m.className="ok"; m.textContent="Código "+r.rastreio.codigo+" ("+dataHora(r.rastreio.em)+"). O cliente recebeu o código por e-mail. Obrigado!"; return; }
         if(!r.devolver_em){ m.textContent="A devolução ainda não foi liberada. Você recebe um e-mail quando o cliente tiver recebido tudo."; return; }
         m.textContent="Quando receber da traduzme o e-mail com a etiqueta paga, cole no envelope (original apostilado + tradução impressa), poste nos Correios e escreva aqui o código de rastreio.";
         var inp=el("input",null,"width:100%;font-size:18px;padding:12px;border:1px solid var(--line);border-radius:10px;margin:0 0 12px;text-transform:uppercase;background:var(--card);color:var(--ink)"); inp.placeholder="Ex.: AB123456789BR"; inp.autocomplete="off";
@@ -100,6 +100,7 @@
         bt.onclick=function(){ var c=inp.value.replace(/[\s.-]/g,"").toUpperCase(); if(!/^[A-Z0-9]{8,30}$/.test(c)){ aviso.className="erro"; aviso.textContent="Código inválido. Confira e tente de novo."; return; }
           if(!window.confirm("Enviar o código "+c+" ao cliente?")) return; bt.disabled=true; aviso.textContent="";
           cf({fase:"rastreio",codigo:c}).then(function(x){ bt.disabled=false; if(x&&x.ok) return render(x); aviso.className="erro"; aviso.textContent=x&&x.erro==="codigo"?"Código inválido.":"Não deu certo. Tente de novo em instantes."; }).catch(function(){ bt.disabled=false; aviso.className="erro"; aviso.textContent="Sem conexão."; }); };
+        if(r.rastreio&&r.rastreio.codigo&&!r.rastreio.cliente_em){ inp.value=r.rastreio.codigo; aviso.className="erro"; aviso.textContent="O código foi salvo, mas o e-mail ao cliente não saiu. Clique em Enviar de novo."; }
         alvo.appendChild(inp); alvo.appendChild(bt); alvo.appendChild(aviso); return;
       }
       /* c_papel */
